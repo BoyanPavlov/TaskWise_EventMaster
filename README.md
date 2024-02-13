@@ -23,7 +23,7 @@
 -  Add Type: Custom option to add new categories.
 ###  Subcategory->...->Task: Efficient breakdown from categories to subcategories and eventually to specific tasks.
 ###  Calendar Integration
-![Artistic_interpretation_of_a_task_management_proce](https://github.com/BoyanPavlov/TaskWise_EventMaster/assets/57092133/77dc219e-d917-4b72-9c31-e3e663f65c4f)
+![Artistic_interpretation_of_a_calendar_integration_](https://github.com/BoyanPavlov/TaskWise_EventMaster/assets/57092133/6ac49dfa-f0dd-4a90-8d57-3e9f214dd58f)
 
 Plan tasks on a yearly, monthly, weekly, or hourly basis.
 Automatic daily task addition for tasks without estimated completion times, until marked as done.
