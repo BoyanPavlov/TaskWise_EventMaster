@@ -29,3 +29,19 @@ Organized lists for Annual, Monthly, Weekly, and Daily goals and tasks.
 Suggestions for database utilization to store goals and tasks efficiently.
 ##  *Location-Based Event Suggestion*
 A must-have feature that suggests events based on the user's current location.
+
+User Authentication Process Flowchart
+
+Start -> Enter Username and Password -> Option to Show/Hide Password -> Select Login Method (Standard or Google Authentication) -> Successful Login -> Redirect to Main Dashboard -> End.
+Task Management Flowchart
+
+Start -> View Task List -> Select Task -> Options: [Add New Task | Edit Task | Mark as Done] -> If New Task: Enter Details (Estimation Time, Level of Hardness, Category, etc.) -> Save Task -> End.
+Goal Setting and Management Flowchart
+
+Start -> View Goals -> Select Goal -> Options: [Add New Goal | Edit Goal | View Subcategories] -> If New Goal: Enter Details (Title, Type, etc.) -> Add Subcategories (if any) -> Save Goal -> End.
+Calendar Integration Flowchart
+
+Start -> Open Calendar -> Choose View (Day/Week/Month/Year) -> Options: [View Tasks/Goals | Add Task/Goal | Edit Task/Goal] -> If Add: Enter Task/Goal Details -> Save to Calendar -> End.
+Event Suggestion Based on Location Flowchart
+
+Start -> Check Current Location -> Fetch Events Nearby -> Display Event Suggestions -> Option to Add Event to Task/Goals -> End.
