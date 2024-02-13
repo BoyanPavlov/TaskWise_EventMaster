@@ -27,6 +27,7 @@
 
 Plan tasks on a yearly, monthly, weekly, or hourly basis.
 Automatic daily task addition for tasks without estimated completion times, until marked as done.
+
 ###  Task and Goal Listing
 Organized lists for Annual, Monthly, Weekly, and Daily goals and tasks.
 
@@ -35,9 +36,10 @@ Organized lists for Annual, Monthly, Weekly, and Daily goals and tasks.
 
 Google Authentication: Login using Google credentials.
 ###  Data Storage
+
 Suggestions for database utilization to store goals and tasks efficiently.
-##  *Location-Based 
-Event Suggestion*
+##  *Location-Based Event Suggestion*
+
 A must-have feature that suggests events based on the user's current location.
 ![Artistic_interpretation_of_an_event_suggestion_bas](https://github.com/BoyanPavlov/TaskWise_EventMaster/assets/57092133/d78eb5fd-89e8-4423-8ee0-4e44d16ad359)
 
