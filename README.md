@@ -31,7 +31,7 @@ Suggestions for database utilization to store goals and tasks efficiently.
 A must-have feature that suggests events based on the user's current location.
 
 User Authentication Process Flowchart
-
+```flow
 Start -> Enter Username and Password -> Option to Show/Hide Password -> Select Login Method (Standard or Google Authentication) -> Successful Login -> Redirect to Main Dashboard -> End.
 Task Management Flowchart
 
@@ -45,3 +45,4 @@ Start -> Open Calendar -> Choose View (Day/Week/Month/Year) -> Options: [View Ta
 Event Suggestion Based on Location Flowchart
 
 Start -> Check Current Location -> Fetch Events Nearby -> Display Event Suggestions -> Option to Add Event to Task/Goals -> End.
+```
