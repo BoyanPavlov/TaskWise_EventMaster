@@ -3,6 +3,7 @@
 .idea
 build
 /local.properties
+./app/google-services.json
 .DS_Store
 /build
 /captures
