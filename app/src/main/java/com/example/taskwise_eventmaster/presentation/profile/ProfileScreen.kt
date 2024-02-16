@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.taskwise_eventmaster.presentation.sign_in.UserData
+import coil.compose.AsyncImage
 
 @Composable
 fun ProfileScreen(
@@ -31,9 +32,10 @@ fun ProfileScreen(
         horizontalAlignment = Alignment.CenterHorizontally
 
     ) {
-        /*if (userData?.profilePictureUrl != null) {
+        if (userData?.profilePictureUrl != null) {
             AsyncImage(
                 model = userData.profilePictureUrl,
+                //model = "https://lh3.googleusercontent.com/a/ACg8ocLAg2z245utv12wKLlkEemZ5iCrEiapdWR8x9-7XxHU=s96-c",
                 contentDescription = "Profile picture",
                 modifier = Modifier
                     .size(150.dp)
@@ -41,7 +43,7 @@ fun ProfileScreen(
                 contentScale = ContentScale.Crop
             )
             Spacer(modifier = Modifier.height(16.dp))
-        }*/
+        }
 
         if (userData?.username != null) {
             Text(

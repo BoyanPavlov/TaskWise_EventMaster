@@ -103,6 +103,7 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         }
+
                         composable("profile") {
                             ProfileScreen(
                                 userData = googleAuthUiClient.getSignedInUser(),
