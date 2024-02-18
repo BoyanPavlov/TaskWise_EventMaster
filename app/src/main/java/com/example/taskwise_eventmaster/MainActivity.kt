@@ -9,10 +9,15 @@ import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -45,6 +50,9 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
+                    val snackbarHostState = remember { SnackbarHostState() }
+                    val coroutineScope = rememberCoroutineScope()
+
                     NavHost(
                         navController = navController,
                         startDestination = "sign_in"
@@ -55,7 +63,7 @@ class MainActivity : ComponentActivity() {
                             val state by viewModel.state.collectAsState()
 
                             LaunchedEffect(key1 = Unit) {
-                                if(googleAuthUiClient.getSignedInUser() != null) {
+                                if (googleAuthUiClient.getSignedInUser() != null) {
                                     navController.navigate("profile")
                                 }
                             }
@@ -76,7 +84,7 @@ class MainActivity : ComponentActivity() {
                             )
 
                             LaunchedEffect(key1 = state.isSignInSuccessful) {
-                                if(state.isSignInSuccessful) {
+                                if (state.isSignInSuccessful) {
                                     Toast.makeText(
                                         applicationContext,
                                         "Sign in successful",
@@ -84,7 +92,7 @@ class MainActivity : ComponentActivity() {
                                     ).show()
 
                                     navController.navigate("profile")
-                                        viewModel.resetState()
+                                    viewModel.resetState()
                                 }
                             }
 
@@ -96,7 +104,7 @@ class MainActivity : ComponentActivity() {
                                         val signInIntentSender = googleAuthUiClient.signIn()
                                         launcher.launch(
                                             IntentSenderRequest.Builder(
-                                                signInIntentSender?: return@launch
+                                                signInIntentSender ?: return@launch
                                             ).build()
                                         )
                                     }
@@ -109,12 +117,14 @@ class MainActivity : ComponentActivity() {
                                 userData = googleAuthUiClient.getSignedInUser(),
                                 onSignOut = {
                                     lifecycleScope.launch {
-                                        googleAuthUiClient.signOut()
-                                        Toast.makeText(
-                                            applicationContext,
-                                            "Signed out",
-                                            Toast.LENGTH_LONG
-                                        ).show()
+                                        coroutineScope.launch {
+                                            googleAuthUiClient.signOut()
+                                            snackbarHostState.showSnackbar(
+                                                message = "Signed out",
+                                                duration = SnackbarDuration.Long
+                                            )
+                                            navController.popBackStack()
+                                        }
 
                                         navController.popBackStack()
                                     }
@@ -122,6 +132,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     }
+                    SnackbarHost(hostState = snackbarHostState)
                 }
             }
         }
