@@ -40,6 +40,8 @@ Google Authentication: Login using Google credentials.
 Suggestions for database utilization to store goals and tasks efficiently.
 ##  *Location-Based Event Suggestion*
 
+*Warning* if you want to use the app - you need gmail account
+
 A must-have feature that suggests events based on the user's current location.
 ![Artistic_interpretation_of_an_event_suggestion_bas](https://github.com/BoyanPavlov/TaskWise_EventMaster/assets/57092133/d78eb5fd-89e8-4423-8ee0-4e44d16ad359)
 
