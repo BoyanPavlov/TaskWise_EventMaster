@@ -1,7 +1,6 @@
 package com.example.taskwise_eventmaster
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
@@ -85,11 +84,13 @@ class MainActivity : ComponentActivity() {
 
                             LaunchedEffect(key1 = state.isSignInSuccessful) {
                                 if (state.isSignInSuccessful) {
-                                    Toast.makeText(
-                                        applicationContext,
-                                        "Sign in successful",
-                                        Toast.LENGTH_LONG
-                                    ).show()
+
+                                    coroutineScope.launch {
+                                        snackbarHostState.showSnackbar(
+                                            message = "Signed in successfully",
+                                            duration = SnackbarDuration.Long
+                                        )
+                                    }
 
                                     navController.navigate("profile")
                                     viewModel.resetState()
@@ -123,9 +124,7 @@ class MainActivity : ComponentActivity() {
                                                 message = "Signed out",
                                                 duration = SnackbarDuration.Long
                                             )
-                                            navController.popBackStack()
                                         }
-
                                         navController.popBackStack()
                                     }
                                 }
