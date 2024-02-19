@@ -73,9 +73,8 @@ class MainActivity : ComponentActivity() {
                                 onResult = { result ->
                                     if (result.resultCode == RESULT_OK) {
                                         lifecycleScope.launch {
-                                            val signInResult = googleAuthUiClient.signInWithIntent(
-                                                intent = result.data ?: return@launch
-                                            )
+                                            val intentData = result.data ?: return@launch
+                                            val signInResult = googleAuthUiClient.signInWithIntent(intentData)
                                             viewModel.onSignInResult(signInResult)
                                         }
                                     }
@@ -101,11 +100,9 @@ class MainActivity : ComponentActivity() {
                                 state = state,
                                 onSignInClick = {
                                     lifecycleScope.launch {
-                                        val signInIntentSender = googleAuthUiClient.signIn()
+                                        val signInIntentSender = googleAuthUiClient.signIn()?: return@launch
                                         launcher.launch(
-                                            IntentSenderRequest.Builder(
-                                                signInIntentSender ?: return@launch
-                                            ).build()
+                                            IntentSenderRequest.Builder(signInIntentSender).build()
                                         )
                                     }
                                 }
