@@ -84,11 +84,10 @@ class MainActivity : ComponentActivity() {
 
                             LaunchedEffect(key1 = state.isSignInSuccessful) {
                                 if (state.isSignInSuccessful) {
-
                                     coroutineScope.launch {
                                         snackbarHostState.showSnackbar(
                                             message = "Signed in successfully",
-                                            duration = SnackbarDuration.Long
+                                            duration = SnackbarDuration.Short
                                         )
                                     }
 
@@ -118,11 +117,11 @@ class MainActivity : ComponentActivity() {
                                 userData = googleAuthUiClient.getSignedInUser(),
                                 onSignOut = {
                                     lifecycleScope.launch {
+                                        googleAuthUiClient.signOut()
                                         coroutineScope.launch {
-                                            googleAuthUiClient.signOut()
                                             snackbarHostState.showSnackbar(
                                                 message = "Signed out",
-                                                duration = SnackbarDuration.Long
+                                                duration = SnackbarDuration.Short
                                             )
                                         }
                                         navController.popBackStack()
