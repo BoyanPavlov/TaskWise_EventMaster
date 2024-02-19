@@ -15,7 +15,7 @@ import java.util.concurrent.CancellationException
 
 //used for signed in, sign out and to get the signed  information for the user
 class GoogleAuthUiClient(
-    private val context: Context,
+    private val context: Context,//used for retrieving data
     private val oneTapClient: SignInClient
 ) {
     private val auth = Firebase.auth
@@ -35,7 +35,7 @@ class GoogleAuthUiClient(
         return BeginSignInRequest.Builder()
             .setGoogleIdTokenRequestOptions(
                 GoogleIdTokenRequestOptions.builder()
-                    .setSupported(true)
+                    .setSupported(true)//Setting this to true indicates that your application expects to receive an ID token upon a successful sign-in.
                     .setFilterByAuthorizedAccounts(false)//false because we want to get all of our google acc, not just one
                     .setServerClientId(context.getString(R.string.web_client_id))
                     .build()

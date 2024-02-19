@@ -35,7 +35,6 @@ fun ProfileScreen(
         if (userData?.profilePictureUrl != null) {
             AsyncImage(
                 model = userData.profilePictureUrl,
-                //model = "https://lh3.googleusercontent.com/a/ACg8ocLAg2z245utv12wKLlkEemZ5iCrEiapdWR8x9-7XxHU=s96-c",
                 contentDescription = "Profile picture",
                 modifier = Modifier
                     .size(150.dp)
