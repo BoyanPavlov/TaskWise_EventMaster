@@ -24,7 +24,8 @@ import coil.compose.AsyncImage
 @Composable
 fun ProfileScreen(
     userData: UserData?,
-    onSignOut: () -> Unit
+    onSignOut: () -> Unit,
+    goToHomePage: () -> Unit,
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -54,7 +55,14 @@ fun ProfileScreen(
             Spacer(modifier = Modifier.height(16.dp))
         }
         Button(onClick = onSignOut) {
-            Text(text = "Sign out")
+            Text(text = "Sign out!")
+        }
+        Spacer(modifier = Modifier.height(46.dp))
+        Button(onClick = goToHomePage) {
+            Text(
+                text = "Start",
+                fontSize = 25.sp
+                )
         }
     }
 }

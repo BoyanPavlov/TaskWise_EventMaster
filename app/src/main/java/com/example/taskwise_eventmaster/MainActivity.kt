@@ -23,12 +23,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.taskwise_eventmaster.presentation.home_page.HomePage
 import com.example.taskwise_eventmaster.presentation.profile.ProfileScreen
 import com.example.taskwise_eventmaster.presentation.sign_in.GoogleAuthUiClient
 import com.example.taskwise_eventmaster.presentation.sign_in.SignInScreen
 import com.example.taskwise_eventmaster.presentation.sign_in.SignInViewModel
 import com.example.taskwise_eventmaster.ui.theme.TaskWise_EventMasterTheme
 import com.google.android.gms.auth.api.identity.Identity
+import io.github.boguszpawlowski.composecalendar.StaticCalendar
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -123,9 +125,36 @@ class MainActivity : ComponentActivity() {
                                         }
                                         navController.popBackStack()
                                     }
+                                },
+                                goToHomePage = {
+                                    navController.navigate("home_page")
                                 }
                             )
                         }
+
+                        composable("home_page") {
+                            HomePage(
+                                userData = googleAuthUiClient.getSignedInUser(),
+
+                                goToLogOnPage = {
+                                    lifecycleScope.launch {
+                                        googleAuthUiClient.signOut()
+                                        coroutineScope.launch {
+                                            snackbarHostState.showSnackbar(
+                                                message = "Are you sure you want to sign out?",
+                                                duration = SnackbarDuration.Short
+                                            )
+                                        }
+                                        navController.popBackStack()
+                                    }
+                                },
+                                goToTaskPage = {},
+                                goToEventsPage = {},
+                                goToGoalsPage = {},
+                                goToPlanningViewPage = {},
+                            )
+                        }
+
                     }
                     SnackbarHost(hostState = snackbarHostState)
                 }
