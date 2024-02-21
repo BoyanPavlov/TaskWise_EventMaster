@@ -2,10 +2,12 @@ package com.example.taskwise_eventmaster.presentation.home_page
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -39,26 +41,28 @@ fun MenuPart(
 ) {
     Box(
         modifier = modifier
-            .padding(top = 3.dp, bottom = 3.dp)
-            //.fillMaxSize()
+            .fillMaxWidth()
             .border(5.dp, color = Color.Black)
-            .padding(8.dp),
+            .padding(9.dp),
     ) {
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = 128.dp)
-        ) {
-            items(imageCards.size) { index ->
-
-                imageCards[index].ImageCard_()
-
-                imageCards[index].goToFunction = when(index){
-                    0 -> goToTaskPage
-                    1 -> goToGoalsPage
-                    2 -> goToEventsPage
-                    else -> goToPlanningViewPage
-                }
-
+        Column (modifier=Modifier
+            .align(Alignment.Center)
+        ){
+            Row{
+                imageCards[0].ImageCard_()
+                imageCards[1].ImageCard_()
+            }
+            Row {
+                imageCards[2].ImageCard_()
+                imageCards[3].ImageCard_()
             }
         }
+
+        imageCards[0].goToFunction = goToTaskPage
+        imageCards[1].goToFunction = goToGoalsPage
+        imageCards[2].goToFunction = goToEventsPage
+        imageCards[3].goToFunction = goToPlanningViewPage
+
     }
 }
+

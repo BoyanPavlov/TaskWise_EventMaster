@@ -2,6 +2,7 @@ package com.example.taskwise_eventmaster.presentation.home_page
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -35,11 +36,10 @@ class ImageCard(
         Card(
             shape = RoundedCornerShape(15.dp),
             modifier = Modifier
-                //.fillMaxHeight(0.5f)
-                //.fillMaxWidth(0.5f)
-                .height(180.dp)
-                .width(180.dp)
+                .height(190.dp)
+                .width(190.dp)
                 .padding(5.dp)
+                .clickable { /*TODO*/ }
                 .then(modifier)
 
         ) {
@@ -72,16 +72,14 @@ class ImageCard(
                         .padding(12.dp),
                     contentAlignment = Alignment.BottomStart
                 ) {
-                    //Button(onClick = goToFunction) {
-                        Text(
-                            title,
-                            style = TextStyle(
-                                color = Color.White,
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Bold
-                            )
+                    Text(
+                        title,
+                        style = TextStyle(
+                            color = Color.White,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold
                         )
-                    //}
+                    )
                 }
             }
         }
