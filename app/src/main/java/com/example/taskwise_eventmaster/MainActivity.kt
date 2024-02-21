@@ -65,7 +65,7 @@ class MainActivity : ComponentActivity() {
 
                             LaunchedEffect(key1 = Unit) {
                                 if (googleAuthUiClient.getSignedInUser() != null) {
-                                    navController.navigate("profile")
+                                    navController.navigate("home_page")
                                 }
                             }
 
@@ -92,7 +92,7 @@ class MainActivity : ComponentActivity() {
                                         )
                                     }
 
-                                    navController.navigate("profile")
+                                    navController.navigate("home_page")
                                     viewModel.resetState()
                                 }
                             }
@@ -123,7 +123,7 @@ class MainActivity : ComponentActivity() {
                                                 duration = SnackbarDuration.Short
                                             )
                                         }
-                                        navController.popBackStack()
+                                        navController.popBackStack("sign_in",false)
                                     }
                                 },
                                 goToHomePage = {
@@ -136,16 +136,15 @@ class MainActivity : ComponentActivity() {
                             HomePage(
                                 userData = googleAuthUiClient.getSignedInUser(),
 
-                                goToLogOnPage = {
+                                goToProfilePage = {
                                     lifecycleScope.launch {
-                                        googleAuthUiClient.signOut()
                                         coroutineScope.launch {
                                             snackbarHostState.showSnackbar(
-                                                message = "Are you sure you want to sign out?",
+                                                message = "Profile page",
                                                 duration = SnackbarDuration.Short
                                             )
                                         }
-                                        navController.popBackStack()
+                                        navController.navigate("profile")
                                     }
                                 },
                                 goToTaskPage = {},

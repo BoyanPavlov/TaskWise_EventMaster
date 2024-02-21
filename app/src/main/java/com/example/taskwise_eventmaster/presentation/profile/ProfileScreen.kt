@@ -60,7 +60,7 @@ fun ProfileScreen(
         Spacer(modifier = Modifier.height(46.dp))
         Button(onClick = goToHomePage) {
             Text(
-                text = "Start",
+                text = "Home",
                 fontSize = 25.sp
                 )
         }
