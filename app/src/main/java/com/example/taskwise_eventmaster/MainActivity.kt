@@ -30,7 +30,6 @@ import com.example.taskwise_eventmaster.presentation.sign_in.SignInScreen
 import com.example.taskwise_eventmaster.presentation.sign_in.SignInViewModel
 import com.example.taskwise_eventmaster.ui.theme.TaskWise_EventMasterTheme
 import com.google.android.gms.auth.api.identity.Identity
-import io.github.boguszpawlowski.composecalendar.StaticCalendar
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
