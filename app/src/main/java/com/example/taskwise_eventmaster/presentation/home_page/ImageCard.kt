@@ -39,7 +39,7 @@ class ImageCard(
                 .height(190.dp)
                 .width(190.dp)
                 .padding(5.dp)
-                .clickable { /*TODO*/ }
+                .clickable { goToFunction }
                 .then(modifier)
 
         ) {
