@@ -24,6 +24,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.taskwise_eventmaster.presentation.home_page.HomePage
+import com.example.taskwise_eventmaster.presentation.planning_page.PlanningView
 import com.example.taskwise_eventmaster.presentation.profile.ProfileScreen
 import com.example.taskwise_eventmaster.presentation.sign_in.GoogleAuthUiClient
 import com.example.taskwise_eventmaster.presentation.sign_in.SignInScreen
@@ -37,7 +38,7 @@ class MainActivity : ComponentActivity() {
     private val googleAuthUiClient by lazy {
         GoogleAuthUiClient(
             context = applicationContext,
-            oneTapClient = Identity.getSignInClient(applicationContext)
+            oneTapClient = Identity.getSignInClient(applicationContext),
         )
     }
 
@@ -91,7 +92,7 @@ class MainActivity : ComponentActivity() {
                                         )
                                     }
 
-                                    navController.navigate("home_page")
+                                    navController.popBackStack("home_page",false)
                                     viewModel.resetState()
                                 }
                             }
@@ -126,7 +127,7 @@ class MainActivity : ComponentActivity() {
                                     }
                                 },
                                 goToHomePage = {
-                                    navController.navigate("home_page")
+                                    navController.popBackStack("home_page",false)
                                 }
                             )
                         }
@@ -149,9 +150,40 @@ class MainActivity : ComponentActivity() {
                                 goToTaskPage = {},
                                 goToEventsPage = {},
                                 goToGoalsPage = {},
-                                goToPlanningViewPage = {},
+                                goToPlanningViewPage = {navController.navigate("planning_view")},
                             )
                         }
+
+                        composable("planning_view") {
+                            PlanningView(
+                                userData = googleAuthUiClient.getSignedInUser(),
+
+                                goToProfilePage = {
+                                    lifecycleScope.launch {
+                                        coroutineScope.launch {
+                                            snackbarHostState.showSnackbar(
+                                                message = "Profile page",
+                                                duration = SnackbarDuration.Short
+                                            )
+                                        }
+                                        navController.navigate("profile")
+                                    }
+                                },
+
+                                goToTaskPage = {
+                                    lifecycleScope.launch {
+                                        coroutineScope.launch {
+                                            snackbarHostState.showSnackbar(
+                                                message = "Back to home page",
+                                                duration = SnackbarDuration.Short
+                                            )
+                                        }
+                                        navController.popBackStack()
+                                    }
+                                }
+                            )
+                        }
+
 
                     }
                     SnackbarHost(hostState = snackbarHostState)

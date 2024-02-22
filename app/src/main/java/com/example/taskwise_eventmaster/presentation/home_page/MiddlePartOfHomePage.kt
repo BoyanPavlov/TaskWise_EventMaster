@@ -17,17 +17,17 @@ import com.example.taskwise_eventmaster.R
 
 @Composable
 fun listOfCards(): List<ImageCard> {
-    val homeButtonPic = painterResource(id = R.drawable.house_icon)
-    val tasksButtonPic = painterResource(id = R.drawable.task_icon)
+    val tasksButtonPic = painterResource(id = R.drawable.tasks_icon)
+    val planningViewButton = painterResource(id = R.drawable.planning_view_icon)
     val goalsButtonPic = painterResource(id = R.drawable.goals_icon)
     val eventsButtonPic = painterResource(id = R.drawable.events_icon)
 
-    val homeCard = ImageCard(homeButtonPic, "Home button page", "Home")
     val taskCard = ImageCard(tasksButtonPic, "Task button page", "Tasks")
+    val planningViewCard = ImageCard(planningViewButton, "Planning view page", "Planning view")
     val goalsCard = ImageCard(goalsButtonPic, "Goals button page", "Goals")
     val eventsCard = ImageCard(eventsButtonPic, "Events button page", "Events")
 
-    return listOf(homeCard, taskCard, goalsCard, eventsCard)
+    return listOf(taskCard, planningViewCard, goalsCard, eventsCard)
 }
 
 @Composable
