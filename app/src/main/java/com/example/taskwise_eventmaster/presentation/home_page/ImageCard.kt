@@ -24,63 +24,64 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 //classed used for creating cards on the middle part in the home page
+
 class ImageCard(
     val backgroundImage: Painter,
     val contentDescription: String,
     val title: String,
 ) {
-    lateinit var goToFunction: () -> Unit
+    lateinit var onClickImage: () -> Unit
+}
 
-    @Composable
-    fun ImageCard_(modifier: Modifier = Modifier) {
-        Card(
-            shape = RoundedCornerShape(15.dp),
-            modifier = Modifier
-                .height(190.dp)
-                .width(190.dp)
-                .padding(5.dp)
-                .clickable { goToFunction }
-                .then(modifier)
+@Composable
+fun ImageCardDisplayed(imageCard:ImageCard, modifier: Modifier = Modifier) {
+    Card(
+        shape = RoundedCornerShape(15.dp),
+        modifier = Modifier
+            .height(190.dp)
+            .width(190.dp)
+            .padding(5.dp)
+            .clickable { imageCard.onClickImage }
+            .then(modifier)
 
-        ) {
-            Box()
-            {
-                Image(
-                    painter = backgroundImage,
-                    contentDescription = contentDescription,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize()
-                )
+    ) {
+        Box()
+        {
+            Image(
+                painter = imageCard.backgroundImage,
+                contentDescription = imageCard.contentDescription,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
+            )
 
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(
-                            Brush.verticalGradient(
-                                colors = listOf(
-                                    Color.Transparent,
-                                    Color.Black
-                                ),
-                                startY = 200f,
-                            )
-                        )
-                )
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(12.dp),
-                    contentAlignment = Alignment.BottomStart
-                ) {
-                    Text(
-                        title,
-                        style = TextStyle(
-                            color = Color.White,
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        Brush.verticalGradient(
+                            colors = listOf(
+                                Color.Transparent,
+                                Color.Black
+                            ),
+                            startY = 200f,
                         )
                     )
-                }
+            )
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(12.dp),
+                contentAlignment = Alignment.BottomStart
+            ) {
+                Text(
+                    imageCard.title,
+                    style = TextStyle(
+                        color = Color.White,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
             }
         }
     }

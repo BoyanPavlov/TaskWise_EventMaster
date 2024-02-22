@@ -92,7 +92,7 @@ class MainActivity : ComponentActivity() {
                                         )
                                     }
 
-                                    navController.popBackStack("home_page",false)
+                                    navController.navigate("home_page")
                                     viewModel.resetState()
                                 }
                             }

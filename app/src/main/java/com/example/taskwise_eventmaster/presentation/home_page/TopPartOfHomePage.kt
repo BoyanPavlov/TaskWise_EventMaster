@@ -55,15 +55,13 @@ fun ProfilePart(
             alpha = 0.3f // used for changing the opacity of the image
         )
 
-        Column()
-        {
+        Column() {
             if (userData?.profilePictureUrl != null) {
                 Box(
                     modifier = modifier
                         .padding(1.dp)
                         .border(2.dp, color = Color.White, shape = CircleShape)
-                )
-                {
+                ) {
                     AsyncImage(
                         model = userData.profilePictureUrl,
                         contentDescription = "Profile picture",

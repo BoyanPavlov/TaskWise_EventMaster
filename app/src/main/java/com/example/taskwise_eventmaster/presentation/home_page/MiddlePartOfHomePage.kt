@@ -49,19 +49,19 @@ fun MenuPart(
             .align(Alignment.Center)
         ){
             Row{
-                imageCards[0].ImageCard_()
-                imageCards[1].ImageCard_()
+                ImageCardDisplayed(imageCard = imageCards[0])
+                ImageCardDisplayed(imageCard = imageCards[1])
             }
             Row {
-                imageCards[2].ImageCard_()
-                imageCards[3].ImageCard_()
+                ImageCardDisplayed(imageCard = imageCards[2])
+                ImageCardDisplayed(imageCard = imageCards[3])
             }
         }
 
-        imageCards[0].goToFunction = goToTaskPage
-        imageCards[1].goToFunction = goToGoalsPage
-        imageCards[2].goToFunction = goToEventsPage
-        imageCards[3].goToFunction = goToPlanningViewPage
+        imageCards[0].onClickImage = goToTaskPage
+        imageCards[1].onClickImage = goToGoalsPage
+        imageCards[2].onClickImage = goToEventsPage
+        imageCards[3].onClickImage = goToPlanningViewPage
 
     }
 }
