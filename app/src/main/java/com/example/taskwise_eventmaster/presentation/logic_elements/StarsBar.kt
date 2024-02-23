@@ -1,5 +1,3 @@
-package com.example.taskwise_eventmaster.presentation.logic_elements
-
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -20,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
-
 
 @Composable
 fun OutlinedStar(
@@ -87,8 +84,8 @@ fun Star(
 fun RatingBar(
     maxRating: Int = 5,
     currentRating: Int,
+    modifier: Modifier = Modifier,
     onRatingChanged: (Int) -> Unit,
-    modifier: Modifier = Modifier
 ) {
     Row(modifier = modifier) {
         for (i in 1..maxRating) {
@@ -101,13 +98,13 @@ fun RatingBar(
 }
 
 @Composable
-fun RatingBarUsage(modifier: Modifier = Modifier) {
-    var rating by remember { mutableStateOf(5) }
+fun RatingBarUsage(rating:Int) {
+    var rating_ by remember { mutableStateOf(rating) }
 
     RatingBar(
-        currentRating = rating,
+        currentRating = rating_,
         onRatingChanged = { newRating ->
-            rating = newRating
+            rating_ = newRating
         }
     )
 }
