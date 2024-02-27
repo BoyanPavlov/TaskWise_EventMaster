@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.taskwise_eventmaster.R
+import com.example.taskwise_eventmaster.presentation.logic_elements.Events
 
 
 @Composable
@@ -32,10 +33,7 @@ fun listOfCards(): List<ImageCard> {
 
 @Composable
 fun MenuPart(
-    goToTaskPage: () -> Unit,
-    goToGoalsPage: () -> Unit,
-    goToEventsPage: () -> Unit,
-    goToPlanningViewPage: () -> Unit,
+    goToPage: () -> Unit,
     imageCards: List<ImageCard>,
     modifier: Modifier = Modifier
 ) {
@@ -45,10 +43,19 @@ fun MenuPart(
             .border(5.dp, color = Color.Black)
             .padding(9.dp),
     ) {
-        Column (modifier=Modifier
-            .align(Alignment.Center)
-        ){
-            Row{
+        when(goToPage.toString())
+        {
+            Events.goToProfilePage.toString() -> imageCards[0].onClickImage = goToPage
+            Events.goToPlanningViewPage.toString() -> imageCards[1].onClickImage = goToPage
+            Events.goToGoalsPage.toString() -> imageCards[2].onClickImage = goToPage
+            else -> imageCards[3].onClickImage = goToPage
+        }
+
+        Column(
+            modifier = Modifier
+                .align(Alignment.Center)
+        ) {
+            Row {
                 ImageCardDisplayed(imageCard = imageCards[0])
                 ImageCardDisplayed(imageCard = imageCards[1])
             }
@@ -57,12 +64,6 @@ fun MenuPart(
                 ImageCardDisplayed(imageCard = imageCards[3])
             }
         }
-
-        imageCards[0].onClickImage = goToTaskPage
-        imageCards[1].onClickImage = goToGoalsPage
-        imageCards[2].onClickImage = goToEventsPage
-        imageCards[3].onClickImage = goToPlanningViewPage
-
     }
 }
 

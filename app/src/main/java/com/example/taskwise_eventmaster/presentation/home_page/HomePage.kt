@@ -14,10 +14,7 @@ import com.example.taskwise_eventmaster.presentation.sign_in.UserData
 fun HomePage(
     userData: UserData?,
     goToProfilePage: () -> Unit,
-    goToTaskPage: () -> Unit,
-    goToGoalsPage: () -> Unit,
-    goToEventsPage: () -> Unit,
-    goToPlanningViewPage: () -> Unit,
+    goToPage: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -28,10 +25,7 @@ fun HomePage(
         ProfilePart(userData = userData, goToProfilePage = goToProfilePage)
 
         MenuPart(
-            goToTaskPage =  goToTaskPage ,
-            goToGoalsPage = goToGoalsPage ,
-            goToEventsPage = goToEventsPage,
-            goToPlanningViewPage = goToPlanningViewPage,
+            goToPage = goToPage,
             imageCards = listOfCards()
         )
 

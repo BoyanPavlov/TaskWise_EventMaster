@@ -66,6 +66,7 @@ class MainActivity : ComponentActivity() {
                             LaunchedEffect(key1 = Unit) {
                                 if (googleAuthUiClient.getSignedInUser() != null) {
                                     navController.navigate("home_page")
+                                    //navController.navigate("planning_view")
                                 }
                             }
 
@@ -76,7 +77,8 @@ class MainActivity : ComponentActivity() {
                                     if (result.resultCode == RESULT_OK) {
                                         lifecycleScope.launch {
                                             val intentData = result.data ?: return@launch
-                                            val signInResult = googleAuthUiClient.signInWithIntent(intentData)
+                                            val signInResult =
+                                                googleAuthUiClient.signInWithIntent(intentData)
                                             viewModel.onSignInResult(signInResult)
                                         }
                                     }
@@ -93,6 +95,7 @@ class MainActivity : ComponentActivity() {
                                     }
 
                                     navController.navigate("home_page")
+                                    //navController.navigate("planning_view")
                                     viewModel.resetState()
                                 }
                             }
@@ -102,7 +105,8 @@ class MainActivity : ComponentActivity() {
                                 state = state,
                                 onSignInClick = {
                                     lifecycleScope.launch {
-                                        val signInIntentSender = googleAuthUiClient.signIn()?: return@launch
+                                        val signInIntentSender =
+                                            googleAuthUiClient.signIn() ?: return@launch
                                         launcher.launch(
                                             IntentSenderRequest.Builder(signInIntentSender).build()
                                         )
@@ -123,11 +127,11 @@ class MainActivity : ComponentActivity() {
                                                 duration = SnackbarDuration.Short
                                             )
                                         }
-                                        navController.popBackStack("sign_in",false)
+                                        navController.popBackStack("sign_in", false)
                                     }
                                 },
                                 goToHomePage = {
-                                    navController.popBackStack("home_page",false)
+                                    navController.popBackStack("home_page", false)
                                 }
                             )
                         }
@@ -147,10 +151,12 @@ class MainActivity : ComponentActivity() {
                                         navController.navigate("profile")
                                     }
                                 },
+                                goToPage = {},
                                 goToTaskPage = {},
                                 goToEventsPage = {},
                                 goToGoalsPage = {},
-                                goToPlanningViewPage = {navController.navigate("planning_view")},
+                                goToPlanningViewPage = {
+                                    navController.navigate("planning_view") },
                             )
                         }
 
@@ -174,17 +180,31 @@ class MainActivity : ComponentActivity() {
                                     lifecycleScope.launch {
                                         coroutineScope.launch {
                                             snackbarHostState.showSnackbar(
+                                                message = "Welcome to Task page",
+                                                duration = SnackbarDuration.Short
+                                            )
+                                        }
+                                        navController.navigate("task_page")
+                                    }
+                                },
+
+                                goToHomePage = {
+                                    lifecycleScope.launch {
+                                        coroutineScope.launch {
+                                            snackbarHostState.showSnackbar(
                                                 message = "Back to home page",
                                                 duration = SnackbarDuration.Short
                                             )
                                         }
-                                        navController.popBackStack()
+                                        navController.popBackStack("home_page",false)
                                     }
                                 }
                             )
                         }
 
+                        composable("task_page") {
 
+                        }
                     }
                     SnackbarHost(hostState = snackbarHostState)
                 }

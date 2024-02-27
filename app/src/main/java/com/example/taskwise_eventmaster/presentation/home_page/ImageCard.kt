@@ -41,7 +41,9 @@ fun ImageCardDisplayed(imageCard:ImageCard, modifier: Modifier = Modifier) {
             .height(190.dp)
             .width(190.dp)
             .padding(5.dp)
-            .clickable { imageCard.onClickImage }
+            .clickable(
+               onClick = imageCard.onClickImage
+            )
             .then(modifier)
 
     ) {

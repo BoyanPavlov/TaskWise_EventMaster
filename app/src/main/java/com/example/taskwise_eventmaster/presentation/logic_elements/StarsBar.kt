@@ -98,7 +98,7 @@ fun RatingBar(
 }
 
 @Composable
-fun RatingBarUsage(rating:Int) {
+fun RatingBarUsage(rating:Int = 0) {
     var rating_ by remember { mutableStateOf(rating) }
 
     RatingBar(
