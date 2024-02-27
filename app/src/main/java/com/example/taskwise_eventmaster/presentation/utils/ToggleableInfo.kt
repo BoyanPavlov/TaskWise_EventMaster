@@ -1,4 +1,4 @@
-package com.example.taskwise_eventmaster.presentation.logic_elements
+package com.example.taskwise_eventmaster.presentation.utils
 
 data class ToggleableInfo(
     val isChecked: Boolean = false,

@@ -1,4 +1,4 @@
-package com.example.taskwise_eventmaster.presentation.logic_elements
+package com.example.taskwise_eventmaster.presentation.tasks
 
 import RatingBarUsage
 import androidx.compose.foundation.background
@@ -56,18 +56,18 @@ fun TaskDisplayed(task: Task, modifier: Modifier = Modifier) {
 
         }
 
-        if (!task.description.isEmpty())
-        {
-            Row (modifier=Modifier
-                .background(color = Color.LightGray)
-                .padding(10.dp)
-            ){
+        if (!task.description.isEmpty()) {
+            Row(
+                modifier = Modifier
+                    .background(color = Color.LightGray)
+                    .padding(10.dp)
+            ) {
                 Text(
                     text = "Description: ",
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp
                 )
-                Text(text =task.description)
+                Text(text = task.description)
             }
         }
 
@@ -81,13 +81,21 @@ fun TaskDisplayed(task: Task, modifier: Modifier = Modifier) {
             )
             {
                 //TODO : make this one clickable list so U can chose category
-                Text(
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp,
-                    text = task.category.name,
-                    modifier = Modifier.align(Alignment.BottomStart)
-                )
-                Box(modifier = Modifier.align(Alignment.Center))
+                Column(modifier = Modifier.align(Alignment.BottomStart)){
+                    if (!task.goalName.isEmpty()) {
+                        Text(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 12.sp,
+                            text = task.goalName
+                        )
+                    }
+                    Text(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        text = task.category.name
+                    )
+                }
+                Box(modifier = Modifier.align(Alignment.CenterEnd))
                 {
                     RatingBarUsage()
                 }
@@ -101,9 +109,10 @@ fun Tasks() {
     /*var tasks by remember {
         mutableStateOf(listOf<Task>())
     }*/
-    //val description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...."
+    val description =
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...."
     val timeNow = LocalDateTime(2024, 2, 26, 13, 45)
-    val task1 = Task("Go to the gym", "Fitness", timeNow, 3, /*description = description*/)
+    val task1 = Task("Go to the gym", "Fitness",timeNow, 3,"Fit for the summer", description = description)
 
     TaskDisplayed(
         task = task1, modifier = Modifier

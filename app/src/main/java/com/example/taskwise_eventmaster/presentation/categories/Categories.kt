@@ -1,4 +1,4 @@
-package com.example.taskwise_eventmaster.presentation.logic_elements
+package com.example.taskwise_eventmaster.presentation.categories
 
 import androidx.compose.ui.graphics.Color
 

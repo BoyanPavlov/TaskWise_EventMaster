@@ -20,9 +20,9 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.goalwise_eventmaster.presentation.logic_elements.Goals
+import com.example.taskwise_eventmaster.presentation.goals.Goals
 import com.example.taskwise_eventmaster.presentation.controllers.NavigationController
-import com.example.taskwise_eventmaster.presentation.logic_elements.Tasks
+import com.example.taskwise_eventmaster.presentation.tasks.Tasks
 import com.example.taskwise_eventmaster.presentation.sign_in.UserData
 
 @Composable

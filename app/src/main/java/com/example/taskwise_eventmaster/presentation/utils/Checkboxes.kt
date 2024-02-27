@@ -16,7 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
-import com.example.taskwise_eventmaster.presentation.logic_elements.ToggleableInfo
+import com.example.taskwise_eventmaster.presentation.utils.ToggleableInfo
 
 
 /*

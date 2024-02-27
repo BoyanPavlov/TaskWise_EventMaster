@@ -1,4 +1,4 @@
-package com.example.goalwise_eventmaster.presentation.logic_elements
+package com.example.taskwise_eventmaster.presentation.goals
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -20,8 +20,6 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.taskwise_eventmaster.presentation.logic_elements.Goal
-import com.example.taskwise_eventmaster.presentation.logic_elements.Task
 import kotlinx.datetime.LocalDateTime
 
 @Composable
@@ -68,7 +66,7 @@ fun GoalDisplayed(goal: Goal<Any>, modifier: Modifier) {
 @Composable
 fun Goals() {
     val timeNow = LocalDateTime(2024, 2, 26, 13, 45)
-    val goal1 = Task("Fit for the summer", "Fitness", timeNow, 3)
+    val goal1 = Goal<Any>("Fit for the summer", "Fitness", timeNow )
 
     GoalDisplayed(
         goal = goal1, modifier = Modifier
