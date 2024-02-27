@@ -20,12 +20,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.taskwise_eventmaster.presentation.sign_in.UserData
 import coil.compose.AsyncImage
+import com.example.taskwise_eventmaster.presentation.controllers.NavigationController
 
 @Composable
 fun ProfileScreen(
     userData: UserData?,
-    onSignOut: () -> Unit,
-    goToHomePage: () -> Unit,
+    navigationController: NavigationController
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -54,11 +54,11 @@ fun ProfileScreen(
             )
             Spacer(modifier = Modifier.height(16.dp))
         }
-        Button(onClick = onSignOut) {
+        Button(onClick = navigationController.onSignOut) {
             Text(text = "Sign out!")
         }
         Spacer(modifier = Modifier.height(46.dp))
-        Button(onClick = goToHomePage) {
+        Button(onClick = navigationController.goToHomePage) {
             Text(
                 text = "Home",
                 fontSize = 25.sp

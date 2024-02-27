@@ -24,6 +24,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.taskwise_eventmaster.presentation.home_page.HomePage
+import com.example.taskwise_eventmaster.presentation.controllers.NavigationController
 import com.example.taskwise_eventmaster.presentation.planning_page.PlanningView
 import com.example.taskwise_eventmaster.presentation.profile.ProfileScreen
 import com.example.taskwise_eventmaster.presentation.sign_in.GoogleAuthUiClient
@@ -53,6 +54,14 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     val snackbarHostState = remember { SnackbarHostState() }
                     val coroutineScope = rememberCoroutineScope()
+
+                    val navigationController = NavigationController(
+                        navController = navController,
+                        snackbarHostState = snackbarHostState,
+                        coroutineScope = coroutineScope,
+                        googleAuthUiClient = googleAuthUiClient,
+                        lifecycleScope = lifecycleScope
+                    )
 
                     NavHost(
                         navController = navController,
@@ -84,6 +93,7 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
                             )
+
 
                             LaunchedEffect(key1 = state.isSignInSuccessful) {
                                 if (state.isSignInSuccessful) {
@@ -118,87 +128,21 @@ class MainActivity : ComponentActivity() {
                         composable("profile") {
                             ProfileScreen(
                                 userData = googleAuthUiClient.getSignedInUser(),
-                                onSignOut = {
-                                    lifecycleScope.launch {
-                                        googleAuthUiClient.signOut()
-                                        coroutineScope.launch {
-                                            snackbarHostState.showSnackbar(
-                                                message = "Signed out",
-                                                duration = SnackbarDuration.Short
-                                            )
-                                        }
-                                        navController.popBackStack("sign_in", false)
-                                    }
-                                },
-                                goToHomePage = {
-                                    navController.popBackStack("home_page", false)
-                                }
+                                navigationController
                             )
                         }
 
                         composable("home_page") {
                             HomePage(
                                 userData = googleAuthUiClient.getSignedInUser(),
-
-                                goToProfilePage = {
-                                    lifecycleScope.launch {
-                                        coroutineScope.launch {
-                                            snackbarHostState.showSnackbar(
-                                                message = "Profile page",
-                                                duration = SnackbarDuration.Short
-                                            )
-                                        }
-                                        navController.navigate("profile")
-                                    }
-                                },
-                                goToPage = {},
-                                goToTaskPage = {},
-                                goToEventsPage = {},
-                                goToGoalsPage = {},
-                                goToPlanningViewPage = {
-                                    navController.navigate("planning_view") },
+                                navigationController
                             )
                         }
 
                         composable("planning_view") {
                             PlanningView(
                                 userData = googleAuthUiClient.getSignedInUser(),
-
-                                goToProfilePage = {
-                                    lifecycleScope.launch {
-                                        coroutineScope.launch {
-                                            snackbarHostState.showSnackbar(
-                                                message = "Profile page",
-                                                duration = SnackbarDuration.Short
-                                            )
-                                        }
-                                        navController.navigate("profile")
-                                    }
-                                },
-
-                                goToTaskPage = {
-                                    lifecycleScope.launch {
-                                        coroutineScope.launch {
-                                            snackbarHostState.showSnackbar(
-                                                message = "Welcome to Task page",
-                                                duration = SnackbarDuration.Short
-                                            )
-                                        }
-                                        navController.navigate("task_page")
-                                    }
-                                },
-
-                                goToHomePage = {
-                                    lifecycleScope.launch {
-                                        coroutineScope.launch {
-                                            snackbarHostState.showSnackbar(
-                                                message = "Back to home page",
-                                                duration = SnackbarDuration.Short
-                                            )
-                                        }
-                                        navController.popBackStack("home_page",false)
-                                    }
-                                }
+                                navigationController
                             )
                         }
 

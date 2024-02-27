@@ -7,14 +7,14 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.example.taskwise_eventmaster.presentation.controllers.NavigationController
 import com.example.taskwise_eventmaster.presentation.sign_in.UserData
 
 
 @Composable
 fun HomePage(
     userData: UserData?,
-    goToProfilePage: () -> Unit,
-    goToPage: () -> Unit
+    navigationController: NavigationController
 ) {
     Column(
         modifier = Modifier
@@ -22,10 +22,10 @@ fun HomePage(
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ProfilePart(userData = userData, goToProfilePage = goToProfilePage)
+        ProfilePart(userData = userData, goToProfilePage = navigationController.goToProfilePage)
 
         MenuPart(
-            goToPage = goToPage,
+            navigationController,
             imageCards = listOfCards()
         )
 

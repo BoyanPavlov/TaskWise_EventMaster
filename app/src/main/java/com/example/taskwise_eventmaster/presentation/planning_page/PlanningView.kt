@@ -1,7 +1,6 @@
 package com.example.taskwise_eventmaster.presentation.planning_page
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,15 +21,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.goalwise_eventmaster.presentation.logic_elements.Goals
+import com.example.taskwise_eventmaster.presentation.controllers.NavigationController
 import com.example.taskwise_eventmaster.presentation.logic_elements.Tasks
 import com.example.taskwise_eventmaster.presentation.sign_in.UserData
 
 @Composable
 fun PlanningView(
     userData: UserData?,
-    goToProfilePage: () -> Unit,
-    goToTaskPage: () -> Unit,
-    goToHomePage: () -> Unit
+    navigationController: NavigationController,
 ) {
     Column(
         modifier = Modifier
@@ -58,7 +55,7 @@ fun PlanningView(
             }
             Spacer(modifier = Modifier.height(20.dp))
             Row(modifier = Modifier.align(Alignment.BottomEnd)) {
-                Button(onClick = goToHomePage) {
+                Button(onClick = navigationController.goToHomePage) {
                     Text(text = "Home")
                 }
             }

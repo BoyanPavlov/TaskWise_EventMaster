@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.taskwise_eventmaster.R
-import com.example.taskwise_eventmaster.presentation.logic_elements.Events
+import com.example.taskwise_eventmaster.presentation.controllers.NavigationController
 
 
 @Composable
@@ -33,7 +33,7 @@ fun listOfCards(): List<ImageCard> {
 
 @Composable
 fun MenuPart(
-    goToPage: () -> Unit,
+    navigationController: NavigationController,
     imageCards: List<ImageCard>,
     modifier: Modifier = Modifier
 ) {
@@ -43,13 +43,11 @@ fun MenuPart(
             .border(5.dp, color = Color.Black)
             .padding(9.dp),
     ) {
-        when(goToPage.toString())
-        {
-            Events.goToProfilePage.toString() -> imageCards[0].onClickImage = goToPage
-            Events.goToPlanningViewPage.toString() -> imageCards[1].onClickImage = goToPage
-            Events.goToGoalsPage.toString() -> imageCards[2].onClickImage = goToPage
-            else -> imageCards[3].onClickImage = goToPage
-        }
+        //taskCard, planningViewCard, goalsCard, eventsCard
+        imageCards[0].onClickImage = navigationController.goToTaskPage
+        imageCards[1].onClickImage = navigationController.goToPlanningViewPage
+        imageCards[2].onClickImage = navigationController.goToGoalsPage
+        imageCards[3].onClickImage = navigationController.goToEventsPage
 
         Column(
             modifier = Modifier
