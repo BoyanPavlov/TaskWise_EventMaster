@@ -22,7 +22,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.datetime.LocalDateTime
+import java.time.LocalDateTime
 
 
 @Composable
@@ -111,7 +111,7 @@ fun Tasks() {
     }*/
     val description =
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...."
-    val timeNow = LocalDateTime(2024, 2, 26, 13, 45)
+    val timeNow = LocalDateTime.of(2024, 2, 26, 13, 45)
     val task1 = Task("Go to the gym", "Fitness",timeNow, 3,"Fit for the summer", description = description)
 
     TaskDisplayed(

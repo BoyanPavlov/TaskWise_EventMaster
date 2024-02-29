@@ -2,7 +2,8 @@ package com.example.taskwise_eventmaster.presentation.goals
 
 import com.example.taskwise_eventmaster.presentation.categories.GoalCategories
 import com.example.taskwise_eventmaster.presentation.categories.GoalCategory
-import kotlinx.datetime.LocalDateTime
+import java.time.LocalDateTime
+
 
 open class Goal<T:Any>(
     public val title: String,

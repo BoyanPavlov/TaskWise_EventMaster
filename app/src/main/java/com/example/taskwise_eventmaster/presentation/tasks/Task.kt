@@ -1,7 +1,8 @@
 package com.example.taskwise_eventmaster.presentation.tasks
 
 import com.example.taskwise_eventmaster.presentation.goals.Goal
-import kotlinx.datetime.LocalDateTime
+import java.time.LocalDateTime
+
 
 class Task(
     title: String,

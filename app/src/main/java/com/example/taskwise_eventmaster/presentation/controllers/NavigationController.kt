@@ -79,4 +79,10 @@ class NavigationController(
             navController.popBackStack("home_page", false)
         }
     }
+
+    val goBack: () -> Unit = {
+        navController.popBackStack()
+    }
+
+
 }

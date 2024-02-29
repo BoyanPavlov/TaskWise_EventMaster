@@ -20,7 +20,8 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.datetime.LocalDateTime
+import java.time.LocalDateTime
+
 
 @Composable
 fun GoalDisplayed(goal: Goal<Any>, modifier: Modifier) {
@@ -65,7 +66,7 @@ fun GoalDisplayed(goal: Goal<Any>, modifier: Modifier) {
 
 @Composable
 fun Goals() {
-    val timeNow = LocalDateTime(2024, 2, 26, 13, 45)
+    val timeNow = LocalDateTime.of(2024, 2, 26, 13, 45)
     val goal1 = Goal<Any>("Fit for the summer", "Fitness", timeNow )
 
     GoalDisplayed(
