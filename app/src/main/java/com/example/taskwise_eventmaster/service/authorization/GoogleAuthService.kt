@@ -1,40 +1,56 @@
-package com.example.taskwise_eventmaster.presentation.sign_in
+package com.example.taskwise_eventmaster.service.authorization
 
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.content.IntentSender
 import com.example.taskwise_eventmaster.R
+import com.example.taskwise_eventmaster.presentation.sign_in.SignInResult
+import com.example.taskwise_eventmaster.presentation.sign_in.UserData
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
-import com.google.android.gms.auth.api.identity.BeginSignInRequest.GoogleIdTokenRequestOptions
-import com.google.android.gms.auth.api.identity.SignInClient
+import com.google.android.gms.auth.api.identity.Identity
 import com.google.firebase.Firebase
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.tasks.await
 import java.util.concurrent.CancellationException
+import javax.inject.Inject
 
-//used for signed in, sign out and to get the signed  information for the user
-class GoogleAuthUiClient(
-    private val context: Context,//used for retrieving data
-    private val oneTapClient: SignInClient
-) {
+class GoogleAuthService @Inject constructor(
+    @ApplicationContext private val context: Context,
+) : AuthService {
+
+    private val oneTapClient = Identity.getSignInClient(context)
     private val auth = Firebase.auth
-
-    suspend fun signIn(): IntentSender? {
-        val result = try {
-            oneTapClient.beginSignIn(buildSignInRequest()).await()
+    override suspend fun signOut() {
+        try {
+            oneTapClient.signOut().await()
+            auth.signOut()
         } catch (e: Exception) {
-            e.printStackTrace()
             if (e is CancellationException) throw e
-            null
+
+            e.printStackTrace()
         }
-        return result?.pendingIntent?.intentSender
     }
 
-    private fun buildSignInRequest(): BeginSignInRequest {
-        return BeginSignInRequest.Builder()
+    override suspend fun createSignInIntent(): PendingIntent? {
+        val result = try {
+            oneTapClient.beginSignIn(buildSignInRequest()).await()
+
+        } catch (e: Exception) {
+            if (e is CancellationException) throw e
+
+            e.printStackTrace()
+
+            null
+        }
+        return result?.pendingIntent
+    }
+
+    private fun buildSignInRequest(): BeginSignInRequest =
+        BeginSignInRequest.Builder()
             .setGoogleIdTokenRequestOptions(
-                GoogleIdTokenRequestOptions.builder()
+                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                     .setSupported(true)//Setting this to true indicates that your application expects to receive an ID token upon a successful sign-in.
                     .setFilterByAuthorizedAccounts(false)//false because we want to get all of our google acc, not just one
                     .setServerClientId(context.getString(R.string.web_client_id))
@@ -42,14 +58,19 @@ class GoogleAuthUiClient(
             )
             .setAutoSelectEnabled(true)
             .build()
-    }
 
-    suspend fun signInWithIntent(intent: Intent): SignInResult {
+
+    override suspend fun signInWithIntent(intent: Intent): SignInResult {
         val credential = oneTapClient.getSignInCredentialFromIntent(intent)
         val googleIdToken = credential.googleIdToken
         val googleCredentials = GoogleAuthProvider.getCredential(googleIdToken, null)
+
         return try {
-            val user = auth.signInWithCredential(googleCredentials).await().user
+            val user = auth
+                .signInWithCredential(googleCredentials)
+                .await()
+                .user
+
             SignInResult(
                 data = user?.run {
                     UserData(
@@ -61,30 +82,14 @@ class GoogleAuthUiClient(
                 errorMessage = null
             )
         } catch (e: Exception) {
-            e.printStackTrace()
             if (e is CancellationException) throw e
+
+            e.printStackTrace()
+
             SignInResult(
                 data = null,
                 errorMessage = e.message
             )
         }
-    }
-
-    suspend fun signOut() {
-        try {
-            oneTapClient.signOut().await()
-            auth.signOut()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            if (e is CancellationException) throw e
-        }
-    }
-
-    fun getSignedInUser(): UserData? = auth.currentUser?.run {
-        UserData(
-            userId = uid,
-            username = displayName,
-            profilePictureUrl = photoUrl.toString()
-        )
     }
 }

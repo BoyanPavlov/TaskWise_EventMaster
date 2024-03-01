@@ -1,26 +1,58 @@
 package com.example.taskwise_eventmaster.presentation.sign_in
 
+import android.content.Intent
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import com.example.taskwise_eventmaster.service.authorization.AuthService
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SignInViewModel : ViewModel(){
-    private val _state = MutableStateFlow(SignInState())
-    val state = _state.asStateFlow()
+@HiltViewModel
+class SignInViewModel @Inject constructor(
+    private val authService: AuthService
+) : ViewModel() {
+    var state by mutableStateOf(SignInState())
+        private set
 
-    fun onSignInResult(result: SignInResult) {
-        _state.update {
-            it.copy(
-                isSignInSuccessful = result.data != null,
-                signInErrorMessage = result.errorMessage
+    fun onEvent(event: SignInScreenEvent) {
+
+        when (event) {
+            is SignInScreenEvent.CompleteSignIn -> resultFromSignInWithIntent(event.intent)
+            is SignInScreenEvent.OnSuccessfulSignIn -> resetState()
+            is SignInScreenEvent.SignButtonClicked -> signIn()
+        }
+    }
+
+    private fun signIn() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val signInIntent = authService.createSignInIntent()
+            state = state.copy(
+                intentSender = signInIntent?.intentSender
             )
         }
     }
-    fun resetState() // function used when we go back to the login screen - to log out the user automatically
-    {
-        _state.update {
-            SignInState()
+
+    private fun onSignInResult(result: SignInResult) {
+        state = state.copy(
+            isSignInSuccessful = result.data != null,
+            signInErrorMessage = result.errorMessage
+        )
+    }
+
+    private fun resultFromSignInWithIntent(intentData: Intent) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val signInResult = authService.signInWithIntent(intentData)
+
+            onSignInResult(signInResult)
         }
+    }
+
+    private fun resetState() {
+        state = SignInState()
     }
 }

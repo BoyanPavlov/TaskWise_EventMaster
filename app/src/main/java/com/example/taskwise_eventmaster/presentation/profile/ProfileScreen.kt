@@ -18,8 +18,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.taskwise_eventmaster.presentation.sign_in.UserData
 import coil.compose.AsyncImage
+import com.example.taskwise_eventmaster.presentation.sign_in.UserData
 
 @Composable
 fun ProfileScreen(
@@ -62,7 +62,7 @@ fun ProfileScreen(
             Text(
                 text = "Home",
                 fontSize = 25.sp
-                )
+            )
         }
     }
 }
