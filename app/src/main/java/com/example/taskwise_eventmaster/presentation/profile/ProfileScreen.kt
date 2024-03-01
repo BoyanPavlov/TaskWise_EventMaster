@@ -18,13 +18,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.taskwise_eventmaster.presentation.sign_in.UserData
 import coil.compose.AsyncImage
+import com.example.taskwise_eventmaster.presentation.sign_in.UserData
 
 @Composable
 fun ProfileScreen(
     userData: UserData?,
-    onSignOut: () -> Unit
+    onSignOut: () -> Unit,
+    goToHomePage: () -> Unit,
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -54,7 +55,14 @@ fun ProfileScreen(
             Spacer(modifier = Modifier.height(16.dp))
         }
         Button(onClick = onSignOut) {
-            Text(text = "Sign out")
+            Text(text = "Sign out!")
+        }
+        Spacer(modifier = Modifier.height(46.dp))
+        Button(onClick = goToHomePage) {
+            Text(
+                text = "Home",
+                fontSize = 25.sp
+            )
         }
     }
 }
