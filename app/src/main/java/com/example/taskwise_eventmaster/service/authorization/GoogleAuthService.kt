@@ -12,7 +12,9 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import java.util.concurrent.CancellationException
 import javax.inject.Inject
 
@@ -22,7 +24,7 @@ class GoogleAuthService @Inject constructor(
 
     private val oneTapClient = Identity.getSignInClient(context)
     private val auth = Firebase.auth
-    override suspend fun signOut() {
+    override suspend fun signOut() = withContext(Dispatchers.IO) {
         try {
             oneTapClient.signOut().await()
             auth.signOut()
@@ -33,7 +35,7 @@ class GoogleAuthService @Inject constructor(
         }
     }
 
-    override suspend fun createSignInIntent(): PendingIntent? {
+    override suspend fun createSignInIntent(): PendingIntent? = withContext(Dispatchers.IO) {
         val result = try {
             oneTapClient.beginSignIn(buildSignInRequest()).await()
 
@@ -44,7 +46,7 @@ class GoogleAuthService @Inject constructor(
 
             null
         }
-        return result?.pendingIntent
+        return@withContext result?.pendingIntent
     }
 
     private fun buildSignInRequest(): BeginSignInRequest =
@@ -60,12 +62,12 @@ class GoogleAuthService @Inject constructor(
             .build()
 
 
-    override suspend fun signInWithIntent(intent: Intent): SignInResult {
+    override suspend fun signInWithIntent(intent: Intent): SignInResult = withContext(Dispatchers.IO){
         val credential = oneTapClient.getSignInCredentialFromIntent(intent)
         val googleIdToken = credential.googleIdToken
         val googleCredentials = GoogleAuthProvider.getCredential(googleIdToken, null)
 
-        return try {
+        return@withContext try {
             val user = auth
                 .signInWithCredential(googleCredentials)
                 .await()

@@ -5,6 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.taskwise_eventmaster.service.authorization.AuthService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -29,7 +30,7 @@ class SignInViewModel @Inject constructor(
     }
 
     private fun signIn() {
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch {
             val signInIntent = authService.createSignInIntent()
             state = state.copy(
                 intentSender = signInIntent?.intentSender
@@ -45,7 +46,7 @@ class SignInViewModel @Inject constructor(
     }
 
     private fun resultFromSignInWithIntent(intentData: Intent) {
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch {
             val signInResult = authService.signInWithIntent(intentData)
 
             onSignInResult(signInResult)
