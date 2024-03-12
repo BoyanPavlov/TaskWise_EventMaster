@@ -6,13 +6,22 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import com.example.taskwise_eventmaster.DestinationStrings.EVENTS
+import com.example.taskwise_eventmaster.DestinationStrings.GOAL
+import com.example.taskwise_eventmaster.DestinationStrings.PLANNING_VIEW
+import com.example.taskwise_eventmaster.DestinationStrings.TASK
 import com.example.taskwise_eventmaster.R
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -32,23 +41,24 @@ fun listOfCards(): List<ImageCard> {
 
 @Composable
 fun MenuPart(
-    goToTaskPage: () -> Unit,
-    goToGoalsPage: () -> Unit,
-    goToEventsPage: () -> Unit,
-    goToPlanningViewPage: () -> Unit,
     imageCards: List<ImageCard>,
+    navController: NavHostController,
+    snackbarHostState: SnackbarHostState,
     modifier: Modifier = Modifier
 ) {
+    val coroutineScope = rememberCoroutineScope()
+
     Box(
         modifier = modifier
             .fillMaxWidth()
             .border(5.dp, color = Color.Black)
             .padding(9.dp),
     ) {
-        Column (modifier=Modifier
-            .align(Alignment.Center)
-        ){
-            Row{
+        Column(
+            modifier = Modifier
+                .align(Alignment.Center)
+        ) {
+            Row {
                 ImageCardDisplayed(imageCard = imageCards[0])
                 ImageCardDisplayed(imageCard = imageCards[1])
             }
@@ -58,11 +68,20 @@ fun MenuPart(
             }
         }
 
-        imageCards[0].onClickImage = goToTaskPage
-        imageCards[1].onClickImage = goToGoalsPage
-        imageCards[2].onClickImage = goToEventsPage
-        imageCards[3].onClickImage = goToPlanningViewPage
+        val screens = listOf(TASK, GOAL, EVENTS, PLANNING_VIEW)
 
+
+        for (i in screens.indices) {
+            imageCards[i].onClickImage = {
+                coroutineScope.launch {
+                    snackbarHostState.showSnackbar(
+                        message = "Welcome to ${screens[i].screenName}",
+                        duration = SnackbarDuration.Short
+                    )
+                }
+                navController.navigate(screens[i].destinationString)
+            }
+        }
     }
 }
 

@@ -4,20 +4,18 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.example.taskwise_eventmaster.presentation.sign_in.UserData
+import androidx.navigation.NavHostController
 
 
 @Composable
-fun HomePage(
-    userData: UserData?,
-    goToProfilePage: () -> Unit,
-    goToTaskPage: () -> Unit,
-    goToGoalsPage: () -> Unit,
-    goToEventsPage: () -> Unit,
-    goToPlanningViewPage: () -> Unit,
+fun HomeScreen(
+    state: HomeScreenState,
+    navController: NavHostController,
+    snackbarHostState: SnackbarHostState
 ) {
     Column(
         modifier = Modifier
@@ -25,14 +23,16 @@ fun HomePage(
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ProfilePart(userData = userData, goToProfilePage = goToProfilePage)
+        if (state.userData == null) {
+            //TODO print error message
+            return@Column
+        }
+        ProfilePart(userData = state.userData, navController = navController, snackbarHostState)
 
         MenuPart(
-            goToTaskPage =  goToTaskPage ,
-            goToGoalsPage = goToGoalsPage ,
-            goToEventsPage = goToEventsPage,
-            goToPlanningViewPage = goToPlanningViewPage,
-            imageCards = listOfCards()
+            imageCards = listOfCards(),
+            navController = navController,
+            snackbarHostState = snackbarHostState
         )
 
         CalendarPart()

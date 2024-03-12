@@ -35,6 +35,14 @@ class GoogleAuthService @Inject constructor(
         }
     }
 
+    override fun getSignedInUser(): UserData? = auth.currentUser?.run {
+        UserData(
+            userId = uid,
+            username = displayName,
+            profilePictureUrl = photoUrl.toString()
+        )
+    }
+
     override suspend fun createSignInIntent(): PendingIntent? = withContext(Dispatchers.IO) {
         val result = try {
             oneTapClient.beginSignIn(buildSignInRequest()).await()

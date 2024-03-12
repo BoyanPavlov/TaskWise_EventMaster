@@ -14,8 +14,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,17 +29,25 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.taskwise_eventmaster.DestinationStrings.PROFILE
 import com.example.taskwise_eventmaster.R
 import com.example.taskwise_eventmaster.presentation.sign_in.UserData
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 @Composable
 fun ProfilePart(
     userData: UserData?,
-    goToProfilePage: () -> Unit,
+    navController: NavController,
+    snackbarHostState: SnackbarHostState,
     modifier: Modifier = Modifier
 ) {
+    val coroutineScope = rememberCoroutineScope()
+
     Box(
         modifier = modifier
             .padding(bottom = 3.dp)
@@ -95,8 +106,15 @@ fun ProfilePart(
                     Spacer(modifier = Modifier.height(16.dp))
                 }
 
-                Button(onClick = goToProfilePage) {
-                    //redirecting to profile page with log out button
+                Button(onClick = {
+                    coroutineScope.launch {
+                        snackbarHostState.showSnackbar(
+                            message = PROFILE.screenName,
+                            duration = SnackbarDuration.Short
+                        )
+                    }
+                    navController.navigate(PROFILE.destinationString)
+                }) {
                     Text(text = "Profile")
                 }
             }
