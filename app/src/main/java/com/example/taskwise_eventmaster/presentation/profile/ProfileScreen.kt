@@ -25,9 +25,6 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.taskwise_eventmaster.DestinationStrings.HOME
 import com.example.taskwise_eventmaster.DestinationStrings.SIGN_IN
-import com.example.taskwise_eventmaster.presentation.sign_in.SignInScreenEvent
-import com.example.taskwise_eventmaster.presentation.sign_in.SignInState
-import com.example.taskwise_eventmaster.presentation.sign_in.UserData
 import kotlinx.coroutines.launch
 
 @Composable

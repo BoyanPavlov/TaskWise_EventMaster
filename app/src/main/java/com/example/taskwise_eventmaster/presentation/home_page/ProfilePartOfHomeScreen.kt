@@ -34,8 +34,6 @@ import coil.compose.AsyncImage
 import com.example.taskwise_eventmaster.DestinationStrings.PROFILE
 import com.example.taskwise_eventmaster.R
 import com.example.taskwise_eventmaster.presentation.sign_in.UserData
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 

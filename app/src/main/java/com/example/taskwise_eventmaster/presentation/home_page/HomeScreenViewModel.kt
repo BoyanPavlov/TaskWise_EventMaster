@@ -5,14 +5,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.taskwise_eventmaster.service.authorization.AuthService
-import com.example.taskwise_eventmaster.service.authorization.GoogleAuthService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
     authService: AuthService
-): ViewModel() {
+) : ViewModel() {
 
     var state by mutableStateOf(HomeScreenState())
         private set

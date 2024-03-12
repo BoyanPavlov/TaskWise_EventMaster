@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.taskwise_eventmaster.presentation.sign_in.SignInScreenEvent
 import com.example.taskwise_eventmaster.service.authorization.AuthService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -14,12 +13,12 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileScreenViewModel @Inject constructor(
     private val authService: AuthService
-):ViewModel(){
+) : ViewModel() {
     var state by mutableStateOf(ProfileScreenState())
         private set
 
     init {
-        state  = state.copy(
+        state = state.copy(
             userData = authService.getSignedInUser()
         )
     }
@@ -28,7 +27,7 @@ class ProfileScreenViewModel @Inject constructor(
         is ProfileScreenEvent.OnSignOut -> signOut()
     }
 
-    private fun signOut(){
+    private fun signOut() {
         viewModelScope.launch {
             authService.signOut()
         }
