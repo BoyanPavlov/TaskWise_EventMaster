@@ -18,6 +18,14 @@ class SignInViewModel @Inject constructor(
     var state by mutableStateOf(SignInState())
         private set
 
+    init {
+        if (authService.getSignedInUser() != null) {
+            state = state.copy(
+                isUserAlreadySignedIn = true
+            )
+        }
+    }
+
     fun onEvent(event: SignInScreenEvent) =
         when (event) {
             is SignInScreenEvent.CompleteSignIn -> resultFromSignInWithIntent(event.intent)
