@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
-
 @Composable
 fun OutlinedStar(
     modifier: Modifier = Modifier,
@@ -82,9 +81,9 @@ fun Star(
 
 @Composable
 fun RatingBar(
+    modifier: Modifier = Modifier,
     maxRating: Int = 5,
     currentRating: Int,
-    modifier: Modifier = Modifier,
     onRatingChanged: (Int) -> Unit,
 ) {
     Row(modifier = modifier) {
@@ -98,7 +97,7 @@ fun RatingBar(
 }
 
 @Composable
-fun RatingBarUsage(rating:Int) {
+fun RatingBarUsage(rating:Int = 0) {
     var rating_ by remember { mutableStateOf(rating) }
 
     RatingBar(

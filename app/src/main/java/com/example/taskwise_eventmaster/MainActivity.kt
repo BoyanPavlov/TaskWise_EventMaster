@@ -15,10 +15,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.taskwise_eventmaster.DestinationStrings.HOME
+import com.example.taskwise_eventmaster.DestinationStrings.PLANNING_VIEW
 import com.example.taskwise_eventmaster.DestinationStrings.PROFILE
 import com.example.taskwise_eventmaster.DestinationStrings.SIGN_IN
 import com.example.taskwise_eventmaster.presentation.home_page.HomeScreen
 import com.example.taskwise_eventmaster.presentation.home_page.HomeScreenViewModel
+import com.example.taskwise_eventmaster.presentation.planning_view.PlanningViewModel
 import com.example.taskwise_eventmaster.presentation.profile.ProfileScreen
 import com.example.taskwise_eventmaster.presentation.profile.ProfileScreenViewModel
 import com.example.taskwise_eventmaster.presentation.sign_in.SignInScreen
@@ -82,9 +84,12 @@ class MainActivity : ComponentActivity() {
                             )
                         }
 
-                        /*composable("planning_view") {
+                        composable(PLANNING_VIEW.destinationString) {
+                            val viewModel = hiltViewModel<PlanningViewModel>()
+                            val state = viewModel.state
+
                             PlanningView(
-                                userData = googleAuthUiClient.getSignedInUser(),
+                                state=state,
 
                                 goToProfilePage = {
                                     lifecycleScope.launch {
@@ -111,7 +116,7 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         }
-*/
+
 
                     }
                     SnackbarHost(hostState = snackbarHostState)
