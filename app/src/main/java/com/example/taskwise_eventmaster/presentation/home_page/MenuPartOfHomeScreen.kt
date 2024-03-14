@@ -25,28 +25,17 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun listOfCards(): List<ImageCard> {
-    val tasksButtonPic = painterResource(id = R.drawable.tasks_icon)
-    val planningViewButton = painterResource(id = R.drawable.planning_view_icon)
-    val goalsButtonPic = painterResource(id = R.drawable.goals_icon)
-    val eventsButtonPic = painterResource(id = R.drawable.events_icon)
-
-    val taskCard = ImageCard(tasksButtonPic, "Task button page", "Tasks")
-    val planningViewCard = ImageCard(planningViewButton, "Planning view page", "Planning view")
-    val goalsCard = ImageCard(goalsButtonPic, "Goals button page", "Goals")
-    val eventsCard = ImageCard(eventsButtonPic, "Events button page", "Events")
-
-    return listOf(taskCard, planningViewCard, goalsCard, eventsCard)
-}
-
-@Composable
 fun MenuPart(
-    imageCards: List<ImageCard>,
     navController: NavHostController,
     snackbarHostState: SnackbarHostState,
     modifier: Modifier = Modifier
 ) {
     val coroutineScope = rememberCoroutineScope()
+
+    val tasksButtonPic = painterResource(id = R.drawable.tasks_icon)
+    val planningViewButton = painterResource(id = R.drawable.planning_view_icon)
+    val goalsButtonPic = painterResource(id = R.drawable.goals_icon)
+    val eventsButtonPic = painterResource(id = R.drawable.events_icon)
 
     Box(
         modifier = modifier
@@ -59,27 +48,63 @@ fun MenuPart(
                 .align(Alignment.Center)
         ) {
             Row {
-                ImageCardDisplayed(imageCard = imageCards[0])
-                ImageCardDisplayed(imageCard = imageCards[1])
+                ImageCard(
+                    title = TASK.screenName,
+                    backgroundImage = tasksButtonPic,
+                    onClickImage = {
+                        coroutineScope.launch {
+                            snackbarHostState.showSnackbar(
+                                message = "Welcome to ${TASK.screenName}",
+                                duration = SnackbarDuration.Short
+                            )
+                        }
+                        navController.navigate(TASK.destinationString)
+                    }
+                )
+
+                ImageCard(
+                    title = PLANNING_VIEW.screenName,
+                    backgroundImage = planningViewButton,
+                    onClickImage = {
+                        coroutineScope.launch {
+                            snackbarHostState.showSnackbar(
+                                message = "Welcome to ${PLANNING_VIEW.screenName}",
+                                duration = SnackbarDuration.Short
+                            )
+                        }
+                        navController.navigate(PLANNING_VIEW.destinationString)
+                    }
+                )
+
             }
             Row {
-                ImageCardDisplayed(imageCard = imageCards[2])
-                ImageCardDisplayed(imageCard = imageCards[3])
-            }
-        }
+                ImageCard(
+                    title = GOAL.screenName,
+                    backgroundImage = goalsButtonPic,
+                    onClickImage = {
+                        coroutineScope.launch {
+                            snackbarHostState.showSnackbar(
+                                message = "Welcome to ${GOAL.screenName}",
+                                duration = SnackbarDuration.Short
+                            )
+                        }
+                        navController.navigate(GOAL.destinationString)
+                    }
+                )
 
-        val screens = listOf(TASK, GOAL, EVENTS, PLANNING_VIEW)
-
-
-        for (i in screens.indices) {
-            imageCards[i].onClickImage = {
-                coroutineScope.launch {
-                    snackbarHostState.showSnackbar(
-                        message = "Welcome to ${screens[i].screenName}",
-                        duration = SnackbarDuration.Short
-                    )
-                }
-                navController.navigate(screens[i].destinationString)
+                ImageCard(
+                    title = EVENTS.screenName,
+                    backgroundImage = eventsButtonPic,
+                    onClickImage = {
+                        coroutineScope.launch {
+                            snackbarHostState.showSnackbar(
+                                message = "Welcome to ${EVENTS.screenName}",
+                                duration = SnackbarDuration.Short
+                            )
+                        }
+                        navController.navigate(EVENTS.destinationString)
+                    }
+                )
             }
         }
     }
