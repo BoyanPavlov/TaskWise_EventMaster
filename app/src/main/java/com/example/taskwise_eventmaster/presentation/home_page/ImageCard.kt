@@ -23,33 +23,29 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-//classed used for creating cards on the middle part in the home page
-
-class ImageCard(
-    val backgroundImage: Painter,
-    val contentDescription: String,
-    val title: String,
-) {
-    lateinit var onClickImage: () -> Unit
-}
 
 @Composable
-fun ImageCardDisplayed(imageCard:ImageCard, modifier: Modifier = Modifier) {
+fun ImageCard(
+    modifier: Modifier = Modifier,
+    title: String,
+    backgroundImage: Painter,
+    onClickImage: () -> Unit
+) {
     Card(
         shape = RoundedCornerShape(15.dp),
         modifier = Modifier
             .height(190.dp)
             .width(190.dp)
             .padding(5.dp)
-            .clickable { imageCard.onClickImage }
+            .clickable(onClick = onClickImage)
             .then(modifier)
 
     ) {
         Box()
         {
             Image(
-                painter = imageCard.backgroundImage,
-                contentDescription = imageCard.contentDescription,
+                painter = backgroundImage,
+                contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
             )
@@ -75,7 +71,7 @@ fun ImageCardDisplayed(imageCard:ImageCard, modifier: Modifier = Modifier) {
                 contentAlignment = Alignment.BottomStart
             ) {
                 Text(
-                    imageCard.title,
+                    text = title,
                     style = TextStyle(
                         color = Color.White,
                         fontSize = 16.sp,

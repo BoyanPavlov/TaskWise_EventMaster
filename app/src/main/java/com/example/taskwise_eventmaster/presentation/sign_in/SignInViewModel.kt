@@ -19,11 +19,7 @@ class SignInViewModel @Inject constructor(
         private set
 
     init {
-        if (authService.getSignedInUser() != null) {
-            state = state.copy(
-                isUserAlreadySignedIn = true
-            )
-        }
+        state = state.copy(isUserAlreadySignedIn = authService.getSignedInUser() != null)
     }
 
     fun onEvent(event: SignInScreenEvent) =
