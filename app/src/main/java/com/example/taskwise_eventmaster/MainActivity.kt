@@ -9,12 +9,18 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.taskwise_eventmaster.DestinationStrings.HOME
+import com.example.taskwise_eventmaster.DestinationStrings.PROFILE
+import com.example.taskwise_eventmaster.DestinationStrings.SIGN_IN
+import com.example.taskwise_eventmaster.presentation.home_page.HomeScreen
+import com.example.taskwise_eventmaster.presentation.home_page.HomeScreenViewModel
+import com.example.taskwise_eventmaster.presentation.profile.ProfileScreen
+import com.example.taskwise_eventmaster.presentation.profile.ProfileScreenViewModel
 import com.example.taskwise_eventmaster.presentation.sign_in.SignInScreen
 import com.example.taskwise_eventmaster.presentation.sign_in.SignInViewModel
 import com.example.taskwise_eventmaster.ui.theme.TaskWise_EventMasterTheme
@@ -22,7 +28,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,18 +39,16 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val navController = rememberNavController()
                     val snackbarHostState = remember { SnackbarHostState() }
-                    val coroutineScope = rememberCoroutineScope()
 
                     NavHost(
                         navController = navController,
-                        startDestination = "sign_in"
+                        startDestination = SIGN_IN.destinationString
                     ) //host all of our different screens
                     {
-                        composable("sign_in") {
+                        composable(SIGN_IN.destinationString) {
                             val viewModel = hiltViewModel<SignInViewModel>()
                             val state = viewModel.state
 
-                            //let's logon
                             SignInScreen(
                                 state = state,
                                 onEvent = viewModel::onEvent,
@@ -54,48 +57,30 @@ class MainActivity : ComponentActivity() {
                             )
                         }
 
-                        /*composable("profile") {
+                        composable(PROFILE.destinationString) {
+
+                            val viewModel = hiltViewModel<ProfileScreenViewModel>()
+                            val state = viewModel.state
+
                             ProfileScreen(
-                                userData = googleAuthUiClient.getSignedInUser(),
-                                onSignOut = {
-                                    lifecycleScope.launch {
-                                        googleAuthUiClient.signOut()
-                                        coroutineScope.launch {
-                                            snackbarHostState.showSnackbar(
-                                                message = "Signed out",
-                                                duration = SnackbarDuration.Short
-                                            )
-                                        }
-                                        navController.popBackStack("sign_in", false)
-                                    }
-                                },
-                                goToHomePage = {
-                                    navController.popBackStack("home_page", false)
-                                }
+                                state = state,
+                                onEvent = viewModel::onEvent,
+                                navController = navController,
+                                snackbarHostState = snackbarHostState
                             )
-                        }*/
+                        }
 
-                        /*composable("home_page") {
-                            HomePage(
-                                userData = googleAuthUiClient.getSignedInUser(),
+                        composable(HOME.destinationString) {
 
-                                goToProfilePage = {
-                                    lifecycleScope.launch {
-                                        coroutineScope.launch {
-                                            snackbarHostState.showSnackbar(
-                                                message = "Profile page",
-                                                duration = SnackbarDuration.Short
-                                            )
-                                        }
-                                        navController.navigate("profile")
-                                    }
-                                },
-                                goToTaskPage = {},
-                                goToEventsPage = {},
-                                goToGoalsPage = {},
-                                goToPlanningViewPage = { navController.navigate("planning_view") },
+                            val viewModel = hiltViewModel<HomeScreenViewModel>()
+                            val state = viewModel.state
+
+                            HomeScreen(
+                                state = state,
+                                navController = navController,
+                                snackbarHostState = snackbarHostState
                             )
-                        }*/
+                        }
 
                         /*composable("planning_view") {
                             PlanningView(

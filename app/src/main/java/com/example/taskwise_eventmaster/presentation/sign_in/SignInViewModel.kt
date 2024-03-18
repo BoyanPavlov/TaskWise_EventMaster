@@ -5,10 +5,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.taskwise_eventmaster.service.authorization.AuthService
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,17 +18,20 @@ class SignInViewModel @Inject constructor(
     var state by mutableStateOf(SignInState())
         private set
 
-    fun onEvent(event: SignInScreenEvent) {
+    init {
+        state = state.copy(isUserAlreadySignedIn = authService.getSignedInUser() != null)
+    }
 
+    fun onEvent(event: SignInScreenEvent) =
         when (event) {
             is SignInScreenEvent.CompleteSignIn -> resultFromSignInWithIntent(event.intent)
             is SignInScreenEvent.OnSuccessfulSignIn -> resetState()
             is SignInScreenEvent.SignButtonClicked -> signIn()
         }
-    }
+
 
     private fun signIn() {
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch {
             val signInIntent = authService.createSignInIntent()
             state = state.copy(
                 intentSender = signInIntent?.intentSender
@@ -45,7 +47,7 @@ class SignInViewModel @Inject constructor(
     }
 
     private fun resultFromSignInWithIntent(intentData: Intent) {
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch {
             val signInResult = authService.signInWithIntent(intentData)
 
             onSignInResult(signInResult)

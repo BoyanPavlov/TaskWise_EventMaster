@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.taskwise_eventmaster.DestinationStrings.HOME
 import kotlinx.coroutines.launch
 
 @Composable
@@ -32,10 +33,9 @@ fun SignInScreen(
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
 
-
     LaunchedEffect(key1 = Unit) {
         if (state.isUserAlreadySignedIn) {
-            navController.navigate("home_page")
+            navController.navigate(HOME.destinationString)
         }
     }
 
@@ -48,7 +48,7 @@ fun SignInScreen(
                 )
             }
 
-            navController.navigate("home_page")
+            navController.navigate(HOME.destinationString)
             onEvent(SignInScreenEvent.OnSuccessfulSignIn)
         }
     }
