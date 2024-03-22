@@ -33,10 +33,13 @@ fun SignInScreen(
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
 
+    if (state.isUserAlreadySignedIn) {
+        onEvent(SignInScreenEvent.OnSuccessfulSignIn)
+        navController.navigate(HOME.destinationString)
+    }
+
     LaunchedEffect(key1 = Unit) {
-        if (state.isUserAlreadySignedIn) {
-            navController.navigate(HOME.destinationString)
-        }
+        onEvent(SignInScreenEvent.ScreenOpened)
     }
 
     LaunchedEffect(key1 = state.isSignInSuccessful) {
@@ -48,8 +51,8 @@ fun SignInScreen(
                 )
             }
 
-            navController.navigate(HOME.destinationString)
             onEvent(SignInScreenEvent.OnSuccessfulSignIn)
+            navController.navigate(HOME.destinationString)
         }
     }
 

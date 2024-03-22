@@ -8,4 +8,6 @@ sealed interface SignInScreenEvent {
     data class CompleteSignIn(val intent: Intent) : SignInScreenEvent
 
     data object OnSuccessfulSignIn : SignInScreenEvent
+
+    data object ScreenOpened: SignInScreenEvent
 }
