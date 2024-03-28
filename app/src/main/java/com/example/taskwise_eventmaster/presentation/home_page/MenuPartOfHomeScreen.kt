@@ -23,7 +23,6 @@ import com.example.taskwise_eventmaster.DestinationStrings.TASK
 import com.example.taskwise_eventmaster.R
 import kotlinx.coroutines.launch
 
-
 @Composable
 fun MenuPart(
     navController: NavHostController,

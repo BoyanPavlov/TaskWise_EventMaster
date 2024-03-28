@@ -1,4 +1,4 @@
-package com.example.taskwise_eventmaster.service.authorization
+package com.example.taskwise_eventmaster.domain.service.authorization
 
 import android.app.PendingIntent
 import android.content.Intent

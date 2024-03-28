@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.taskwise_eventmaster.service.authorization.AuthService
+import com.example.taskwise_eventmaster.domain.service.authorization.AuthService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,6 +30,10 @@ class ProfileScreenViewModel @Inject constructor(
     private fun signOut() {
         viewModelScope.launch {
             authService.signOut()
+
+            state = state.copy(
+                userData = null
+            )
         }
     }
 }

@@ -6,10 +6,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
@@ -82,9 +78,9 @@ fun Star(
 
 @Composable
 fun RatingBar(
+    modifier: Modifier = Modifier,
     maxRating: Int = 5,
     currentRating: Int,
-    modifier: Modifier = Modifier,
     onRatingChanged: (Int) -> Unit,
 ) {
     Row(modifier = modifier) {
@@ -95,16 +91,4 @@ fun RatingBar(
             )
         }
     }
-}
-
-@Composable
-fun RatingBarUsage(rating:Int) {
-    var rating_ by remember { mutableStateOf(rating) }
-
-    RatingBar(
-        currentRating = rating_,
-        onRatingChanged = { newRating ->
-            rating_ = newRating
-        }
-    )
 }

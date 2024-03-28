@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.example.taskwise_eventmaster.service.authorization.AuthService
+import com.example.taskwise_eventmaster.domain.service.authorization.AuthService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
