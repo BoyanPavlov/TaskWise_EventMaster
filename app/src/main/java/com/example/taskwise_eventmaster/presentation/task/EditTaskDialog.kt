@@ -37,7 +37,7 @@ import java.time.LocalDateTime
 fun EditTaskDialog(
     task: Task,
     onEvent: (TaskEvent) -> Unit,
-    onDismiss: ()->Unit
+    onDismiss: () -> Unit
 ) {
 
     var title by remember { mutableStateOf(task.title) }

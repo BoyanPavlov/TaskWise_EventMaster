@@ -14,8 +14,8 @@ import dagger.hilt.android.components.ViewModelComponent
 abstract class ServiceModules {
     @Binds
     abstract fun bindAuthImplementation(
-        googleAuthService: GoogleAuthService// low lvl comp..
-    ): AuthService//high lvl component
+        googleAuthService: GoogleAuthService    //low lvl component
+    ): AuthService                              //high lvl component
 
     @Binds
     abstract fun bindTaskRepositoryImpl(

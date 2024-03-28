@@ -66,7 +66,6 @@ fun SignInScreen(
         }
     }
 
-
     //launcher - collecting states here
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartIntentSenderForResult(),

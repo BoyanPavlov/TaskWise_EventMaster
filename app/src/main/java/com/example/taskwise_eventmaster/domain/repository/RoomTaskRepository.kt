@@ -32,7 +32,7 @@ class RoomTaskRepository @Inject constructor(
 
             dao.upsertTask(taskPe)
         } catch (e: Exception) {
-            //print error?
+            println("Couldn't upsert a task")
         }
     }
 
@@ -52,7 +52,7 @@ class RoomTaskRepository @Inject constructor(
             }
 
         } catch (e: Exception) {
-            //print error?
+            println("Couldn't get a task with this UUID or something else")
             null
         }
     }

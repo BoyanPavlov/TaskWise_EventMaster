@@ -70,36 +70,37 @@ class GoogleAuthService @Inject constructor(
             .build()
 
 
-    override suspend fun signInWithIntent(intent: Intent): SignInResult = withContext(Dispatchers.IO){
-        val credential = oneTapClient.getSignInCredentialFromIntent(intent)
-        val googleIdToken = credential.googleIdToken
-        val googleCredentials = GoogleAuthProvider.getCredential(googleIdToken, null)
+    override suspend fun signInWithIntent(intent: Intent): SignInResult =
+        withContext(Dispatchers.IO) {
+            val credential = oneTapClient.getSignInCredentialFromIntent(intent)
+            val googleIdToken = credential.googleIdToken
+            val googleCredentials = GoogleAuthProvider.getCredential(googleIdToken, null)
 
-        return@withContext try {
-            val user = auth
-                .signInWithCredential(googleCredentials)
-                .await()
-                .user
+            return@withContext try {
+                val user = auth
+                    .signInWithCredential(googleCredentials)
+                    .await()
+                    .user
 
-            SignInResult(
-                data = user?.run {
-                    UserData(
-                        userId = uid,
-                        username = displayName,
-                        profilePictureUrl = photoUrl?.toString()
-                    )
-                },
-                errorMessage = null
-            )
-        } catch (e: Exception) {
-            if (e is CancellationException) throw e
+                SignInResult(
+                    data = user?.run {
+                        UserData(
+                            userId = uid,
+                            username = displayName,
+                            profilePictureUrl = photoUrl?.toString()
+                        )
+                    },
+                    errorMessage = null
+                )
+            } catch (e: Exception) {
+                if (e is CancellationException) throw e
 
-            e.printStackTrace()
+                e.printStackTrace()
 
-            SignInResult(
-                data = null,
-                errorMessage = e.message
-            )
+                SignInResult(
+                    data = null,
+                    errorMessage = e.message
+                )
+            }
         }
-    }
 }

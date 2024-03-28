@@ -8,7 +8,13 @@ import androidx.lifecycle.viewModelScope
 import com.example.taskwise_eventmaster.domain.model.Task
 import com.example.taskwise_eventmaster.domain.repository.TaskRepository
 import com.example.taskwise_eventmaster.domain.service.authorization.AuthService
-import com.example.taskwise_eventmaster.presentation.task.TaskEvent.*
+import com.example.taskwise_eventmaster.presentation.task.TaskEvent.ChangeLevelOfDifficulty
+import com.example.taskwise_eventmaster.presentation.task.TaskEvent.DeleteTask
+import com.example.taskwise_eventmaster.presentation.task.TaskEvent.EditTask
+import com.example.taskwise_eventmaster.presentation.task.TaskEvent.LoadTasks
+import com.example.taskwise_eventmaster.presentation.task.TaskEvent.MarkTaskAsDone
+import com.example.taskwise_eventmaster.presentation.task.TaskEvent.SaveTask
+import com.example.taskwise_eventmaster.presentation.task.TaskEvent.SortTasks
 import com.example.taskwise_eventmaster.presentation.utils.SortType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
