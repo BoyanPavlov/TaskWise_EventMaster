@@ -14,17 +14,21 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.taskwise_eventmaster.DestinationStrings.EVENTS
+import com.example.taskwise_eventmaster.DestinationStrings.GOAL
 import com.example.taskwise_eventmaster.DestinationStrings.HOME
 import com.example.taskwise_eventmaster.DestinationStrings.PLANNING_VIEW
 import com.example.taskwise_eventmaster.DestinationStrings.PROFILE
 import com.example.taskwise_eventmaster.DestinationStrings.SIGN_IN
+import com.example.taskwise_eventmaster.DestinationStrings.TASK
 import com.example.taskwise_eventmaster.presentation.home_page.HomeScreen
 import com.example.taskwise_eventmaster.presentation.home_page.HomeScreenViewModel
-import com.example.taskwise_eventmaster.presentation.planning_view.PlanningViewModel
 import com.example.taskwise_eventmaster.presentation.profile.ProfileScreen
 import com.example.taskwise_eventmaster.presentation.profile.ProfileScreenViewModel
 import com.example.taskwise_eventmaster.presentation.sign_in.SignInScreen
 import com.example.taskwise_eventmaster.presentation.sign_in.SignInViewModel
+import com.example.taskwise_eventmaster.presentation.task.TaskScreen
+import com.example.taskwise_eventmaster.presentation.task.TaskViewModel
 import com.example.taskwise_eventmaster.ui.theme.TaskWise_EventMasterTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -84,12 +88,25 @@ class MainActivity : ComponentActivity() {
                             )
                         }
 
-                        composable(PLANNING_VIEW.destinationString) {
-                            val viewModel = hiltViewModel<PlanningViewModel>()
+                        composable(TASK.destinationString) {
+
+                            val viewModel = hiltViewModel<TaskViewModel>()
                             val state = viewModel.state
 
-                            PlanningView(
-                                state=state,
+                            TaskScreen(
+                                state = state,
+                                onEvent = viewModel::onEvent,
+                                navController = navController,
+                                snackbarHostState = snackbarHostState
+                            )
+                        }
+
+                        composable(PLANNING_VIEW.destinationString) {
+                            //val viewModel = hiltViewModel<PlanningViewModel>()
+                            //val state = viewModel.state
+
+                            /*PlanningView(
+                                state = state,
 
                                 goToProfilePage = {
                                     lifecycleScope.launch {
@@ -114,9 +131,35 @@ class MainActivity : ComponentActivity() {
                                         navController.popBackStack()
                                     }
                                 }
-                            )
+                            )*/
                         }
 
+
+                        composable(GOAL.destinationString) {
+                            /*val viewModel = hiltViewModel<GoalViewModel>()
+                            val state = viewModel.state
+
+                            GoalScreen(
+                                state = state,
+                                onEvent = viewModel::onEvent,
+                                navController = navController,
+                                snackbarHostState = snackbarHostState
+                            )
+                            */
+                        }
+
+                        composable(EVENTS.destinationString) {
+
+                            /*val viewModel = hiltViewModel<EventsViewModel>()
+                            val state = viewModel.state
+
+                            EventsScreen(
+                                state = state,
+                                onEvent = viewModel::onEvent,
+                                navController = navController,
+                                snackbarHostState = snackbarHostState
+                            )*/
+                        }
 
                     }
                     SnackbarHost(hostState = snackbarHostState)

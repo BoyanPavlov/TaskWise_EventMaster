@@ -1,5 +1,6 @@
 package com.example.taskwise_eventmaster.presentation.profile
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -27,6 +28,7 @@ import com.example.taskwise_eventmaster.DestinationStrings.HOME
 import com.example.taskwise_eventmaster.DestinationStrings.SIGN_IN
 import kotlinx.coroutines.launch
 
+@SuppressLint("RestrictedApi")
 @Composable
 fun ProfileScreen(
     state: ProfileScreenState,
@@ -35,6 +37,10 @@ fun ProfileScreen(
     snackbarHostState: SnackbarHostState
 ) {
     val coroutineScope = rememberCoroutineScope()
+
+    if (state.userData == null) {
+        navController.popBackStack(SIGN_IN.destinationString, false)
+    }
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -63,18 +69,7 @@ fun ProfileScreen(
             )
             Spacer(modifier = Modifier.height(16.dp))
         }
-        Button(onClick = {
-            onEvent(ProfileScreenEvent.OnSignOut)
-
-            coroutineScope.launch {
-                snackbarHostState.showSnackbar(
-                    message = "Signed out",
-                    duration = SnackbarDuration.Short
-                )
-            }
-
-            navController.popBackStack(SIGN_IN.destinationString, false)
-        }) {
+        Button(onClick = { onEvent(ProfileScreenEvent.OnSignOut) }) {
             Text(text = "Sign out!")
         }
 

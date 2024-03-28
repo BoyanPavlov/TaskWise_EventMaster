@@ -6,10 +6,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
@@ -18,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
+
 @Composable
 fun OutlinedStar(
     modifier: Modifier = Modifier,
@@ -94,16 +91,4 @@ fun RatingBar(
             )
         }
     }
-}
-
-@Composable
-fun RatingBarUsage(rating:Int = 0) {
-    var rating_ by remember { mutableStateOf(rating) }
-
-    RatingBar(
-        currentRating = rating_,
-        onRatingChanged = { newRating ->
-            rating_ = newRating
-        }
-    )
 }
