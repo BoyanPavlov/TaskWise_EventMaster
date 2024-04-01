@@ -101,8 +101,16 @@ fun TaskCard(
                 )
             }
 
+            val estimationTime = task.estimationTime
+
+            val minutes = if (estimationTime.minute < 10) {
+                "0${estimationTime.minute}"
+            } else {
+                estimationTime.minute.toString()
+            }
+
             Text(
-                text = task.estimationTime.toString(),
+                text = "${estimationTime.year}-${estimationTime.month}-${estimationTime.dayOfMonth}, ${estimationTime.hour}:$minutes",
                 modifier = Modifier
                     .align(alignment = Alignment.CenterVertically)
                     .padding(10.dp)
