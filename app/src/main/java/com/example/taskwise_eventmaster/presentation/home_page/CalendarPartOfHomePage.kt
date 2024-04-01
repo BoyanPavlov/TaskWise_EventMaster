@@ -31,6 +31,6 @@ fun CalendarPart(modifier: Modifier = Modifier) {
             alpha = 0.3f // used for changing the opacity of the image
         )
 
-        StaticCalendar()
+        StaticCalendar(dayContent = {})
     }
 }

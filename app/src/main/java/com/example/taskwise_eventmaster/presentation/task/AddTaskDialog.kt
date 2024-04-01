@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.taskwise_eventmaster.domain.model.Task
+import com.example.taskwise_eventmaster.presentation.utils.DateTimePicker
 import java.time.LocalDateTime
 
 @Composable
@@ -121,27 +122,24 @@ fun AddTaskDialog(
                     placeholder = { Text(text = "Level of Difficulty") }
                 )
 
-                val exampleTime: LocalDateTime = LocalDateTime.now()
-
                 Text(
-                    text = "Estimated Time from: ${exampleTime}",
+                    text = "Estimated Time:",
                     color = Color.White,
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp
                 )
 
+                DateTimePicker(onSetDateTime = { selectedDateTime ->
+                    estimationTime = selectedDateTime
+                })
 
-                TextField(
-                    value = estimationTime.toString(),
-                    onValueChange = {
-                        try {
-                            estimationTime = LocalDateTime.parse(it)
-                        } catch (e: Exception) {
-                            println("estimation time kaput")
-                        }
-                    },
-                    placeholder = { Text(text = "yyyy-mm-ddThh:mm") }
+                Text(
+                    text = "Chosen Date-Time:$estimationTime",
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp
                 )
+
 
                 Box(
                     modifier = Modifier

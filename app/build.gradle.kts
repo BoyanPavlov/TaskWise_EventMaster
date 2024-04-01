@@ -94,6 +94,13 @@ dependencies {
     implementation("androidx.room:room-ktx:$room_version")
     kapt("androidx.room:room-compiler:$room_version")
 
+    //date and time picker
+    implementation("com.maxkeppeler.sheets-compose-dialogs:core:1.0.2")
+    // CALENDAR
+    implementation("com.maxkeppeler.sheets-compose-dialogs:calendar:1.0.2")
+    // CLOCK
+    implementation("com.maxkeppeler.sheets-compose-dialogs:clock:1.0.2")
+
 }
 
 kapt {
