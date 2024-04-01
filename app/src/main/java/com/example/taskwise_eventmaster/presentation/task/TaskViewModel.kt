@@ -43,8 +43,9 @@ class TaskViewModel @Inject constructor(
             is DeleteTask -> deleteTask(event)
 
             is SaveTask -> {
-                saveTask(event)
-                loadTasks()
+                saveTask(event).invokeOnCompletion {
+                    loadTasks()
+                }
             }
 
             is SortTasks -> sortTask(event)
@@ -116,13 +117,13 @@ class TaskViewModel @Inject constructor(
         }
     }
 
-    private fun saveTask(event: SaveTask) {
+    private fun saveTask(event: SaveTask) =
         viewModelScope.launch(Dispatchers.IO) {
             val task = event.task
 
             repository.saveTask(task)
         }
-    }
+
 
     private fun deleteTask(event: DeleteTask) =
         viewModelScope.launch {
@@ -151,7 +152,7 @@ class TaskViewModel @Inject constructor(
         )
     }
 
-    private fun loadTasks() {
+    private fun loadTasks() =
         viewModelScope.launch {
             val extractedTask = repository.getAllTasks()
 
@@ -159,6 +160,6 @@ class TaskViewModel @Inject constructor(
                 tasks = extractedTask
             )
         }
-    }
+
 
 }
