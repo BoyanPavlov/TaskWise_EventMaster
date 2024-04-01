@@ -1,5 +1,6 @@
 package com.example.taskwise_eventmaster.presentation.task
 
+import RatingBar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -112,14 +113,11 @@ fun AddTaskDialog(
                     fontSize = 20.sp
                 )
 
-                TextField(
-                    value = levelOfDifficulty.toString(),
-                    onValueChange = { newValue ->
-                        newValue.toIntOrNull()?.let { validInt ->
-                            levelOfDifficulty = validInt
-                        }
-                    },
-                    placeholder = { Text(text = "Level of Difficulty") }
+                RatingBar(
+                    currentRating = levelOfDifficulty,
+                    onRatingChanged = { newRating ->
+                        levelOfDifficulty = newRating
+                    }
                 )
 
                 Text(
@@ -133,8 +131,14 @@ fun AddTaskDialog(
                     estimationTime = selectedDateTime
                 })
 
+                val minutes = if (estimationTime.minute < 10) {
+                    "0${estimationTime.minute}"
+                } else {
+                    estimationTime.minute.toString()
+                }
+
                 Text(
-                    text = "Chosen Date-Time:$estimationTime",
+                    text = "Chosen Date-Time: ${estimationTime.year}-${estimationTime.month}-${estimationTime.dayOfMonth}, ${estimationTime.hour}:${minutes}",
                     color = Color.White,
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp
