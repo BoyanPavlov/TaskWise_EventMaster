@@ -40,6 +40,9 @@ fun AddTaskDialog(
     onEvent: (TaskEvent) -> Unit,
     onDismiss: () -> Unit
 ) {
+    var isValidInputTitle = false
+    var isValidInputDescription = true
+    var isValidInputLevelOfDifficulty = false
 
     var title by remember { mutableStateOf("") }
     var estimationTime by remember { mutableStateOf(LocalDateTime.now()) }
@@ -89,7 +92,10 @@ fun AddTaskDialog(
 
                 TextField(
                     value = title,
-                    onValueChange = { title = it },
+                    onValueChange = {
+                        title = it
+                        isValidInputTitle = title.length in 1..40
+                    },
                     placeholder = { Text(text = "Enter Title") }
                 )
 
@@ -102,7 +108,10 @@ fun AddTaskDialog(
 
                 TextField(
                     value = description,
-                    onValueChange = { description = it },
+                    onValueChange = {
+                        description = it
+                        isValidInputDescription = description.length <= 150
+                    },
                     placeholder = { Text(text = "(optional)") }
                 )
 
@@ -117,6 +126,7 @@ fun AddTaskDialog(
                     currentRating = levelOfDifficulty,
                     onRatingChanged = { newRating ->
                         levelOfDifficulty = newRating
+                        isValidInputLevelOfDifficulty = levelOfDifficulty in 1..5
                     }
                 )
 
@@ -144,7 +154,6 @@ fun AddTaskDialog(
                     fontSize = 20.sp
                 )
 
-
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -163,7 +172,9 @@ fun AddTaskDialog(
                                 )
                             onEvent(TaskEvent.SaveTask(task))
                             onDismiss()
-                        }) {
+                        },
+                        enabled = isValidInputTitle && isValidInputDescription && isValidInputLevelOfDifficulty
+                    ) {
                         Text(
                             text = "Save",
                             fontSize = 20.sp

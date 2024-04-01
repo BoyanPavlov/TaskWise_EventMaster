@@ -33,7 +33,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.taskwise_eventmaster.domain.model.Task
 import com.example.taskwise_eventmaster.presentation.utils.DateTimePicker
-import java.time.LocalDateTime
 
 @Composable
 fun EditTaskDialog(
@@ -41,6 +40,8 @@ fun EditTaskDialog(
     onEvent: (TaskEvent) -> Unit,
     onDismiss: () -> Unit
 ) {
+    var isValidInputTitle = true
+    var isValidInputDescription = true
 
     var title by remember { mutableStateOf(task.title) }
     var estimationTime by remember { mutableStateOf(task.estimationTime) }
@@ -90,7 +91,10 @@ fun EditTaskDialog(
 
                 TextField(
                     value = title,
-                    onValueChange = { title = it },
+                    onValueChange = {
+                        title = it
+                        isValidInputTitle = title.length in 1..40
+                    },
                     placeholder = { Text(text = "Enter Title") }
                 )
 
@@ -103,7 +107,10 @@ fun EditTaskDialog(
 
                 TextField(
                     value = description,
-                    onValueChange = { description = it },
+                    onValueChange = {
+                        description = it
+                        isValidInputDescription = description.length <= 150
+                    },
                     placeholder = { Text(text = "(optional)") }
                 )
 
@@ -166,7 +173,9 @@ fun EditTaskDialog(
                                 )
                             onEvent(TaskEvent.EditTask(editedTask))
                             onDismiss()
-                        }) {
+                        },
+                        enabled = isValidInputTitle && isValidInputDescription
+                    ) {
                         Text(
                             text = "Save changes",
                             fontSize = 20.sp
