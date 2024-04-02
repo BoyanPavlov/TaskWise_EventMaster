@@ -43,6 +43,7 @@ fun AddTaskDialog(
     var isValidInputTitle by remember { mutableStateOf(false) }
     var isValidInputDescription by remember { mutableStateOf(true) }
     var isValidInputLevelOfDifficulty by remember { mutableStateOf(false) }
+    var isValidInputDateTime by remember { mutableStateOf(false) }
 
     var title by remember { mutableStateOf("") }
     var estimationTime by remember { mutableStateOf(LocalDateTime.now()) }
@@ -114,11 +115,9 @@ fun AddTaskDialog(
                     placeholder = { Text(text = "Enter Title") }
                 )
 
-                val descriptionErrorMsg = "*Description length must be less than 150 characters*"
-
                 if (!isValidInputDescription) {
                     Text(
-                        text = descriptionErrorMsg,
+                        text = "*Description length must be less than 150 characters*",
                         color = Color.Red,
                         fontWeight = FontWeight.Bold,
                         fontSize = 15.sp
@@ -172,6 +171,24 @@ fun AddTaskDialog(
                     fontSize = 20.sp
                 )
 
+                val timeNow = LocalDateTime.now()
+
+                isValidInputDateTime =
+                    estimationTime.dayOfMonth >= timeNow.dayOfMonth &&
+                            estimationTime.month >= timeNow.month &&
+                            estimationTime.year >= timeNow.year &&
+                            estimationTime.hour >= timeNow.hour
+
+                if (!isValidInputDateTime) {
+                    Text(
+                        text = "Please pick time from the future",
+                        color = Color.Red,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp
+                    )
+                }
+
+
                 DateTimePicker(onSetDateTime = { selectedDateTime ->
                     estimationTime = selectedDateTime
                 })
@@ -208,7 +225,8 @@ fun AddTaskDialog(
                             onEvent(TaskEvent.SaveTask(task))
                             onDismiss()
                         },
-                        enabled = isValidInputTitle && isValidInputDescription && isValidInputLevelOfDifficulty
+                        enabled = isValidInputTitle && isValidInputDescription
+                                && isValidInputLevelOfDifficulty && isValidInputDateTime
                     ) {
                         Text(
                             text = "Save",

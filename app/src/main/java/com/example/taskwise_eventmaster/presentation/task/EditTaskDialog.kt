@@ -43,6 +43,7 @@ fun EditTaskDialog(
 
     var isValidInputTitle by remember { mutableStateOf(true) }
     var isValidInputDescription by remember { mutableStateOf(true) }
+    var isValidInputDateTime by remember { mutableStateOf(true) }
 
     var title by remember { mutableStateOf(task.title) }
     var estimationTime by remember { mutableStateOf(task.estimationTime) }
@@ -53,7 +54,10 @@ fun EditTaskDialog(
         onDismissRequest = {
             onDismiss()
         }) {
-        Column(modifier = Modifier.padding(15.dp)) {
+        Column(
+            modifier = Modifier
+                .padding(15.dp)
+        ) {
 
             Row(horizontalArrangement = Arrangement.Start) {
 
@@ -161,6 +165,23 @@ fun EditTaskDialog(
                     fontSize = 20.sp
                 )
 
+                val previousDate = task.estimationTime
+
+                isValidInputDateTime =
+                    estimationTime.dayOfMonth >= previousDate.dayOfMonth &&
+                            estimationTime.month >= previousDate.month &&
+                            estimationTime.year >= previousDate.year &&
+                            estimationTime.hour >= previousDate.hour
+
+
+                if (!isValidInputDateTime) {
+                    Text(
+                        text = "If you are editing a task some days after its creation, pick a new date/time from the future",
+                        color = Color.Red,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp
+                    )
+                }
 
                 DateTimePicker(onSetDateTime = { selectedDateTime ->
                     estimationTime = selectedDateTime
@@ -200,7 +221,9 @@ fun EditTaskDialog(
                             onEvent(TaskEvent.EditTask(editedTask))
                             onDismiss()
                         },
-                        enabled = isValidInputTitle && isValidInputDescription
+                        enabled = isValidInputTitle &&
+                                isValidInputDescription &&
+                                isValidInputDateTime
                     ) {
                         Text(
                             text = "Save changes",
