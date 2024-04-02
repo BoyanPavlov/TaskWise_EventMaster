@@ -38,16 +38,17 @@ import java.time.LocalDateTime
 @Composable
 fun AddTaskDialog(
     onEvent: (TaskEvent) -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
 ) {
-    var isValidInputTitle = false
-    var isValidInputDescription = true
-    var isValidInputLevelOfDifficulty = false
+    var isValidInputTitle by remember { mutableStateOf(false) }
+    var isValidInputDescription by remember { mutableStateOf(true) }
+    var isValidInputLevelOfDifficulty by remember { mutableStateOf(false) }
 
     var title by remember { mutableStateOf("") }
     var estimationTime by remember { mutableStateOf(LocalDateTime.now()) }
     var levelOfDifficulty by remember { mutableStateOf(0) }
     var description by remember { mutableStateOf("") }
+
 
     Dialog(
         onDismissRequest = {
@@ -90,14 +91,39 @@ fun AddTaskDialog(
                     fontSize = 20.sp
                 )
 
+                val titleErrorMsg = when {
+                    title.length > 40 -> "*Title length must be less than 40 characters*"
+                    else -> "*No title entered*"
+                }
+
+                if (!isValidInputTitle) {
+                    Text(
+                        text = titleErrorMsg,
+                        color = Color.Red,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp
+                    )
+                }
+
                 TextField(
                     value = title,
                     onValueChange = {
                         title = it
-                        isValidInputTitle = title.length in 1..40
+                        isValidInputTitle = title.length <= 40 && title.length > 0
                     },
                     placeholder = { Text(text = "Enter Title") }
                 )
+
+                val descriptionErrorMsg = "*Description length must be less than 150 characters*"
+
+                if (!isValidInputDescription) {
+                    Text(
+                        text = descriptionErrorMsg,
+                        color = Color.Red,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp
+                    )
+                }
 
                 Text(
                     text = "Description:",
@@ -121,6 +147,15 @@ fun AddTaskDialog(
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp
                 )
+
+                if (!isValidInputLevelOfDifficulty) {
+                    Text(
+                        text = "*Please enter level of difficulty*",
+                        color = Color.Red,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp
+                    )
+                }
 
                 RatingBar(
                     currentRating = levelOfDifficulty,

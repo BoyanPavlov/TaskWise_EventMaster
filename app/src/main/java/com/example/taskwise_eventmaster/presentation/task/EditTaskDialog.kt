@@ -38,10 +38,11 @@ import com.example.taskwise_eventmaster.presentation.utils.DateTimePicker
 fun EditTaskDialog(
     task: Task,
     onEvent: (TaskEvent) -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
 ) {
-    var isValidInputTitle = true
-    var isValidInputDescription = true
+
+    var isValidInputTitle by remember { mutableStateOf(true) }
+    var isValidInputDescription by remember { mutableStateOf(true) }
 
     var title by remember { mutableStateOf(task.title) }
     var estimationTime by remember { mutableStateOf(task.estimationTime) }
@@ -89,6 +90,20 @@ fun EditTaskDialog(
                     fontSize = 20.sp
                 )
 
+                val titleErrorMsg = when {
+                    title.length > 40 -> "*Title length must be less than 40 characters*"
+                    else -> "*No title entered*"
+                }
+
+                if (!isValidInputTitle) {
+                    Text(
+                        text = titleErrorMsg,
+                        color = Color.Red,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp
+                    )
+                }
+
                 TextField(
                     value = title,
                     onValueChange = {
@@ -97,6 +112,17 @@ fun EditTaskDialog(
                     },
                     placeholder = { Text(text = "Enter Title") }
                 )
+
+                val descriptionErrorMsg = "*Description length must be less than 150 characters*"
+
+                if (!isValidInputDescription) {
+                    Text(
+                        text = descriptionErrorMsg,
+                        color = Color.Red,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp
+                    )
+                }
 
                 Text(
                     text = "Description:",

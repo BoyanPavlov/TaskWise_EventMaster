@@ -40,7 +40,7 @@ import com.example.taskwise_eventmaster.domain.model.Task
 fun TaskCard(
     modifier: Modifier = Modifier,
     onEvent: (TaskEvent) -> Unit,
-    task: Task
+    task: Task,
 ) {
     var isEditingTask by remember { mutableStateOf(false) }
 
@@ -97,7 +97,7 @@ fun TaskCard(
                 EditTaskDialog(
                     onEvent = onEvent,
                     task = task,
-                    onDismiss = { isEditingTask = false }
+                    onDismiss = { isEditingTask = false },
                 )
             }
 
