@@ -15,7 +15,7 @@ class RoomTaskRepository @Inject constructor(
         try {
             dao.deleteTask(taskId)
         } catch (e: Exception) {
-            //print error?
+            println("Error during deleting a task")
         }
     }
 

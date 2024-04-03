@@ -15,8 +15,8 @@ interface TaskDao {
     suspend fun deleteTask(taskId: UUID)
 
     @Query("SELECT * FROM Task WHERE id=:taskId")
-    fun getTaskById(taskId: UUID):Task?
+    fun getTaskById(taskId: UUID): Task?
 
     @Query("SELECT * FROM Task")
-    fun getAllTask():List<Task>
+    fun getAllTask(): List<Task>
 }
