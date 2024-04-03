@@ -36,7 +36,6 @@ import com.example.taskwise_eventmaster.R
 import com.example.taskwise_eventmaster.presentation.sign_in.UserData
 import kotlinx.coroutines.launch
 
-
 @Composable
 fun ProfilePart(
     userData: UserData?,

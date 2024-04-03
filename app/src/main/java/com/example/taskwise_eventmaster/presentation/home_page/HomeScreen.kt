@@ -39,7 +39,7 @@ fun HomeScreen(
                 )
             }
 
-            navController.popBackStack(DestinationStrings.SIGN_IN.destinationString,false)
+            navController.popBackStack(DestinationStrings.SIGN_IN.destinationString, false)
 
             return@Column
         }

@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.taskwise_eventmaster.service.authorization.AuthService
+import com.example.taskwise_eventmaster.domain.service.authorization.AuthService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,17 +18,19 @@ class SignInViewModel @Inject constructor(
     var state by mutableStateOf(SignInState())
         private set
 
-    init {
-        state = state.copy(isUserAlreadySignedIn = authService.getSignedInUser() != null)
-    }
-
     fun onEvent(event: SignInScreenEvent) =
         when (event) {
             is SignInScreenEvent.CompleteSignIn -> resultFromSignInWithIntent(event.intent)
             is SignInScreenEvent.OnSuccessfulSignIn -> resetState()
             is SignInScreenEvent.SignButtonClicked -> signIn()
+            SignInScreenEvent.ScreenOpened -> screenOpened()
         }
 
+    private fun screenOpened() {
+        state = state.copy(
+            isUserAlreadySignedIn = authService.getSignedInUser() != null
+        )
+    }
 
     private fun signIn() {
         viewModelScope.launch {

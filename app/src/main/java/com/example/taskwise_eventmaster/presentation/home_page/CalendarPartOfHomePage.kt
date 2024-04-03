@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import com.example.taskwise_eventmaster.R
 import io.github.boguszpawlowski.composecalendar.StaticCalendar
 
-
 @Composable
 fun CalendarPart(modifier: Modifier = Modifier) {
     Box(
@@ -31,7 +30,6 @@ fun CalendarPart(modifier: Modifier = Modifier) {
             contentScale = ContentScale.Crop, //used for scaling the image
             alpha = 0.3f // used for changing the opacity of the image
         )
-
 
         StaticCalendar()
     }
