@@ -1,5 +1,6 @@
 package com.example.taskwise_eventmaster.presentation.task
 
+import RatingBar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -37,13 +38,18 @@ import java.time.LocalDateTime
 @Composable
 fun AddTaskDialog(
     onEvent: (TaskEvent) -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
 ) {
+    var isValidInputTitle by remember { mutableStateOf(false) }
+    var isValidInputDescription by remember { mutableStateOf(true) }
+    var isValidInputLevelOfDifficulty by remember { mutableStateOf(false) }
+    var isValidInputDateTime by remember { mutableStateOf(false) }
 
     var title by remember { mutableStateOf("") }
     var estimationTime by remember { mutableStateOf(LocalDateTime.now()) }
     var levelOfDifficulty by remember { mutableStateOf(0) }
     var description by remember { mutableStateOf("") }
+
 
     Dialog(
         onDismissRequest = {
@@ -86,11 +92,37 @@ fun AddTaskDialog(
                     fontSize = 20.sp
                 )
 
+                val titleErrorMsg = when {
+                    title.length > 40 -> "*Title length must be less than 40 characters*"
+                    else -> "*No title entered*"
+                }
+
+                if (!isValidInputTitle) {
+                    Text(
+                        text = titleErrorMsg,
+                        color = Color.Red,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp
+                    )
+                }
+
                 TextField(
                     value = title,
-                    onValueChange = { title = it },
+                    onValueChange = {
+                        title = it
+                        isValidInputTitle = title.length <= 40 && title.length > 0
+                    },
                     placeholder = { Text(text = "Enter Title") }
                 )
+
+                if (!isValidInputDescription) {
+                    Text(
+                        text = "*Description length must be less than 150 characters*",
+                        color = Color.Red,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp
+                    )
+                }
 
                 Text(
                     text = "Description:",
@@ -101,7 +133,10 @@ fun AddTaskDialog(
 
                 TextField(
                     value = description,
-                    onValueChange = { description = it },
+                    onValueChange = {
+                        description = it
+                        isValidInputDescription = description.length <= 150
+                    },
                     placeholder = { Text(text = "(optional)") }
                 )
 
@@ -112,14 +147,21 @@ fun AddTaskDialog(
                     fontSize = 20.sp
                 )
 
-                TextField(
-                    value = levelOfDifficulty.toString(),
-                    onValueChange = { newValue ->
-                        newValue.toIntOrNull()?.let { validInt ->
-                            levelOfDifficulty = validInt
-                        }
-                    },
-                    placeholder = { Text(text = "Level of Difficulty") }
+                if (!isValidInputLevelOfDifficulty) {
+                    Text(
+                        text = "*Please enter level of difficulty*",
+                        color = Color.Red,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp
+                    )
+                }
+
+                RatingBar(
+                    currentRating = levelOfDifficulty,
+                    onRatingChanged = { newRating ->
+                        levelOfDifficulty = newRating
+                        isValidInputLevelOfDifficulty = levelOfDifficulty in 1..5
+                    }
                 )
 
                 Text(
@@ -129,17 +171,40 @@ fun AddTaskDialog(
                     fontSize = 20.sp
                 )
 
+                val timeNow = LocalDateTime.now()
+
+                isValidInputDateTime =
+                    estimationTime.dayOfMonth >= timeNow.dayOfMonth &&
+                            estimationTime.month >= timeNow.month &&
+                            estimationTime.year >= timeNow.year &&
+                            estimationTime.hour >= timeNow.hour
+
+                if (!isValidInputDateTime) {
+                    Text(
+                        text = "Please pick time from the future",
+                        color = Color.Red,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp
+                    )
+                }
+
+
                 DateTimePicker(onSetDateTime = { selectedDateTime ->
                     estimationTime = selectedDateTime
                 })
 
+                val minutes = if (estimationTime.minute < 10) {
+                    "0${estimationTime.minute}"
+                } else {
+                    estimationTime.minute.toString()
+                }
+
                 Text(
-                    text = "Chosen Date-Time:$estimationTime",
+                    text = "Chosen Date-Time: ${estimationTime.year}-${estimationTime.month}-${estimationTime.dayOfMonth}, ${estimationTime.hour}:${minutes}",
                     color = Color.White,
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp
                 )
-
 
                 Box(
                     modifier = Modifier
@@ -159,7 +224,10 @@ fun AddTaskDialog(
                                 )
                             onEvent(TaskEvent.SaveTask(task))
                             onDismiss()
-                        }) {
+                        },
+                        enabled = isValidInputTitle && isValidInputDescription
+                                && isValidInputLevelOfDifficulty && isValidInputDateTime
+                    ) {
                         Text(
                             text = "Save",
                             fontSize = 20.sp

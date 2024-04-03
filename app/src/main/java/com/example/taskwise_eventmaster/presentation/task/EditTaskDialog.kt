@@ -1,5 +1,6 @@
 package com.example.taskwise_eventmaster.presentation.task
 
+import RatingBar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -32,14 +33,17 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.taskwise_eventmaster.domain.model.Task
 import com.example.taskwise_eventmaster.presentation.utils.DateTimePicker
-import java.time.LocalDateTime
 
 @Composable
 fun EditTaskDialog(
     task: Task,
     onEvent: (TaskEvent) -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
 ) {
+
+    var isValidInputTitle by remember { mutableStateOf(true) }
+    var isValidInputDescription by remember { mutableStateOf(true) }
+    var isValidInputDateTime by remember { mutableStateOf(true) }
 
     var title by remember { mutableStateOf(task.title) }
     var estimationTime by remember { mutableStateOf(task.estimationTime) }
@@ -50,7 +54,10 @@ fun EditTaskDialog(
         onDismissRequest = {
             onDismiss()
         }) {
-        Column(modifier = Modifier.padding(15.dp)) {
+        Column(
+            modifier = Modifier
+                .padding(15.dp)
+        ) {
 
             Row(horizontalArrangement = Arrangement.Start) {
 
@@ -87,11 +94,39 @@ fun EditTaskDialog(
                     fontSize = 20.sp
                 )
 
+                val titleErrorMsg = when {
+                    title.length > 40 -> "*Title length must be less than 40 characters*"
+                    else -> "*No title entered*"
+                }
+
+                if (!isValidInputTitle) {
+                    Text(
+                        text = titleErrorMsg,
+                        color = Color.Red,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp
+                    )
+                }
+
                 TextField(
                     value = title,
-                    onValueChange = { title = it },
+                    onValueChange = {
+                        title = it
+                        isValidInputTitle = title.length in 1..40
+                    },
                     placeholder = { Text(text = "Enter Title") }
                 )
+
+                val descriptionErrorMsg = "*Description length must be less than 150 characters*"
+
+                if (!isValidInputDescription) {
+                    Text(
+                        text = descriptionErrorMsg,
+                        color = Color.Red,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp
+                    )
+                }
 
                 Text(
                     text = "Description:",
@@ -102,7 +137,10 @@ fun EditTaskDialog(
 
                 TextField(
                     value = description,
-                    onValueChange = { description = it },
+                    onValueChange = {
+                        description = it
+                        isValidInputDescription = description.length <= 150
+                    },
                     placeholder = { Text(text = "(optional)") }
                 )
 
@@ -113,14 +151,11 @@ fun EditTaskDialog(
                     fontSize = 20.sp
                 )
 
-                TextField(
-                    value = levelOfDifficulty.toString(),
-                    onValueChange = { newValue ->
-                        newValue.toIntOrNull()?.let { validInt ->
-                            levelOfDifficulty = validInt
-                        }
-                    },
-                    placeholder = { Text(text = "Level of Difficulty") }
+                RatingBar(
+                    currentRating = levelOfDifficulty,
+                    onRatingChanged = { newRating ->
+                        levelOfDifficulty = newRating
+                    }
                 )
 
                 Text(
@@ -130,13 +165,36 @@ fun EditTaskDialog(
                     fontSize = 20.sp
                 )
 
+                val previousDate = task.estimationTime
+
+                isValidInputDateTime =
+                    estimationTime.dayOfMonth >= previousDate.dayOfMonth &&
+                            estimationTime.month >= previousDate.month &&
+                            estimationTime.year >= previousDate.year &&
+                            estimationTime.hour >= previousDate.hour
+
+
+                if (!isValidInputDateTime) {
+                    Text(
+                        text = "If you are editing a task some days after its creation, pick a new date/time from the future",
+                        color = Color.Red,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp
+                    )
+                }
 
                 DateTimePicker(onSetDateTime = { selectedDateTime ->
                     estimationTime = selectedDateTime
                 })
 
+                val minutes = if (estimationTime.minute < 10) {
+                    "0${estimationTime.minute}"
+                } else {
+                    estimationTime.minute.toString()
+                }
+
                 Text(
-                    text = "Chosen Date-Time:$estimationTime",
+                    text = "Chosen Date-Time: ${estimationTime.year}-${estimationTime.month}-${estimationTime.dayOfMonth}, ${estimationTime.hour}:${minutes}",
                     color = Color.White,
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp
@@ -162,7 +220,11 @@ fun EditTaskDialog(
                                 )
                             onEvent(TaskEvent.EditTask(editedTask))
                             onDismiss()
-                        }) {
+                        },
+                        enabled = isValidInputTitle &&
+                                isValidInputDescription &&
+                                isValidInputDateTime
+                    ) {
                         Text(
                             text = "Save changes",
                             fontSize = 20.sp
