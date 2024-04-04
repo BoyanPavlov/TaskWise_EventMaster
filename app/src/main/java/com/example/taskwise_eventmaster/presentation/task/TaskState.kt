@@ -9,6 +9,5 @@ data class TaskState(
     val sortType: SortType = SortType.TITLE_TASK,
 
     val tasks: List<Task> = emptyList(),
-
     val task: Task? = null
 )

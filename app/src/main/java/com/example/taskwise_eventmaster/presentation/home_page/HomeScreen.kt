@@ -8,6 +8,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,9 +21,14 @@ import kotlinx.coroutines.launch
 @Composable
 fun HomeScreen(
     state: HomeScreenState,
+    onEvent: (HomeScreenEvent) -> Unit,
     navController: NavHostController,
     snackbarHostState: SnackbarHostState
 ) {
+    LaunchedEffect(key1 = Unit) {
+        onEvent(HomeScreenEvent.LoadTasks)
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -50,6 +56,6 @@ fun HomeScreen(
             snackbarHostState = snackbarHostState
         )
 
-        CalendarPart()
+        CalendarPart(state = state)
     }
 }

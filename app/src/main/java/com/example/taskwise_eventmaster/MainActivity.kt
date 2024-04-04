@@ -83,6 +83,7 @@ class MainActivity : ComponentActivity() {
 
                             HomeScreen(
                                 state = state,
+                                onEvent = viewModel::onEvent,
                                 navController = navController,
                                 snackbarHostState = snackbarHostState
                             )
