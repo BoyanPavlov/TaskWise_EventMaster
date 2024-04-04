@@ -81,6 +81,7 @@ fun TaskScreen(
                 Text(text = "Back Home")
             }
 
+
         }
 
         Scaffold(
@@ -96,7 +97,7 @@ fun TaskScreen(
             if (isAddingTask) {
                 AddTaskDialog(
                     onEvent = onEvent,
-                    onDismiss = { isAddingTask = false }
+                    onDismiss = { isAddingTask = false },
                 )
             }
 
@@ -110,6 +111,5 @@ fun TaskScreen(
             }
         }
     }
-
 }
 
