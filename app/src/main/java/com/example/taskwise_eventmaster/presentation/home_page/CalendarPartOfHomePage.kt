@@ -11,14 +11,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.taskwise_eventmaster.R
-import com.example.taskwise_eventmaster.presentation.utils.MyDay
+import com.example.taskwise_eventmaster.presentation.calendar.MyDay
 import io.github.boguszpawlowski.composecalendar.StaticCalendar
 
 @Composable
 fun CalendarPart(
     modifier: Modifier = Modifier,
-    state: HomeScreenState
+    state: HomeScreenState,
+    navController: NavHostController,
 ) {
     Box(
         modifier = modifier
@@ -39,7 +41,8 @@ fun CalendarPart(
         StaticCalendar(dayContent = { dayState ->
             MyDay(
                 dayState = dayState,
-                tasks = state.tasks
+                tasks = state.tasks,
+                navController = navController
             )
         })
     }

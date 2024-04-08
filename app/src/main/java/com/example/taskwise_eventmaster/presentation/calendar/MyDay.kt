@@ -1,37 +1,36 @@
-package com.example.taskwise_eventmaster.presentation.utils
+package com.example.taskwise_eventmaster.presentation.calendar
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.taskwise_eventmaster.domain.model.Task
 import io.github.boguszpawlowski.composecalendar.day.DayState
-import io.github.boguszpawlowski.composecalendar.day.DefaultDay
 import io.github.boguszpawlowski.composecalendar.selection.EmptySelectionState
 
 @Composable
 fun MyDay(
     modifier: Modifier = Modifier,
     dayState: DayState<EmptySelectionState>,
-    tasks: List<Task>
+    tasks: List<Task>,
+    navController: NavHostController
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
 
-        DefaultDay(state = dayState)
 
-        for (task in tasks) {
+        DayCard(
+            state = dayState,
+            navController = navController,
+            tasksForTheDay = tasks
+        )
+
+        //DefaultDay(state = dayState)
+
+        /*for (task in tasks) {
 
             if (dayState.date == task.estimationTime.toLocalDate()) {
                 Row {
@@ -49,6 +48,6 @@ fun MyDay(
                     )
                 }
             }
-        }
+        }*/
     }
 }

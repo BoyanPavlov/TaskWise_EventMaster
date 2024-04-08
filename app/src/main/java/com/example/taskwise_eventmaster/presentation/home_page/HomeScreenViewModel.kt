@@ -32,6 +32,7 @@ class HomeScreenViewModel @Inject constructor(
             HomeScreenEvent.LoadTasks -> loadTasks()
         }
 
+
     private fun loadTasks() =
         viewModelScope.launch {
             val extractedTask = repository.getAllTasks()

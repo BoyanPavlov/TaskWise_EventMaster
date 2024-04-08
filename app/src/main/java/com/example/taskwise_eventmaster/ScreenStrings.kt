@@ -10,4 +10,5 @@ object DestinationStrings{
     val PROFILE = ScreenStrings("Profile Screen","profile")
     val HOME = ScreenStrings("Home Screen","home")
     val SIGN_IN = ScreenStrings("Sign in Screen","sign_in")
+    val DAY_SCREEN = ScreenStrings("Day Screen","day_screen")
 }

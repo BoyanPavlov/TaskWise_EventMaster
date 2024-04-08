@@ -49,13 +49,21 @@ fun HomeScreen(
 
             return@Column
         }
-        ProfilePart(userData = state.userData, navController = navController, snackbarHostState)
+
+        ProfilePart(
+            userData = state.userData,
+            navController = navController,
+            snackbarHostState
+        )
 
         MenuPart(
             navController = navController,
             snackbarHostState = snackbarHostState
         )
 
-        CalendarPart(state = state)
+        CalendarPart(
+            state = state,
+            navController = navController
+        )
     }
 }
