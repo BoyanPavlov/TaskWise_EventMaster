@@ -11,9 +11,12 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.taskwise_eventmaster.DestinationStrings.DAY_SCREEN
 import com.example.taskwise_eventmaster.DestinationStrings.EVENTS
 import com.example.taskwise_eventmaster.DestinationStrings.GOAL
 import com.example.taskwise_eventmaster.DestinationStrings.HOME
@@ -21,6 +24,8 @@ import com.example.taskwise_eventmaster.DestinationStrings.PLANNING_VIEW
 import com.example.taskwise_eventmaster.DestinationStrings.PROFILE
 import com.example.taskwise_eventmaster.DestinationStrings.SIGN_IN
 import com.example.taskwise_eventmaster.DestinationStrings.TASK
+import com.example.taskwise_eventmaster.presentation.calendar.CalendarViewModel
+import com.example.taskwise_eventmaster.presentation.calendar.DayScreen
 import com.example.taskwise_eventmaster.presentation.home_page.HomeScreen
 import com.example.taskwise_eventmaster.presentation.home_page.HomeScreenViewModel
 import com.example.taskwise_eventmaster.presentation.profile.ProfileScreen
@@ -31,6 +36,8 @@ import com.example.taskwise_eventmaster.presentation.task.TaskScreen
 import com.example.taskwise_eventmaster.presentation.task.TaskViewModel
 import com.example.taskwise_eventmaster.ui.theme.TaskWise_EventMasterTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.datetime.toJavaLocalDate
+import kotlinx.datetime.toLocalDate
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -78,12 +85,13 @@ class MainActivity : ComponentActivity() {
 
                         composable(HOME.destinationString) {
 
-                            val viewModel = hiltViewModel<HomeScreenViewModel>()
-                            val state = viewModel.state
+                            val homeScreenViewModel = hiltViewModel<HomeScreenViewModel>()
+                            val calendarViewModel = hiltViewModel<CalendarViewModel>()
 
                             HomeScreen(
-                                state = state,
-                                onEvent = viewModel::onEvent,
+                                homeScreenState = homeScreenViewModel.state,
+                                calendarState = calendarViewModel.state,
+                                onCalendarEvent = calendarViewModel::onEvent,
                                 navController = navController,
                                 snackbarHostState = snackbarHostState
                             )
@@ -97,6 +105,29 @@ class MainActivity : ComponentActivity() {
                             TaskScreen(
                                 state = state,
                                 onEvent = viewModel::onEvent,
+                                navController = navController,
+                                snackbarHostState = snackbarHostState
+                            )
+                        }
+
+                        composable(
+                            "${DAY_SCREEN.destinationString}/{chosenDateTime}",
+                            arguments = listOf(navArgument("chosenDateTime") {
+                                type = NavType.StringType
+                            })
+                        ) { backStackEntry ->
+                            val chosenDate =
+                                backStackEntry.arguments?.getString("chosenDateTime")
+                                    ?.toLocalDate()
+                                    ?.toJavaLocalDate()
+
+                            val viewModel = hiltViewModel<CalendarViewModel>()
+                            val state = viewModel.state
+
+                            DayScreen(
+                                state = state,
+                                onEvent = viewModel::onEvent,
+                                chosenDate = chosenDate,
                                 navController = navController,
                                 snackbarHostState = snackbarHostState
                             )

@@ -14,19 +14,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.example.taskwise_eventmaster.DestinationStrings
+import com.example.taskwise_eventmaster.presentation.calendar.CalendarView
+import com.example.taskwise_eventmaster.presentation.calendar.CalendarViewEvent
+import com.example.taskwise_eventmaster.presentation.calendar.CalendarViewState
 import kotlinx.coroutines.launch
 
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun HomeScreen(
-    state: HomeScreenState,
-    onEvent: (HomeScreenEvent) -> Unit,
+    homeScreenState: HomeScreenState,
+    calendarState: CalendarViewState,
+    onCalendarEvent: (CalendarViewEvent) -> Unit,
     navController: NavHostController,
     snackbarHostState: SnackbarHostState
 ) {
     LaunchedEffect(key1 = Unit) {
-        onEvent(HomeScreenEvent.LoadTasks)
+        onCalendarEvent(CalendarViewEvent.LoadTasks)
     }
 
     Column(
@@ -37,7 +41,7 @@ fun HomeScreen(
     ) {
         val coroutineScope = rememberCoroutineScope()
 
-        if (state.userData == null) {
+        if (homeScreenState.userData == null) {
             coroutineScope.launch {
                 snackbarHostState.showSnackbar(
                     message = "Problem with user data, please log in again",
@@ -51,9 +55,9 @@ fun HomeScreen(
         }
 
         ProfilePart(
-            userData = state.userData,
+            userData = homeScreenState.userData,
             navController = navController,
-            snackbarHostState
+            snackbarHostState = snackbarHostState
         )
 
         MenuPart(
@@ -61,8 +65,8 @@ fun HomeScreen(
             snackbarHostState = snackbarHostState
         )
 
-        CalendarPart(
-            state = state,
+        CalendarView(
+            state = calendarState,
             navController = navController
         )
     }

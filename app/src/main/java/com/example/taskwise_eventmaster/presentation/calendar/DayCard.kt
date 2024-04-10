@@ -2,11 +2,12 @@ package com.example.taskwise_eventmaster.presentation.calendar
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
@@ -18,48 +19,45 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.taskwise_eventmaster.DestinationStrings.DAY_SCREEN
 import com.example.taskwise_eventmaster.domain.model.Task
-import io.github.boguszpawlowski.composecalendar.day.DayState
-import io.github.boguszpawlowski.composecalendar.selection.SelectionState
+import java.time.LocalDate
 
 @Composable
-public fun <T : SelectionState> DayCard(
+fun DayCard(
     modifier: Modifier = Modifier,
+    isCurrentDay: Boolean,
+    date: LocalDate,
     tasksForTheDay: List<Task>,
-    state: DayState<T>,
     navController: NavHostController,
 ) {
-    val isBusyDay = tasksForTheDay.isEmpty()
-    val date = state.date
-    val selectionState = state.selectionState
-
+    val isBusyDay = !tasksForTheDay.isEmpty()
     val currentDayColor = Color.Blue
 
     Card(
         modifier = modifier
             .aspectRatio(1f)
             .padding(2.dp)
-            .background(color = Color.LightGray)
-            .clickable { navController.navigate(DAY_SCREEN.destinationString) },
-        border = if (state.isCurrentDay) BorderStroke(1.dp, currentDayColor) else null,
+            .clickable {
+                navController.navigate("${DAY_SCREEN.destinationString}/${date}")
+            },
+        border = if (isCurrentDay) BorderStroke(1.dp, currentDayColor) else null,
     ) {
         Box(
             modifier = Modifier
-                .padding(4.dp)
-                .clickable {
-                    selectionState.onDateSelected(date)
-                },
-            contentAlignment = Alignment.Center,
+                .padding(10.dp)
+                .align(Alignment.CenterHorizontally)
+                .fillMaxSize(),
         ) {
+            Text(
+                text = date.dayOfMonth.toString()
+            )
+
             if (isBusyDay) {
-                Text(
-                    text = date.dayOfMonth.toString(),
+                Box(
                     modifier = Modifier
-                        .border(width = 2.dp, Color.Black, shape = CircleShape)
-                        .background(color = Color.White)
-                )
-            } else {
-                Text(
-                    text = date.dayOfMonth.toString()
+                        .size(10.dp)
+                        .background(color = Color.Red, CircleShape)
+                        .align(Alignment.BottomEnd)
+                        .padding(4.dp)
                 )
             }
         }

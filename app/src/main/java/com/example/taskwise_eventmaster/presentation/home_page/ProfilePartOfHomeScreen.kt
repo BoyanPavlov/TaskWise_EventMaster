@@ -56,6 +56,7 @@ fun ProfilePart(
     {
 
         val coverPhoto = painterResource(id = R.drawable.cover_photo_image)
+
         Image(
             painter = coverPhoto,
             contentDescription = null,

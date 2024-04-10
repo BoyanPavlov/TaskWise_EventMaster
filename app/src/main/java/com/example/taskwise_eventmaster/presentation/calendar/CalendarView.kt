@@ -1,4 +1,4 @@
-package com.example.taskwise_eventmaster.presentation.home_page
+package com.example.taskwise_eventmaster.presentation.calendar
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -13,13 +13,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.taskwise_eventmaster.R
-import com.example.taskwise_eventmaster.presentation.calendar.MyDay
 import io.github.boguszpawlowski.composecalendar.StaticCalendar
 
 @Composable
-fun CalendarPart(
+fun CalendarView(
     modifier: Modifier = Modifier,
-    state: HomeScreenState,
+    state: CalendarViewState,
     navController: NavHostController,
 ) {
     Box(
@@ -39,10 +38,18 @@ fun CalendarPart(
 
 
         StaticCalendar(dayContent = { dayState ->
-            MyDay(
-                dayState = dayState,
-                tasks = state.tasks,
-                navController = navController
+
+            val tasksForTheDay = state.tasks.filter { task ->
+                dayState.date.dayOfMonth == task.estimationTime.dayOfMonth &&
+                        dayState.date.month == task.estimationTime.month &&
+                        dayState.date.year == task.estimationTime.year
+            }
+
+            DayCard(
+                isCurrentDay = dayState.isCurrentDay,
+                date = dayState.date,
+                navController = navController,
+                tasksForTheDay = tasksForTheDay,
             )
         })
     }
