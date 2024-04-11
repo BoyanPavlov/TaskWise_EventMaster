@@ -37,7 +37,7 @@ import com.example.taskwise_eventmaster.presentation.calendar.DateTimePicker
 @Composable
 fun EditTaskDialog(
     task: Task,
-    onEvent: (TaskEvent) -> Unit,
+    onSave: (Task) -> Unit,
     onDismiss: () -> Unit,
 ) {
 
@@ -218,7 +218,7 @@ fun EditTaskDialog(
                                     id = task.id,
                                     checkedAsDone = task.checkedAsDone
                                 )
-                            onEvent(TaskEvent.EditTask(editedTask))
+                            onSave(editedTask)
                             onDismiss()
                         },
                         enabled = isValidInputTitle &&

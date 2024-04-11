@@ -95,8 +95,8 @@ fun TaskCard(
 
             if (isEditingTask) {
                 EditTaskDialog(
-                    onEvent = onEvent,
                     task = task,
+                    onSave = { TaskEvent.EditTask(it) },
                     onDismiss = { isEditingTask = false },
                 )
             }

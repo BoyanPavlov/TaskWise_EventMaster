@@ -121,6 +121,11 @@ class MainActivity : ComponentActivity() {
                                     ?.toLocalDate()
                                     ?.toJavaLocalDate()
 
+                            if (chosenDate == null) {
+                                navController.popBackStack()
+                                return@composable
+                            }
+
                             val viewModel = hiltViewModel<CalendarViewModel>()
                             val state = viewModel.state
 
@@ -131,6 +136,7 @@ class MainActivity : ComponentActivity() {
                                 navController = navController,
                                 snackbarHostState = snackbarHostState
                             )
+
                         }
 
                         composable(PLANNING_VIEW.destinationString) {
