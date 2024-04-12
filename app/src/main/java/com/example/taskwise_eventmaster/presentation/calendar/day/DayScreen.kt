@@ -17,6 +17,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,6 +35,7 @@ import com.example.taskwise_eventmaster.R
 import com.example.taskwise_eventmaster.domain.model.Task
 import com.example.taskwise_eventmaster.presentation.calendar.CalendarViewEvent
 import com.example.taskwise_eventmaster.presentation.calendar.CalendarViewState
+import com.example.taskwise_eventmaster.presentation.task.EditTaskDialog
 import java.time.LocalDate
 
 @Composable
@@ -92,12 +97,14 @@ fun DayScreen(
                     )
                 })
 
+                var editingTask by remember { mutableStateOf<Task?>(null) }
+
                 LazyColumn {
 
                     items((0..23).toList()) { hour ->
 
                         val isBusyHour =
-                            tasks.find { task -> task.estimationTime.hour == hour } != null
+                            state.tasksForTheDay.find { task -> task.estimationTime.hour == hour } != null
 
                         Row(
                             modifier = Modifier
@@ -137,7 +144,7 @@ fun DayScreen(
                                             modifier = Modifier
                                                 .padding(vertical = 2.dp)
                                                 .clickable {
-
+                                                    editingTask = task
                                                 },
                                             text = task.title,
                                             fontWeight = FontWeight.Bold,
@@ -149,15 +156,13 @@ fun DayScreen(
                     }
                 }
 
-                /*var editingTask by remember { mutableStateOf<Task?>(null) }
-
                 if (editingTask != null) {
                     EditTaskDialog(
-                        task = editingTask,
-                        onSave = { TaskEvent.EditTask(it) },
+                        task = editingTask!!,
+                        onSave = { onEvent(CalendarViewEvent.EditTask(it)) },
                         onDismiss = { editingTask = null },
                     )
-                }*/
+                }
             }
         }
     }
