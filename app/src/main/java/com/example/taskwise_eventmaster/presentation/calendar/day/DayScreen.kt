@@ -1,4 +1,4 @@
-package com.example.taskwise_eventmaster.presentation.calendar
+package com.example.taskwise_eventmaster.presentation.calendar.day
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -29,6 +29,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.taskwise_eventmaster.R
 import com.example.taskwise_eventmaster.domain.model.Task
+import com.example.taskwise_eventmaster.presentation.calendar.CalendarViewEvent
+import com.example.taskwise_eventmaster.presentation.calendar.CalendarViewState
 import java.time.LocalDate
 
 @Composable

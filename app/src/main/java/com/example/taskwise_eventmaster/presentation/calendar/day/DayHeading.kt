@@ -1,4 +1,4 @@
-package com.example.taskwise_eventmaster.presentation.calendar
+package com.example.taskwise_eventmaster.presentation.calendar.day
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

@@ -25,7 +25,7 @@ import com.example.taskwise_eventmaster.DestinationStrings.PROFILE
 import com.example.taskwise_eventmaster.DestinationStrings.SIGN_IN
 import com.example.taskwise_eventmaster.DestinationStrings.TASK
 import com.example.taskwise_eventmaster.presentation.calendar.CalendarViewModel
-import com.example.taskwise_eventmaster.presentation.calendar.DayScreen
+import com.example.taskwise_eventmaster.presentation.calendar.day.DayScreen
 import com.example.taskwise_eventmaster.presentation.home_page.HomeScreen
 import com.example.taskwise_eventmaster.presentation.home_page.HomeScreenViewModel
 import com.example.taskwise_eventmaster.presentation.profile.ProfileScreen
