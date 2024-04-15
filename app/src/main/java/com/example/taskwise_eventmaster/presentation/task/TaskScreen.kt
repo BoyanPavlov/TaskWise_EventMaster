@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.taskwise_eventmaster.DestinationStrings.HOME
 import com.example.taskwise_eventmaster.presentation.task.TaskEvent.*
+import com.example.taskwise_eventmaster.presentation.utils.RadioButtons
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -81,8 +82,16 @@ fun TaskScreen(
                 Text(text = "Back Home")
             }
 
-
         }
+
+        RadioButtons(
+            modifier = Modifier
+                .border(5.dp, color = Color.Black)
+                .padding(2.dp)
+                .fillMaxWidth(),
+            sortType = state.sortType,
+            onEvent = onEvent
+        )
 
         Scaffold(
             modifier = Modifier

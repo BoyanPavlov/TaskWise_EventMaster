@@ -35,7 +35,9 @@ class TaskViewModel @Inject constructor(
             userData = authService.getSignedInUser()
         )
 
-        loadTasks()
+        loadTasks().invokeOnCompletion {
+            sortTask(state.sortType)
+        }
     }
 
     fun onEvent(event: TaskEvent) {
@@ -44,7 +46,9 @@ class TaskViewModel @Inject constructor(
 
             is SaveTask -> {
                 saveTask(event).invokeOnCompletion {
-                    loadTasks()
+                    loadTasks().invokeOnCompletion {
+                        sortTask(state.sortType)
+                    }
                 }
             }
 
@@ -57,7 +61,9 @@ class TaskViewModel @Inject constructor(
             is ChangeLevelOfDifficulty -> changeLevelOfDifficulty(event)
 
             is EditTask -> {
-                editTask(event)
+                editTask(event).invokeOnCompletion {
+                    sortTask(state.sortType)
+                }
             }
         }
     }
@@ -67,7 +73,7 @@ class TaskViewModel @Inject constructor(
             .find { it.id == taskId }
     }
 
-    private fun replaceAndSave(task: Task) {
+    private fun replaceAndSave(task: Task) =
         viewModelScope.launch {
 
             findTask(task.id)?.let { element ->
@@ -85,11 +91,11 @@ class TaskViewModel @Inject constructor(
                 repository.saveTask(task)
             }
         }
-    }
 
-    private fun editTask(event: EditTask) {
+
+    private fun editTask(event: EditTask) =
         replaceAndSave(event.task)
-    }
+
 
     private fun changeLevelOfDifficulty(event: ChangeLevelOfDifficulty) {
         viewModelScope.launch {
@@ -139,17 +145,23 @@ class TaskViewModel @Inject constructor(
             }
         }
 
-    private fun sortTask(event: SortTasks) {
+    private fun sortTask(sortType: SortType) {
+        viewModelScope.launch {
+            val sortedTasks = when (sortType) {
+                SortType.TITLE_TASK -> state.tasks.sortedBy { it.title }
+                SortType.ESTIMATION_TIME -> state.tasks.sortedBy { it.estimationTime }
+            }
 
-        val sortedTasks = when (event.sortType) {
-            SortType.TITLE_TASK -> state.tasks.sortedBy { it.title }
-            SortType.ESTIMATION_TIME -> state.tasks.sortedBy { it.estimationTime }
+            state = state.copy(
+                sortType = sortType,
+                tasks = sortedTasks
+            )
         }
+    }
 
-        state = state.copy(
-            sortType = event.sortType,
-            tasks = sortedTasks
-        )
+
+    private fun sortTask(event: SortTasks) {
+        sortTask(event.sortType)
     }
 
     private fun loadTasks() =
@@ -160,6 +172,4 @@ class TaskViewModel @Inject constructor(
                 tasks = extractedTask
             )
         }
-
-
 }
