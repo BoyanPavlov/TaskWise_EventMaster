@@ -1,4 +1,4 @@
-package com.example.taskwise_eventmaster.presentation.calendar.day
+package com.example.taskwise_eventmaster.presentation.day
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -33,8 +33,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.taskwise_eventmaster.R
 import com.example.taskwise_eventmaster.domain.model.Task
-import com.example.taskwise_eventmaster.presentation.calendar.CalendarViewEvent
-import com.example.taskwise_eventmaster.presentation.calendar.CalendarViewState
 import com.example.taskwise_eventmaster.presentation.task.EditTaskDialog
 import java.time.LocalDate
 
@@ -42,18 +40,11 @@ import java.time.LocalDate
 fun DayScreen(
     modifier: Modifier = Modifier,
     chosenDate: LocalDate,
-    state: CalendarViewState,
-    onEvent: (CalendarViewEvent) -> Unit,
+    state: DayState,
+    onEvent: (DayEvent) -> Unit,
     navController: NavHostController,
     snackbarHostState: SnackbarHostState
 ) {
-
-    //TODO it's not  screen's  job to filter tasks
-    val tasks = state.tasks.filter { task: Task ->
-        task.estimationTime.dayOfMonth == chosenDate.dayOfMonth &&
-                task.estimationTime.month == chosenDate.month &&
-                task.estimationTime.year == chosenDate.year
-    }
 
     Column {
 
@@ -103,8 +94,7 @@ fun DayScreen(
 
                     items((0..23).toList()) { hour ->
 
-                        val isBusyHour =
-                            state.tasksForTheDay.find { task -> task.estimationTime.hour == hour } != null
+                        val isBusyHour = state.tasksForTheDay.find { task -> task.estimationTime.hour == hour } != null
 
                         Row(
                             modifier = Modifier
@@ -138,7 +128,7 @@ fun DayScreen(
                             )
 
                             Column(modifier = Modifier.fillMaxWidth()) {
-                                tasks.filter { it.estimationTime.hour == hour }
+                                state.tasksForTheDay.filter { it.estimationTime.hour == hour }
                                     .forEach { task ->
                                         Text(
                                             modifier = Modifier
@@ -159,7 +149,7 @@ fun DayScreen(
                 if (editingTask != null) {
                     EditTaskDialog(
                         task = editingTask!!,
-                        onSave = { onEvent(CalendarViewEvent.EditTask(it)) },
+                        onSave = { onEvent(DayEvent.EditTask(it)) },
                         onDismiss = { editingTask = null },
                     )
                 }

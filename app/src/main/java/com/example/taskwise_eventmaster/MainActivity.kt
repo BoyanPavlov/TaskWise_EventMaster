@@ -25,7 +25,8 @@ import com.example.taskwise_eventmaster.DestinationStrings.PROFILE
 import com.example.taskwise_eventmaster.DestinationStrings.SIGN_IN
 import com.example.taskwise_eventmaster.DestinationStrings.TASK
 import com.example.taskwise_eventmaster.presentation.calendar.CalendarViewModel
-import com.example.taskwise_eventmaster.presentation.calendar.day.DayScreen
+import com.example.taskwise_eventmaster.presentation.day.DayScreen
+import com.example.taskwise_eventmaster.presentation.day.DayViewModel
 import com.example.taskwise_eventmaster.presentation.home_page.HomeScreen
 import com.example.taskwise_eventmaster.presentation.home_page.HomeScreenViewModel
 import com.example.taskwise_eventmaster.presentation.profile.ProfileScreen
@@ -111,13 +112,13 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable(
-                            "${DAY_SCREEN.destinationString}/{chosenDateTime}",
-                            arguments = listOf(navArgument("chosenDateTime") {
+                            "${DAY_SCREEN.destinationString}/{chosenDate}",
+                            arguments = listOf(navArgument("chosenDate") {
                                 type = NavType.StringType
                             })
                         ) { backStackEntry ->
                             val chosenDate =
-                                backStackEntry.arguments?.getString("chosenDateTime")
+                                backStackEntry.arguments?.getString("chosenDate")
                                     ?.toLocalDate()
                                     ?.toJavaLocalDate()
 
@@ -126,7 +127,7 @@ class MainActivity : ComponentActivity() {
                                 return@composable
                             }
 
-                            val viewModel = hiltViewModel<CalendarViewModel>()
+                            val viewModel = hiltViewModel<DayViewModel>()
                             val state = viewModel.state
 
                             DayScreen(
