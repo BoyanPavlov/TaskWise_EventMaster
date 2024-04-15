@@ -16,6 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.taskwise_eventmaster.DestinationStringArguments.CHOSEN_DATE
 import com.example.taskwise_eventmaster.DestinationStrings.DAY_SCREEN
 import com.example.taskwise_eventmaster.DestinationStrings.EVENTS
 import com.example.taskwise_eventmaster.DestinationStrings.GOAL
@@ -112,13 +113,13 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable(
-                            "${DAY_SCREEN.destinationString}/{chosenDate}",
-                            arguments = listOf(navArgument("chosenDate") {
+                            "${DAY_SCREEN.destinationString}/{${CHOSEN_DATE}}",
+                            arguments = listOf(navArgument(CHOSEN_DATE) {
                                 type = NavType.StringType
                             })
                         ) { backStackEntry ->
                             val chosenDate =
-                                backStackEntry.arguments?.getString("chosenDate")
+                                backStackEntry.arguments?.getString(CHOSEN_DATE)
                                     ?.toLocalDate()
                                     ?.toJavaLocalDate()
 

@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.taskwise_eventmaster.DestinationStringArguments.CHOSEN_DATE
 import com.example.taskwise_eventmaster.domain.model.Task
 import com.example.taskwise_eventmaster.domain.repository.TaskRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,7 +28,7 @@ class DayViewModel @Inject constructor(
         private set
 
     init {
-        val argument = savedStateHandle.get<String>("chosenDate").orEmpty()
+        val argument = savedStateHandle.get<String>(CHOSEN_DATE).orEmpty()
 
         if (!argument.isEmpty()) {
             val chosenDay = argument.toLocalDate().toJavaLocalDate()

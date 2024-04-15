@@ -12,3 +12,7 @@ object DestinationStrings{
     val SIGN_IN = ScreenStrings("Sign in Screen","sign_in")
     val DAY_SCREEN = ScreenStrings("Day Screen","day_screen")
 }
+
+object DestinationStringArguments{
+    val CHOSEN_DATE = "chosenDate"
+}
