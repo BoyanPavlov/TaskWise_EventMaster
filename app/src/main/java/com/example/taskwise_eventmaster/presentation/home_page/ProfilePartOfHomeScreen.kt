@@ -38,10 +38,10 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ProfilePart(
+    modifier: Modifier = Modifier,
     userData: UserData?,
     navController: NavController,
     snackbarHostState: SnackbarHostState,
-    modifier: Modifier = Modifier
 ) {
     val coroutineScope = rememberCoroutineScope()
 

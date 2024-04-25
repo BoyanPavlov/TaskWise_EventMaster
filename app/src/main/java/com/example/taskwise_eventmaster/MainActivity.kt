@@ -28,6 +28,8 @@ import com.example.taskwise_eventmaster.DestinationStrings.TASK
 import com.example.taskwise_eventmaster.presentation.calendar.CalendarViewModel
 import com.example.taskwise_eventmaster.presentation.day.DayScreen
 import com.example.taskwise_eventmaster.presentation.day.DayViewModel
+import com.example.taskwise_eventmaster.presentation.events_screen.EventsScreen
+import com.example.taskwise_eventmaster.presentation.events_screen.EventsViewModel
 import com.example.taskwise_eventmaster.presentation.home_page.HomeScreen
 import com.example.taskwise_eventmaster.presentation.home_page.HomeScreenViewModel
 import com.example.taskwise_eventmaster.presentation.profile.ProfileScreen
@@ -190,7 +192,7 @@ class MainActivity : ComponentActivity() {
 
                         composable(EVENTS.destinationString) {
 
-                            /*val viewModel = hiltViewModel<EventsViewModel>()
+                            val viewModel = hiltViewModel<EventsViewModel>()
                             val state = viewModel.state
 
                             EventsScreen(
@@ -198,7 +200,7 @@ class MainActivity : ComponentActivity() {
                                 onEvent = viewModel::onEvent,
                                 navController = navController,
                                 snackbarHostState = snackbarHostState
-                            )*/
+                            )
                         }
 
                     }
