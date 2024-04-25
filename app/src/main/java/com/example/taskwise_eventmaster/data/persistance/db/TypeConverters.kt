@@ -1,4 +1,4 @@
-package com.example.taskwise_eventmaster.data.db
+package com.example.taskwise_eventmaster.data.persistance.db
 
 import androidx.room.TypeConverter
 import kotlinx.datetime.toJavaLocalDateTime

@@ -2,8 +2,8 @@ package com.example.taskwise_eventmaster.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.taskwise_eventmaster.data.daos.TaskDao
-import com.example.taskwise_eventmaster.data.db.Database
+import com.example.taskwise_eventmaster.data.persistance.daos.TaskDao
+import com.example.taskwise_eventmaster.data.persistance.db.Database
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
