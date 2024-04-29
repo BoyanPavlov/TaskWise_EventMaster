@@ -1,7 +1,6 @@
 package com.example.taskwise_eventmaster.presentation.events_screen
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -15,11 +14,7 @@ import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,17 +34,16 @@ fun EventsScreen(
     snackbarHostState: SnackbarHostState
 ) {
     val coroutineScope = rememberCoroutineScope()
-    var openedDetailedView by remember { mutableStateOf(false) }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(0.15f)
-                .border(5.dp, color = Color.Black)
+                .border(3.dp, color = Color.Black)
                 .padding(8.dp)
         )
         {
@@ -76,19 +70,10 @@ fun EventsScreen(
             }
         }
 
-        if (openedDetailedView) {
-            EventCardDetaills(
-                onEvent = onEvent,
-                onDismiss = { openedDetailedView = false },
-            )
-        }
-
-        LazyColumn {
+        LazyColumn(modifier = Modifier.border(2.dp, color = Color.Black)) {
             items(state.events) { event ->
+
                 EventCard(
-                    modifier = Modifier.clickable {
-                        openedDetailedView = true
-                    },
                     event = event,
                     onEvent = onEvent,
                 )

@@ -23,17 +23,19 @@ class EventsViewModel @Inject constructor(
 
     fun onEvent(event: EventsScreenEvent) {
         when (event) {
-            else -> {}
+            is EventsScreenEvent.SaveEventInCalendar -> TODO()
         }
     }
 
     private fun fetchEventInfo() {
+
         viewModelScope.launch {
-            val extractedEvents = repository.getAllEvents()
+            val extractedEvents = repository.getAllEventsRemote()
 
             state = state.copy(
                 events = extractedEvents
             )
         }
+
     }
 }

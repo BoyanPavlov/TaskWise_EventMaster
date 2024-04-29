@@ -1,6 +1,6 @@
 package com.example.taskwise_eventmaster.domain.repository
 
-import com.example.taskwise_eventmaster.data.network.datasources.OkHttpEventDataSource
+import com.example.taskwise_eventmaster.data.network.datasources.RemoteEventDataSource
 import com.example.taskwise_eventmaster.domain.model.Event
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -9,7 +9,7 @@ import kotlinx.datetime.toLocalDateTime
 import javax.inject.Inject
 
 class OkHttpEventRepository @Inject constructor(
-    private val dataSource: OkHttpEventDataSource
+    private val dataSource: RemoteEventDataSource
 ) : EventRepository {
     override suspend fun saveEventLocal(id: Int) {
         TODO("Not yet implemented")
@@ -17,7 +17,7 @@ class OkHttpEventRepository @Inject constructor(
 
     override suspend fun getEventRemote(eventId: Int): Event? = withContext(Dispatchers.IO) {
         try {
-            val eventPe = dataSource.getEventsInfo()?.events?.find { event -> event.id==eventId }
+            val eventPe = dataSource.getEvents()?.events?.find { event -> event.id == eventId }
 
             eventPe?.let {
                 Event(
@@ -42,8 +42,8 @@ class OkHttpEventRepository @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun getAllEvents(): List<Event> = withContext(Dispatchers.IO) {
-        val collectionOfEvents = dataSource.getEventsInfo()
+    override suspend fun getAllEventsRemote(): List<Event> = withContext(Dispatchers.IO) {
+        val collectionOfEvents = dataSource.getEvents()
         collectionOfEvents?.events?.map { event ->
             Event(
                 id = event.id,
@@ -57,5 +57,9 @@ class OkHttpEventRepository @Inject constructor(
             )
         }
             ?: emptyList()
+    }
+
+    override suspend fun getAllEventsLocal(): List<Event> {
+        TODO("Not yet implemented")
     }
 }

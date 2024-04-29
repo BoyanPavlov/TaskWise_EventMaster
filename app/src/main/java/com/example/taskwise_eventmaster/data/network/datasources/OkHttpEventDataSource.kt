@@ -7,9 +7,24 @@ import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object OkHttpEventDataSource {
+@Singleton
+class OkHttpEventDataSource @Inject constructor() : RemoteEventDataSource {
     private val client = OkHttpClient()
+
+    override suspend fun getEvents(): EventResponse? {
+        val result = getEventsInfoString()
+
+        return try {
+            val gson = Gson()
+            val event = gson.fromJson(result, EventResponse::class.java)
+            event
+        } catch (e: Exception) {
+            null
+        }
+    }
 
     private suspend fun getEventsInfoString(): String? = withContext(Dispatchers.IO) {
         val request = Request.Builder()
@@ -27,25 +42,4 @@ object OkHttpEventDataSource {
             null
         }
     }
-
-    suspend fun getEventsInfo(): EventResponse? {
-        val result = getEventsInfoString()
-
-        return try {
-            val gson = Gson()
-            val event = gson.fromJson(result, EventResponse::class.java)
-            event
-        }
-        catch (e:Exception){
-            null
-        }
-    }
-
 }
-
-/*
-suspend fun main() {
-    val eventInfo = OkHttpEventDataSource.getEventsInfo()
-
-    println(eventInfo)
-}*/

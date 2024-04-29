@@ -9,5 +9,6 @@ interface EventRepository {
 
     suspend fun getEventRemote(eventId: Int): Event?
 
-    suspend fun getAllEvents(): List<Event>
+    suspend fun getAllEventsRemote(): List<Event>
+    suspend fun getAllEventsLocal(): List<Event>
 }
