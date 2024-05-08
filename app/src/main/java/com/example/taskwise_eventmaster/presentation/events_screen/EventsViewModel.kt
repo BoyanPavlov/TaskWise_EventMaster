@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.taskwise_eventmaster.domain.repository.EventRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,7 +24,13 @@ class EventsViewModel @Inject constructor(
 
     fun onEvent(event: EventsScreenEvent) {
         when (event) {
-            is EventsScreenEvent.SaveEventInCalendar -> TODO()
+            is EventsScreenEvent.SaveEventInCalendar -> saveEventInCalendar(event)
+        }
+    }
+
+    private fun saveEventInCalendar(event: EventsScreenEvent.SaveEventInCalendar) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.saveEventLocal(event.event)
         }
     }
 
@@ -36,6 +43,5 @@ class EventsViewModel @Inject constructor(
                 events = extractedEvents
             )
         }
-
     }
 }

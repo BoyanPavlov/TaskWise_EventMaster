@@ -1,7 +1,7 @@
 package com.example.taskwise_eventmaster.di
 
 import com.example.taskwise_eventmaster.domain.repository.EventRepository
-import com.example.taskwise_eventmaster.domain.repository.OkHttpEventRepository
+import com.example.taskwise_eventmaster.domain.repository.RoomEventRepository
 import com.example.taskwise_eventmaster.domain.repository.RoomTaskRepository
 import com.example.taskwise_eventmaster.domain.repository.TaskRepository
 import dagger.Binds
@@ -20,6 +20,6 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindEventRepositoryImpl(
-        eventOkHttpRepository: OkHttpEventRepository
+        roomEventRepository: RoomEventRepository
     ): EventRepository
 }
