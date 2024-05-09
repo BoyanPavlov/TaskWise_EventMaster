@@ -1,4 +1,4 @@
-package com.example.taskwise_eventmaster.presentation.home_page
+package com.example.taskwise_eventmaster.presentation.calendar
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -11,11 +11,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.taskwise_eventmaster.R
+import com.example.taskwise_eventmaster.presentation.day.DayCard
 import io.github.boguszpawlowski.composecalendar.StaticCalendar
 
 @Composable
-fun CalendarPart(modifier: Modifier = Modifier) {
+fun CalendarView(
+    modifier: Modifier = Modifier,
+    state: CalendarViewState,
+    navController: NavHostController,
+) {
     Box(
         modifier = modifier
             .padding(top = 3.dp)
@@ -31,6 +37,23 @@ fun CalendarPart(modifier: Modifier = Modifier) {
             alpha = 0.3f // used for changing the opacity of the image
         )
 
-        StaticCalendar()
+
+        StaticCalendar(dayContent = { dayState ->
+
+            val tasksForTheDay = state.tasks.filter { task ->
+                dayState.date.dayOfMonth == task.estimationTime.dayOfMonth &&
+                        dayState.date.month == task.estimationTime.month &&
+                        dayState.date.year == task.estimationTime.year
+            }
+
+            DayCard(
+                isCurrentDay = dayState.isCurrentDay,
+                date = dayState.date,
+                navController = navController,
+                tasksForTheDay = tasksForTheDay,
+            )
+        })
     }
 }
+// list of days  if day is -- make it red/black;
+// On click on colored day -- show dialog;

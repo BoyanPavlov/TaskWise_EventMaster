@@ -32,12 +32,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.taskwise_eventmaster.domain.model.Task
-import com.example.taskwise_eventmaster.presentation.utils.DateTimePicker
+import com.example.taskwise_eventmaster.presentation.calendar.DateTimePicker
+import java.time.LocalDateTime
 
 @Composable
 fun EditTaskDialog(
     task: Task,
-    onEvent: (TaskEvent) -> Unit,
+    onSave: (Task) -> Unit,
     onDismiss: () -> Unit,
 ) {
 
@@ -166,13 +167,21 @@ fun EditTaskDialog(
                 )
 
                 val previousDate = task.estimationTime
+                val currentDateTime = LocalDateTime.now()
 
                 isValidInputDateTime =
-                    estimationTime.dayOfMonth >= previousDate.dayOfMonth &&
+                    (estimationTime.dayOfMonth >= previousDate.dayOfMonth &&
                             estimationTime.month >= previousDate.month &&
                             estimationTime.year >= previousDate.year &&
-                            estimationTime.hour >= previousDate.hour
+                            estimationTime.hour >= previousDate.hour) ||
 
+                            (estimationTime.dayOfMonth > previousDate.dayOfMonth &&
+                                    estimationTime.month >= previousDate.month &&
+                                    estimationTime.year >= previousDate.year) ||
+
+                            (estimationTime.dayOfMonth >= currentDateTime.dayOfMonth &&
+                                    estimationTime.month >= currentDateTime.month &&
+                                    estimationTime.year >= currentDateTime.year)
 
                 if (!isValidInputDateTime) {
                     Text(
@@ -218,7 +227,7 @@ fun EditTaskDialog(
                                     id = task.id,
                                     checkedAsDone = task.checkedAsDone
                                 )
-                            onEvent(TaskEvent.EditTask(editedTask))
+                            onSave(editedTask)
                             onDismiss()
                         },
                         enabled = isValidInputTitle &&

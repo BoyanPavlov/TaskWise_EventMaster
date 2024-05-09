@@ -8,21 +8,31 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.example.taskwise_eventmaster.DestinationStrings
+import com.example.taskwise_eventmaster.presentation.calendar.CalendarView
+import com.example.taskwise_eventmaster.presentation.calendar.CalendarViewEvent
+import com.example.taskwise_eventmaster.presentation.calendar.CalendarViewState
 import kotlinx.coroutines.launch
 
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun HomeScreen(
-    state: HomeScreenState,
+    homeScreenState: HomeScreenState,
+    calendarState: CalendarViewState,
+    onCalendarEvent: (CalendarViewEvent) -> Unit,
     navController: NavHostController,
     snackbarHostState: SnackbarHostState
 ) {
+    LaunchedEffect(key1 = Unit) {
+        onCalendarEvent(CalendarViewEvent.LoadTasks)
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -31,7 +41,7 @@ fun HomeScreen(
     ) {
         val coroutineScope = rememberCoroutineScope()
 
-        if (state.userData == null) {
+        if (homeScreenState.userData == null) {
             coroutineScope.launch {
                 snackbarHostState.showSnackbar(
                     message = "Problem with user data, please log in again",
@@ -43,13 +53,21 @@ fun HomeScreen(
 
             return@Column
         }
-        ProfilePart(userData = state.userData, navController = navController, snackbarHostState)
+
+        ProfilePart(
+            userData = homeScreenState.userData,
+            navController = navController,
+            snackbarHostState = snackbarHostState
+        )
 
         MenuPart(
             navController = navController,
             snackbarHostState = snackbarHostState
         )
 
-        CalendarPart()
+        CalendarView(
+            state = calendarState,
+            navController = navController
+        )
     }
 }

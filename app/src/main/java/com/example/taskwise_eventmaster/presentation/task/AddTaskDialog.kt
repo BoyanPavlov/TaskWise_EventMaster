@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.taskwise_eventmaster.domain.model.Task
-import com.example.taskwise_eventmaster.presentation.utils.DateTimePicker
+import com.example.taskwise_eventmaster.presentation.calendar.DateTimePicker
 import java.time.LocalDateTime
 
 @Composable

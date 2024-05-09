@@ -1,4 +1,4 @@
-package com.example.taskwise_eventmaster.presentation.utils
+package com.example.taskwise_eventmaster.presentation.calendar
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.example.taskwise_eventmaster.presentation.task.TaskEvent
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
 import com.maxkeppeler.sheets.calendar.models.CalendarConfig
@@ -27,7 +26,7 @@ import java.time.LocalTime
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DateTimePicker(
-    onSetDateTime:(LocalDateTime) ->Unit
+    onSetDateTime: (LocalDateTime) -> Unit
 ) {
 
     val calendarState = rememberSheetState()
