@@ -89,7 +89,6 @@ fun EventCardDetails(
                         .padding(1.dp),
                     text = "When: ${event.dateTime_Utc.year}-${event.dateTime_Utc.month}-${event.dateTime_Utc.dayOfMonth}, ${event.dateTime_Utc.hour}:${minutes}",
                     fontWeight = FontWeight.Bold,
-                    //letterSpacing = 20.sp,
                     lineHeight = 30.sp,
                     color = Color.White,
                     fontFamily = FontFamily.SansSerif,
