@@ -9,5 +9,6 @@ data class Task(
     val estimationTime: LocalDateTime = LocalDateTime.now(),
     val levelOfDifficulty: Int = 0,
     val description: String = "",
-    val checkedAsDone: Boolean = false
+    val checkedAsDone: Boolean = false,
+    val eventId: Int? = null
 )

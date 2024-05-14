@@ -27,7 +27,8 @@ class RoomTaskRepository @Inject constructor(
                 levelOfDifficulty = task.levelOfDifficulty,
                 description = task.description,
                 id = task.id,
-                checkedAsDone = task.checkedAsDone
+                checkedAsDone = task.checkedAsDone,
+                eventId = task.eventId
             )
 
             dao.upsertTask(taskPe)
@@ -47,7 +48,8 @@ class RoomTaskRepository @Inject constructor(
                     levelOfDifficulty = taskPe.levelOfDifficulty,
                     description = taskPe.description,
                     id = taskPe.id,
-                    checkedAsDone = taskPe.checkedAsDone
+                    checkedAsDone = taskPe.checkedAsDone,
+                    eventId = taskPe.eventId
                 )
             }
 
@@ -65,7 +67,8 @@ class RoomTaskRepository @Inject constructor(
                 levelOfDifficulty = task.levelOfDifficulty,
                 description = task.description,
                 id = task.id,
-                checkedAsDone = task.checkedAsDone
+                checkedAsDone = task.checkedAsDone,
+                eventId = task.eventId
             )
         }
     }
