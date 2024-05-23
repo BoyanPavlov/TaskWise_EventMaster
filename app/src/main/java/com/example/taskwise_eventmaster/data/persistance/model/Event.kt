@@ -14,7 +14,5 @@ data class Event(
     val address: String,
     val city: String,
     val country: String,
-    val thumbnailUrl: String// problem here - this should be array, name should be array
-    //                          because of multiple performers in one event
 )
 

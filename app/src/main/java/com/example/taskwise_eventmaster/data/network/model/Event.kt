@@ -20,6 +20,6 @@ data class Venue(
 )
 
 data class Performers(
-    val name: String,
-    val image: String
+    val name: String?,
+    val image: String?
 )

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.taskwise_eventmaster.data.persistance.daos.EventDao
 import com.example.taskwise_eventmaster.data.persistance.daos.TaskDao
+import com.example.taskwise_eventmaster.data.persistance.daos.ThumbnailDao
 import com.example.taskwise_eventmaster.data.persistance.db.Database
 import dagger.Module
 import dagger.Provides
@@ -27,4 +28,7 @@ object DatabaseModule {
 
     @Provides
     fun provideEventDao(database: Database): EventDao = database.eventDao
+
+    @Provides
+    fun provideThumbnailDao(database: Database): ThumbnailDao = database.thumbnailDao
 }

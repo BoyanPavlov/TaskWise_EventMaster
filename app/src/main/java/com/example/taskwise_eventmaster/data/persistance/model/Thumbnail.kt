@@ -4,11 +4,10 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import java.time.LocalDateTime
 import java.util.UUID
 
 @Entity(
-    tableName = "Task",
+    tableName = "Thumbnail",
     foreignKeys = [
         ForeignKey(
             entity = Event::class,
@@ -17,17 +16,12 @@ import java.util.UUID
             onDelete = ForeignKey.CASCADE
         )
     ],
-    indices = [Index(value = ["eventId"], unique = true)]
+    indices = [Index(value = ["thumbnailUrl"], unique = true)]
 )
 
-data class Task(
+data class Thumbnail(
     @PrimaryKey
-    val id: UUID = UUID.randomUUID(),
-    val title: String,
-    val estimationTime: LocalDateTime,
-    val levelOfDifficulty: Int,
-    val goalName: String = "",
-    val description: String,
-    var checkedAsDone: Boolean = false,
-    val eventId: Int? = null
+    val thumbnailId: UUID = UUID.randomUUID(),
+    val thumbnailUrl: String,
+    val eventId: Int
 )

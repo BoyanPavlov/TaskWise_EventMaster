@@ -38,9 +38,14 @@ fun EventCardDetails(
         }) {
         Column(modifier = Modifier.padding(15.dp)) {
 
+            var model = ""
+
+            if (event.thumbnails.isNotEmpty()) {
+                model = event.thumbnails.first().thumbnailUrl
+            }
 
             AsyncImage(
-                model = event.thumbnailUrl,
+                model = model,
                 contentDescription = "Event picture",
                 modifier = Modifier
                     .padding(10.dp)
