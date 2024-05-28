@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
@@ -23,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.taskwise_eventmaster.DestinationStrings
+import com.example.taskwise_eventmaster.presentation.utils.CircularDeterminateIndicator
 import kotlinx.coroutines.launch
 
 @Composable
@@ -70,14 +69,23 @@ fun EventsScreen(
             }
         }
 
-        LazyColumn(modifier = Modifier.border(2.dp, color = Color.Black)) {
-            items(state.events) { event ->
+        Box()
+        {
 
-                EventCard(
-                    event = event,
-                    onEvent = onEvent,
-                )
-            }
+            CircularDeterminateIndicator(modifier = Modifier
+                .border(3.dp, color = Color.Black)
+                .padding(8.dp)
+            )
+
+           /* LazyColumn(modifier = Modifier.border(2.dp, color = Color.Black)) {
+                items(state.events) { event ->
+
+                    EventCard(
+                        event = event,
+                        onEvent = onEvent,
+                    )
+                }
+            }*/
         }
     }
 }
