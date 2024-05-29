@@ -107,12 +107,15 @@ class RoomEventRepository @Inject constructor(
 
         collectionOfEventsNe?.events?.map { event ->
 
+            //val thumbnails = getThumbnails(event.id) // extract from the db
+
             var thumbnails = mutableListOf<Event.Thumbnail>()
 
             for (performer in event.performers) {
                 if (performer.image != null) {
                     thumbnails += Event.Thumbnail(performer.image)
                 }
+
             }
 
             Event(

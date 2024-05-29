@@ -10,7 +10,5 @@ interface TaskRepository {
 
     suspend fun getTask(taskId: UUID): Task?
 
-    suspend fun getTaskByEventID(eventId: Int): Task?
-
     suspend fun getAllTasks(): List<Task>
 }
