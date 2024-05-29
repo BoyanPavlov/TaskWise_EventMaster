@@ -41,31 +41,36 @@ class EventsViewModel @Inject constructor(
 
     private fun fetchEventInfo() {
         viewModelScope.launch {
-            //wait until all of the things which should end to end
-            //load from local db
-            var extractedEvents = repositoryEvent.getAllEventsLocal()
 
-            //update events
-            state = state.copy(
-                events = extractedEvents
-            )
+            loadEventsFromDb()
 
-            //try extracting events from remote
-            extractedEvents = repositoryEvent.getAllEventsRemote()
-
-            //if extraction is successful - update local db + update events
-            if (extractedEvents.isNotEmpty()) {
-
-                for (event in extractedEvents) {
-                    repositoryEvent.saveEventLocal(event)
-                }
-
-                extractedEvents = repositoryEvent.getAllEventsLocal()
-
-                state = state.copy(
-                    events = extractedEvents
-                )
+            updateEventsDb().invokeOnCompletion {
+                loadEventsFromDb()
             }
         }
     }
+
+    private fun loadEventsFromDb() =
+        viewModelScope.launch {
+
+            val extractedEvents = repositoryEvent.getAllEventsLocal()
+
+            state = state.copy(
+                events = extractedEvents
+            )
+        }
+
+    private fun updateEventsDb() =
+        viewModelScope.launch {
+            val extractedEvents = repositoryEvent.getAllEventsRemote()
+
+            for (event in extractedEvents) {
+                repositoryEvent.saveEventLocal(event)
+            }
+
+            state = state.copy(
+                loading = false
+            )
+        }
+
 }
