@@ -10,7 +10,7 @@ interface ThumbnailDao {
     suspend fun upsertThumbnail(thumbnail: Thumbnail)
 
     @Query("SELECT * FROM Thumbnail WHERE eventId =:eventId")
-    fun getAllThumbnailsForThisEvent(eventId: Int): List<Thumbnail>
+    fun getAllThumbnailsForEvent(eventId: Int): List<Thumbnail>
 
     @Query("SELECT * FROM Thumbnail WHERE eventId =:eventId LIMIT 1")
     fun getFirstThumbnailForEvent(eventId: Int): Thumbnail

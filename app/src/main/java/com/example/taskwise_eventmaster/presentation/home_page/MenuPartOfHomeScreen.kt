@@ -24,7 +24,7 @@ import com.example.taskwise_eventmaster.R
 import kotlinx.coroutines.launch
 
 @Composable
-fun MenuPart(
+fun Menu(
     navController: NavHostController,
     snackbarHostState: SnackbarHostState,
     modifier: Modifier = Modifier

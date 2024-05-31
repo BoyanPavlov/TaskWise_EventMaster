@@ -24,7 +24,7 @@ class RoomEventRepository @Inject constructor(
                 id = event.id,
                 type = event.type,
                 name = event.name,
-                dateTime_Utc = event.dateTime_Utc,
+                dateTimeUtc = event.dateTime_Utc,
                 address = event.address,
                 city = event.city,
                 country = event.country,
@@ -47,17 +47,13 @@ class RoomEventRepository @Inject constructor(
     }
 
     override suspend fun deleteEventLocal(eventId: Int) {
-        try {
-            daoThumbnail.deleteThumbnailsFromEvent(eventId)
-            dao.deleteEvent(eventId)
-        } catch (e: Exception) {
-            println("Error during deleting an event")
-        }
+        daoThumbnail.deleteThumbnailsFromEvent(eventId)
+        dao.deleteEvent(eventId)
     }
 
     override suspend fun getEventRemote(eventId: Int): Event? = withContext(Dispatchers.IO) {
         try {
-            val eventNe = dataSource.getEvents()?.events?.find { event -> event.id == eventId }
+            val eventNe = dataSource.getEvent(eventId)
 
             val thumbnails = getThumbnails(eventId)
 
@@ -81,21 +77,24 @@ class RoomEventRepository @Inject constructor(
     }
 
     override suspend fun getEventLocal(eventId: Int): Event? = withContext(Dispatchers.IO) {
+
         val eventPe = dao.getEventById(eventId)
 
-        val thumbnails = getThumbnails(eventId)
-
         if (eventPe != null) {
+
+            val thumbnails = getThumbnails(eventId)
+
             Event(
                 id = eventPe.id,
                 type = eventPe.type,
                 name = eventPe.name,
-                dateTime_Utc = eventPe.dateTime_Utc,
+                dateTime_Utc = eventPe.dateTimeUtc,
                 address = eventPe.address,
                 city = eventPe.city,
                 country = eventPe.country,
                 thumbnails = thumbnails
             )
+
         } else {
             println("Couldn't get an event with this ID, local")
             null
@@ -107,13 +106,11 @@ class RoomEventRepository @Inject constructor(
 
         collectionOfEventsNe?.events?.map { event ->
 
-            //val thumbnails = getThumbnails(event.id) // extract from the db
-
-            var thumbnails = mutableListOf<Event.Thumbnail>()
+            val thumbnails = mutableListOf<Event.Thumbnail>()
 
             for (performer in event.performers) {
                 if (performer.image != null) {
-                    thumbnails += Event.Thumbnail(performer.image)
+                    thumbnails.add(Event.Thumbnail(performer.image))
                 }
 
             }
@@ -133,7 +130,7 @@ class RoomEventRepository @Inject constructor(
     }
 
     override suspend fun getAllEventsLocal(): List<Event> = withContext(Dispatchers.IO) {
-        val collectionOfEventsPe = dao.getAllEventsLocal()
+        val collectionOfEventsPe = dao.getAllEvents()
         collectionOfEventsPe.map { event ->
 
             val thumbnails = getThumbnails(event.id)
@@ -142,7 +139,7 @@ class RoomEventRepository @Inject constructor(
                 id = event.id,
                 type = event.type,
                 name = event.name,
-                dateTime_Utc = event.dateTime_Utc,
+                dateTime_Utc = event.dateTimeUtc,
                 address = event.address,
                 city = event.city,
                 country = event.country,
@@ -154,7 +151,7 @@ class RoomEventRepository @Inject constructor(
     private fun getThumbnails(eventId: Int): List<Event.Thumbnail> {
         val thumbnails = mutableListOf<Event.Thumbnail>()
 
-        val thumbnailsPe = daoThumbnail.getAllThumbnailsForThisEvent(eventId)
+        val thumbnailsPe = daoThumbnail.getAllThumbnailsForEvent(eventId)
 
         for (thumbnail in thumbnailsPe) {
             thumbnails += Event.Thumbnail(thumbnailUrl = thumbnail.thumbnailUrl)

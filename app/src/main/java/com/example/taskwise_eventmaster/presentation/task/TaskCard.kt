@@ -34,6 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.taskwise_eventmaster.domain.model.Task
+import java.time.format.DateTimeFormatter
 
 
 @Composable
@@ -101,16 +102,10 @@ fun TaskCard(
                 )
             }
 
-            val estimationTime = task.estimationTime
-
-            val minutes = if (estimationTime.minute < 10) {
-                "0${estimationTime.minute}"
-            } else {
-                estimationTime.minute.toString()
-            }
+            val formatter = DateTimeFormatter.ofPattern("dd-MMMM-yyyy, HH:mm")
 
             Text(
-                text = "${estimationTime.year}-${estimationTime.month}-${estimationTime.dayOfMonth}, ${estimationTime.hour}:$minutes",
+                text = formatter.format(task.estimationTime),
                 modifier = Modifier
                     .align(alignment = Alignment.CenterVertically)
                     .padding(10.dp)
