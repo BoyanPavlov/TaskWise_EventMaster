@@ -15,29 +15,30 @@ import com.example.taskwise_eventmaster.R
 
 
 @Composable
-fun EventImage(modifier: Modifier = Modifier, modelStr: String) {
-    if (modelStr.isEmpty()) {
+fun EventImage(modifier: Modifier = Modifier, modelStr: String?) {
+    if (modelStr.isNullOrEmpty()) {
 
         Image(
             painter = painterResource(id = R.drawable.notfound),
             contentDescription = "Event picture",
             modifier = Modifier
-                .then(modifier)
                 .padding(10.dp)
                 .size(140.dp)
-                .clip(CircleShape),
+                .clip(CircleShape)
+                .then(modifier),
             contentScale = ContentScale.Crop
         )
+
     } else {
 
         AsyncImage(
             model = modelStr,
             contentDescription = "Event picture",
             modifier = Modifier
-                .then(modifier)
                 .padding(10.dp)
                 .size(140.dp)
-                .clip(CircleShape),
+                .clip(CircleShape)
+                .then(modifier),
             contentScale = ContentScale.Crop
         )
     }

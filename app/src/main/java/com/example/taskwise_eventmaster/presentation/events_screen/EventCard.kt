@@ -48,13 +48,7 @@ fun EventCard(
             )
         }
 
-        var modelStr = ""
-
-        if (event.thumbnails.isNotEmpty()) {
-            modelStr = event.thumbnails.first().thumbnailUrl
-        }
-
-        EventImage(modelStr = modelStr)
+        EventImage(modelStr = event.thumbnails.firstOrNull()?.thumbnailUrl)
 
         Column(
             modifier = Modifier

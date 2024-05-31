@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.taskwise_eventmaster.domain.adapters.eventToTask
+import com.example.taskwise_eventmaster.domain.model.Event
 import com.example.taskwise_eventmaster.domain.repository.EventRepository
 import com.example.taskwise_eventmaster.domain.repository.TaskRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,19 +26,19 @@ class EventsViewModel @Inject constructor(
         fetchEventInfo()
     }
 
-    fun onEvent(event: EventsScreenEvent) {
-        when (event) {
-            is EventsScreenEvent.SaveEventInCalendar -> saveEventInCalendar(event)
+    fun onEvent(screenEvent: EventsScreenEvent) {
+        when (screenEvent) {
+            is EventsScreenEvent.SaveEventInCalendar -> saveEventInCalendar(screenEvent.concert)
         }
     }
 
-    private fun saveEventInCalendar(event: EventsScreenEvent.SaveEventInCalendar) {
+    private fun saveEventInCalendar(event: Event) {
         viewModelScope.launch(Dispatchers.IO) {
 
             //TODO insert logic to update event
 
-            repositoryEvent.saveEventLocal(event.event)
-            repositoryTask.saveTask(eventToTask(event.event))
+            repositoryEvent.saveEventLocal(event)
+            repositoryTask.saveTask(eventToTask(event))
         }
     }
 

@@ -35,13 +35,7 @@ fun EventCardDetails(
 
         Column(modifier = Modifier.padding(15.dp)) {
 
-            var modelStr = ""
-
-            if (event.thumbnails.isNotEmpty()) {
-                modelStr = event.thumbnails.first().thumbnailUrl
-            }
-
-            EventImage(modelStr = modelStr)
+            EventImage(modelStr = event.thumbnails.firstOrNull()?.thumbnailUrl)
 
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
