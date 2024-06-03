@@ -34,6 +34,7 @@ import androidx.compose.ui.window.Dialog
 import com.example.taskwise_eventmaster.domain.model.Task
 import com.example.taskwise_eventmaster.presentation.calendar.DateTimePicker
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun AddTaskDialog(
@@ -174,10 +175,15 @@ fun AddTaskDialog(
                 val timeNow = LocalDateTime.now()
 
                 isValidInputDateTime =
-                    estimationTime.dayOfMonth >= timeNow.dayOfMonth &&
+                    (estimationTime.dayOfMonth >= timeNow.dayOfMonth &&
                             estimationTime.month >= timeNow.month &&
                             estimationTime.year >= timeNow.year &&
-                            estimationTime.hour >= timeNow.hour
+                            estimationTime.hour >= timeNow.hour) ||
+
+                            (estimationTime.month > timeNow.month &&
+                                    estimationTime.year >= timeNow.year) ||
+
+                            (estimationTime.year > timeNow.year)
 
                 if (!isValidInputDateTime) {
                     Text(
@@ -193,14 +199,10 @@ fun AddTaskDialog(
                     estimationTime = selectedDateTime
                 })
 
-                val minutes = if (estimationTime.minute < 10) {
-                    "0${estimationTime.minute}"
-                } else {
-                    estimationTime.minute.toString()
-                }
+                val formatter = DateTimeFormatter.ofPattern("dd-MMMM-yyyy, HH:mm")
 
                 Text(
-                    text = "Chosen Date-Time: ${estimationTime.year}-${estimationTime.month}-${estimationTime.dayOfMonth}, ${estimationTime.hour}:${minutes}",
+                    text = formatter.format(estimationTime),
                     color = Color.White,
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp

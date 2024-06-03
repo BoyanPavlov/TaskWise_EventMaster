@@ -5,26 +5,22 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import coil.compose.AsyncImage
 import com.example.taskwise_eventmaster.domain.model.Event
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun EventCardDetails(
@@ -36,23 +32,10 @@ fun EventCardDetails(
         onDismissRequest = {
             onDismiss()
         }) {
+
         Column(modifier = Modifier.padding(15.dp)) {
 
-            var model = ""
-
-            if (event.thumbnails.isNotEmpty()) {
-                model = event.thumbnails.first().thumbnailUrl
-            }
-
-            AsyncImage(
-                model = model,
-                contentDescription = "Event picture",
-                modifier = Modifier
-                    .padding(10.dp)
-                    .size(140.dp)
-                    .clip(CircleShape),
-                contentScale = ContentScale.Crop
-            )
+            EventImage(modelStr = event.thumbnails.firstOrNull()?.thumbnailUrl)
 
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -61,10 +44,10 @@ fun EventCardDetails(
             ) {
 
                 Text(
+                    text = event.name,
                     modifier = Modifier
                         .padding(2.dp)
                         .align(Alignment.CenterHorizontally),
-                    text = event.name,
                     color = Color.White,
                     fontSize = 40.sp,
                     lineHeight = 35.sp,
@@ -83,16 +66,12 @@ fun EventCardDetails(
                 )
 
 
-                val minutes = if (event.dateTime_Utc.minute < 10) {
-                    "0${event.dateTime_Utc.minute}"
-                } else {
-                    event.dateTime_Utc.minute.toString()
-                }
+                val formatter = DateTimeFormatter.ofPattern("dd-MMMM-yyyy, HH:mm")
 
                 Text(
+                    text = "When: " + formatter.format(event.dateTimeUtc),
                     modifier = Modifier
                         .padding(1.dp),
-                    text = "When: ${event.dateTime_Utc.year}-${event.dateTime_Utc.month}-${event.dateTime_Utc.dayOfMonth}, ${event.dateTime_Utc.hour}:${minutes}",
                     fontWeight = FontWeight.Bold,
                     lineHeight = 30.sp,
                     color = Color.White,

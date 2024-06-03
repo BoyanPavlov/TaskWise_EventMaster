@@ -17,5 +17,5 @@ interface EventDao {
     fun getEventById(eventId: Int): Event?
 
     @Query("SELECT * FROM Event")
-    fun getAllEventsLocal(): List<Event>
+    fun getAllEvents(): List<Event>
 }

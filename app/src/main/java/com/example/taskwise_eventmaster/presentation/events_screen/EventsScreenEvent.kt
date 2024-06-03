@@ -4,6 +4,6 @@ import com.example.taskwise_eventmaster.domain.model.Event
 
 sealed interface EventsScreenEvent {
 
-    data class SaveEventInCalendar(val event: Event):EventsScreenEvent
-
+    data class SaveEventInCalendar(val concert: Event) : EventsScreenEvent
+    
 }
