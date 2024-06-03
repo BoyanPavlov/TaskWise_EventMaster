@@ -3,7 +3,7 @@ package com.example.taskwise_eventmaster.data.network.model
 data class Event(
     val id: Int,
     val type: String,
-    val datetime_utc: String, // error if it is LocalDateTime
+    val datetime_utc: String,
     val venue: Venue,
     val performers: List<Performers>,
 )

@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.taskwise_eventmaster.DestinationStrings
+import com.example.taskwise_eventmaster.presentation.utils.IndeterminateCircularIndicator
 import kotlinx.coroutines.launch
 
 @Composable
@@ -70,13 +71,23 @@ fun EventsScreen(
             }
         }
 
-        LazyColumn(modifier = Modifier.border(2.dp, color = Color.Black)) {
-            items(state.events) { event ->
+        Box(modifier = Modifier.fillMaxSize()) {
 
-                EventCard(
-                    event = event,
-                    onEvent = onEvent,
-                )
+            if (state.loading) {
+
+                IndeterminateCircularIndicator(modifier = Modifier.align(Alignment.Center))
+
+            } else {
+
+                LazyColumn(modifier = Modifier.border(2.dp, color = Color.Black)) {
+                    items(state.events) { event ->
+
+                        EventCard(
+                            event = event,
+                            onEvent = onEvent,
+                        )
+                    }
+                }
             }
         }
     }

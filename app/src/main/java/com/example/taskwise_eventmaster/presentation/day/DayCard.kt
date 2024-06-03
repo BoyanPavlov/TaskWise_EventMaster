@@ -29,7 +29,7 @@ fun DayCard(
     tasksForTheDay: List<Task>,
     navController: NavHostController,
 ) {
-    val isBusyDay = !tasksForTheDay.isEmpty()
+    val isBusyDay = tasksForTheDay.isNotEmpty()
     val currentDayColor = Color.Blue
 
     Card(

@@ -3,6 +3,7 @@ package com.example.taskwise_eventmaster.domain.repository
 import com.example.taskwise_eventmaster.domain.model.Event
 
 interface EventRepository {
+
     suspend fun saveEventLocal(event:Event)
 
     suspend fun deleteEventLocal(eventId:Int)

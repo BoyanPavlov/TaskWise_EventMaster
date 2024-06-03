@@ -107,8 +107,7 @@ class RoomEventRepository @Inject constructor(
     override suspend fun getAllEventsRemote(): List<Event> = withContext(Dispatchers.IO) {
         val collectionOfEventsNe = dataSource.getEvents()
 
-        collectionOfEventsNe?.events
-            ?.map { event ->
+        collectionOfEventsNe?.events?.map { event ->
 
                 val thumbnails = mutableListOf<Event.Thumbnail>()
 
@@ -116,7 +115,6 @@ class RoomEventRepository @Inject constructor(
                     if (performer.image != null) {
                         thumbnails.add(Event.Thumbnail(performer.image))
                     }
-
                 }
 
                 Event(
@@ -135,7 +133,9 @@ class RoomEventRepository @Inject constructor(
     }
 
     override suspend fun getAllEventsLocal(): List<Event> = withContext(Dispatchers.IO) {
+
         val collectionOfEventsPe = dao.getAllEvents()
+
         collectionOfEventsPe.map { event ->
 
             val thumbnails = getThumbnails(event.id)

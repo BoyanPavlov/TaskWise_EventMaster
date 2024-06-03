@@ -12,26 +12,30 @@ class RoomTaskRepository @Inject constructor(
     private val dao: TaskDao
 ) : TaskRepository {
     override suspend fun deleteTask(taskId: UUID) = withContext(Dispatchers.IO) {
-        try {
             dao.deleteTask(taskId)
-        } catch (e: Exception) {
-            println("Error during deleting a task")
-        }
     }
 
     override suspend fun saveTask(task: Task) = withContext(Dispatchers.IO) {
-        try {
-            val taskPe = TaskPe(
-                title = task.title,
-                estimationTime = task.estimationTime,
-                levelOfDifficulty = task.levelOfDifficulty,
-                description = task.description,
-                id = task.id,
-                checkedAsDone = task.checkedAsDone,
-                eventId = task.eventId
-            )
 
-            dao.upsertTask(taskPe)
+        try {
+
+            if (task.eventId != null) {
+                //TODO I see a problem here
+                val existingTask = getTaskByEventID(task.eventId)
+
+                val taskPe = TaskPe(
+                    title = task.title,
+                    estimationTime = task.estimationTime,
+                    levelOfDifficulty = task.levelOfDifficulty,
+                    description = task.description,
+                    id = existingTask?.id ?: task.id,
+                    checkedAsDone = task.checkedAsDone,
+                    eventId = task.eventId
+                )
+
+                dao.upsertTask(taskPe)
+            }
+
         } catch (e: Exception) {
             println("Couldn't upsert a task")
         }
@@ -55,6 +59,28 @@ class RoomTaskRepository @Inject constructor(
 
         } catch (e: Exception) {
             println("Couldn't get a task with this UUID or something else")
+            null
+        }
+    }
+
+    override suspend fun getTaskByEventID(eventId: Int): Task? = withContext(Dispatchers.IO) {
+        try {
+            val taskPe = dao.getTaskByEventId(eventId)
+
+            taskPe?.let {
+                Task(
+                    title = it.title,
+                    estimationTime = taskPe.estimationTime,
+                    levelOfDifficulty = taskPe.levelOfDifficulty,
+                    description = taskPe.description,
+                    id = taskPe.id,
+                    checkedAsDone = taskPe.checkedAsDone,
+                    eventId = taskPe.eventId
+                )
+            }
+
+        } catch (e: Exception) {
+            println("Couldn't get a task with this Event ID")
             null
         }
     }
