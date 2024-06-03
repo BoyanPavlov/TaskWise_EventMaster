@@ -6,7 +6,7 @@ data class Event(
     val id: Int,
     val type: String,
     val name: String,
-    val dateTime_Utc: LocalDateTime,
+    val dateTimeUtc: LocalDateTime,
     val address: String,
     val city: String,
     val country: String,

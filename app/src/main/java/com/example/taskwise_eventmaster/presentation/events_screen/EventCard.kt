@@ -68,7 +68,7 @@ fun EventCard(
             val formatter = DateTimeFormatter.ofPattern("dd-MMMM-yyyy, HH:mm")
 
             Text(
-                text = formatter.format(event.dateTime_Utc),
+                text = formatter.format(event.dateTimeUtc),
                 color = Color.Black,
                 fontWeight = FontWeight.Bold,
                 fontFamily = FontFamily.SansSerif,

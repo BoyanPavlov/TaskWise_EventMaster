@@ -69,7 +69,7 @@ fun EventCardDetails(
                 val formatter = DateTimeFormatter.ofPattern("dd-MMMM-yyyy, HH:mm")
 
                 Text(
-                    text = "When: " + formatter.format(event.dateTime_Utc),
+                    text = "When: " + formatter.format(event.dateTimeUtc),
                     modifier = Modifier
                         .padding(1.dp),
                     fontWeight = FontWeight.Bold,

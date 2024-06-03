@@ -14,9 +14,9 @@ data class EventResponse(
 
 data class Venue(
     val name: String,
-    val address: String,
-    val city: String,
-    val country: String
+    val address: String?,
+    val city: String?,
+    val country: String?
 )
 
 data class Performers(

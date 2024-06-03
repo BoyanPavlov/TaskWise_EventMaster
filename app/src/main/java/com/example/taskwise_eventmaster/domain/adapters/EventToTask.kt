@@ -8,6 +8,6 @@ fun eventToTask(event: Event) =
     Task(
         eventId = event.id,
         title = event.name,
-        estimationTime = event.dateTime_Utc,
+        estimationTime = event.dateTimeUtc,
         description = "${event.address}, ${event.city}, ${event.country}",
     )
