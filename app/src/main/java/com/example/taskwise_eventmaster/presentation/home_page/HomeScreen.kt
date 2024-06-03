@@ -54,13 +54,13 @@ fun HomeScreen(
             return@Column
         }
 
-        ProfilePart(
+        Profile(
             userData = homeScreenState.userData,
             navController = navController,
             snackbarHostState = snackbarHostState
         )
 
-        MenuPart(
+        Menu(
             navController = navController,
             snackbarHostState = snackbarHostState
         )

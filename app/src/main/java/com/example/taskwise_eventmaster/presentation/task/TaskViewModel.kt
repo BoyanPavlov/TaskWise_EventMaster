@@ -42,26 +42,29 @@ class TaskViewModel @Inject constructor(
 
     fun onEvent(event: TaskEvent) {
         when (event) {
-            is DeleteTask -> deleteTask(event)
+            is DeleteTask -> deleteTask(event.task)
 
             is SaveTask -> {
-                saveTask(event).invokeOnCompletion {
+                saveTask(event.task).invokeOnCompletion {
                     loadTasks().invokeOnCompletion {
                         sortTask(state.sortType)
                     }
                 }
             }
 
-            is SortTasks -> sortTask(event)
+            is SortTasks -> sortTask(event.sortType)
 
             LoadTasks -> loadTasks()
 
-            is MarkTaskAsDone -> checkTask(event)
+            is MarkTaskAsDone -> checkTask(event.task)
 
-            is ChangeLevelOfDifficulty -> changeLevelOfDifficulty(event)
+            is ChangeLevelOfDifficulty -> changeLevelOfDifficulty(
+                task = event.task,
+                newRating = event.newRating
+            )
 
             is EditTask -> {
-                editTask(event).invokeOnCompletion {
+                editTask(event.task).invokeOnCompletion {
                     sortTask(state.sortType)
                 }
             }
@@ -93,14 +96,14 @@ class TaskViewModel @Inject constructor(
         }
 
 
-    private fun editTask(event: EditTask) =
-        replaceAndSave(event.task)
+    private fun editTask(task: Task) =
+        replaceAndSave(task)
 
 
-    private fun changeLevelOfDifficulty(event: ChangeLevelOfDifficulty) {
+    private fun changeLevelOfDifficulty(task: Task, newRating: Int) {
         viewModelScope.launch {
-            val element = findTask(event.task.id)
-                ?.copy(levelOfDifficulty = event.newRating)
+            val element = findTask(task.id)
+                ?.copy(levelOfDifficulty = newRating)
 
             if (element != null) {
                 replaceAndSave(element)
@@ -108,9 +111,9 @@ class TaskViewModel @Inject constructor(
         }
     }
 
-    private fun checkTask(event: MarkTaskAsDone) {
+    private fun checkTask(task: Task) {
         viewModelScope.launch {
-            val element = findTask(event.task.id)
+            val element = findTask(task.id)
                 ?.let {
                     it.copy(
                         checkedAsDone = !it.checkedAsDone
@@ -123,26 +126,18 @@ class TaskViewModel @Inject constructor(
         }
     }
 
-    private fun saveTask(event: SaveTask) =
+    private fun saveTask(task: Task) =
         viewModelScope.launch(Dispatchers.IO) {
-            val task = event.task
 
             repository.saveTask(task)
         }
 
-
-    private fun deleteTask(event: DeleteTask) =
+    private fun deleteTask(task: Task) =
         viewModelScope.launch {
 
-            val element = state.tasks.find { task: Task ->
-                task.id == event.task.id
-            }
-
-            if (element != null) {
-                repository.deleteTask(element.id)
-                val tempList: List<Task> = state.tasks.minusElement(element)
-                state = state.copy(tasks = tempList)
-            }
+            repository.deleteTask(task.id)
+            val tempList: List<Task> = state.tasks.minusElement(task)
+            state = state.copy(tasks = tempList)
         }
 
     private fun sortTask(sortType: SortType) {
@@ -157,11 +152,6 @@ class TaskViewModel @Inject constructor(
                 tasks = sortedTasks
             )
         }
-    }
-
-
-    private fun sortTask(event: SortTasks) {
-        sortTask(event.sortType)
     }
 
     private fun loadTasks() =

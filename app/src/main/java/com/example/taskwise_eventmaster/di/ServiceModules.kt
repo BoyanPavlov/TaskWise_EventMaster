@@ -1,7 +1,5 @@
 package com.example.taskwise_eventmaster.di
 
-import com.example.taskwise_eventmaster.domain.repository.RoomTaskRepository
-import com.example.taskwise_eventmaster.domain.repository.TaskRepository
 import com.example.taskwise_eventmaster.domain.service.authorization.AuthService
 import com.example.taskwise_eventmaster.domain.service.authorization.GoogleAuthService
 import dagger.Binds
@@ -16,9 +14,4 @@ abstract class ServiceModules {
     abstract fun bindAuthImplementation(
         googleAuthService: GoogleAuthService    //low lvl component
     ): AuthService                              //high lvl component
-
-    @Binds
-    abstract fun bindTaskRepositoryImpl(
-        roomTaskRepository: RoomTaskRepository
-    ): TaskRepository
 }

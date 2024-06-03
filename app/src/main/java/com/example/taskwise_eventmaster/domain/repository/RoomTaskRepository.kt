@@ -1,12 +1,12 @@
 package com.example.taskwise_eventmaster.domain.repository
 
-import com.example.taskwise_eventmaster.data.daos.TaskDao
+import com.example.taskwise_eventmaster.data.persistance.daos.TaskDao
 import com.example.taskwise_eventmaster.domain.model.Task
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.UUID
 import javax.inject.Inject
-import com.example.taskwise_eventmaster.data.model.Task as TaskPe
+import com.example.taskwise_eventmaster.data.persistance.model.Task as TaskPe
 
 class RoomTaskRepository @Inject constructor(
     private val dao: TaskDao
@@ -27,7 +27,8 @@ class RoomTaskRepository @Inject constructor(
                 levelOfDifficulty = task.levelOfDifficulty,
                 description = task.description,
                 id = task.id,
-                checkedAsDone = task.checkedAsDone
+                checkedAsDone = task.checkedAsDone,
+                eventId = task.eventId
             )
 
             dao.upsertTask(taskPe)
@@ -47,7 +48,8 @@ class RoomTaskRepository @Inject constructor(
                     levelOfDifficulty = taskPe.levelOfDifficulty,
                     description = taskPe.description,
                     id = taskPe.id,
-                    checkedAsDone = taskPe.checkedAsDone
+                    checkedAsDone = taskPe.checkedAsDone,
+                    eventId = taskPe.eventId
                 )
             }
 
@@ -65,7 +67,8 @@ class RoomTaskRepository @Inject constructor(
                 levelOfDifficulty = task.levelOfDifficulty,
                 description = task.description,
                 id = task.id,
-                checkedAsDone = task.checkedAsDone
+                checkedAsDone = task.checkedAsDone,
+                eventId = task.eventId
             )
         }
     }

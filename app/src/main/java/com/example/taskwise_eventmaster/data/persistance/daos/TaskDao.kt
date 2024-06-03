@@ -1,9 +1,9 @@
-package com.example.taskwise_eventmaster.data.daos
+package com.example.taskwise_eventmaster.data.persistance.daos
 
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
-import com.example.taskwise_eventmaster.data.model.Task
+import com.example.taskwise_eventmaster.data.persistance.model.Task
 import java.util.UUID
 
 @Dao

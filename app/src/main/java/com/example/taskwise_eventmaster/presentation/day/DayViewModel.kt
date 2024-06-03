@@ -30,7 +30,7 @@ class DayViewModel @Inject constructor(
     init {
         val argument = savedStateHandle.get<String>(CHOSEN_DATE).orEmpty()
 
-        if (!argument.isEmpty()) {
+        if (argument.isNotEmpty()) {
             val chosenDay = argument.toLocalDate().toJavaLocalDate()
 
             loadTasksForTheDay(chosenDay)
@@ -39,7 +39,7 @@ class DayViewModel @Inject constructor(
 
     fun onEvent(event: DayEvent) =
         when (event) {
-            is DayEvent.EditTask -> editTask(event)
+            is DayEvent.EditTask -> editTask(event.task)
         }
 
     private fun findTask(taskId: UUID): Task? {
@@ -47,21 +47,21 @@ class DayViewModel @Inject constructor(
             .find { it.id == taskId }
     }
 
-    private fun editTask(event: DayEvent.EditTask): Job {
+    private fun editTask(task: Task): Job {
         return viewModelScope.launch {
-            findTask(event.task.id)?.let { element ->
+            findTask(task.id)?.let { element ->
                 val tempList = state.tasksForTheDay.toMutableList()
 
                 tempList.replaceAll {
                     if (it.id == element.id) {
-                        return@replaceAll event.task
+                        return@replaceAll task
                     }
                     return@replaceAll it
                 }
 
                 state = state.copy(tasksForTheDay = tempList)
 
-                repository.saveTask(event.task)
+                repository.saveTask(task)
             }
         }
     }

@@ -101,6 +101,17 @@ dependencies {
     // CLOCK
     implementation("com.maxkeppeler.sheets-compose-dialogs:clock:1.0.2")
 
+    //Okhttp
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    // define a BOM and its version
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.12.0"))
+    // define any required OkHttp artifacts without version
+    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.okhttp3:logging-interceptor")
+    
+
+    //GSON
+    implementation ("com.google.code.gson:gson:2.10.1")
 }
 
 kapt {
