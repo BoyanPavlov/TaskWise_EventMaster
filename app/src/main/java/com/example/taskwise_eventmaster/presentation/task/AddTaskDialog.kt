@@ -111,7 +111,7 @@ fun AddTaskDialog(
                     value = title,
                     onValueChange = {
                         title = it
-                        isValidInputTitle = title.length <= 40 && title.length > 0
+                        isValidInputTitle = title.length in 1..40
                     },
                     placeholder = { Text(text = "Enter Title") }
                 )

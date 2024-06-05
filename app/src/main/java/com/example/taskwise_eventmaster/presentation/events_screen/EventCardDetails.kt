@@ -35,7 +35,10 @@ fun EventCardDetails(
 
         Column(modifier = Modifier.padding(15.dp)) {
 
-            EventImage(modelStr = event.thumbnails.firstOrNull()?.thumbnailUrl)
+            EventImage(
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                modelStr = event.thumbnails.firstOrNull()?.thumbnailUrl
+            )
 
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp),

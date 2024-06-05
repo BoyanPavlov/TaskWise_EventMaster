@@ -12,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
@@ -48,7 +49,10 @@ fun EventCard(
             )
         }
 
-        EventImage(modelStr = event.thumbnails.firstOrNull()?.thumbnailUrl)
+        EventImage(
+            modifier = Modifier.align(Alignment.CenterVertically),
+            modelStr = event.thumbnails.firstOrNull()?.thumbnailUrl
+        )
 
         Column(
             modifier = Modifier
