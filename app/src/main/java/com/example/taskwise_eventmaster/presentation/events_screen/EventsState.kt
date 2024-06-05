@@ -4,5 +4,5 @@ import com.example.taskwise_eventmaster.domain.model.Event
 
 data class EventsState(
     val events: List<Event> = emptyList(),
-    val loading: Boolean = true
+    val isLoading: Boolean = true
 )

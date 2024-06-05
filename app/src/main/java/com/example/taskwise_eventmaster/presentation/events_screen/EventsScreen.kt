@@ -73,7 +73,7 @@ fun EventsScreen(
 
         Box(modifier = Modifier.fillMaxSize()) {
 
-            if (state.loading) {
+            if (state.isLoading) {
 
                 IndeterminateCircularIndicator(modifier = Modifier.align(Alignment.Center))
 

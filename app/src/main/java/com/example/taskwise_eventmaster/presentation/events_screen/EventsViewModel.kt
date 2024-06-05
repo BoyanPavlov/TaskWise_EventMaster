@@ -70,7 +70,7 @@ class EventsViewModel @Inject constructor(
             }
 
             state = state.copy(
-                loading = false
+                isLoading = false
             )
         }
 
