@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
@@ -24,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.taskwise_eventmaster.DestinationStrings
 import com.example.taskwise_eventmaster.presentation.utils.IndeterminateCircularIndicator
+import com.example.taskwise_eventmaster.presentation.utils.PullToRefreshLazyColumn
 import kotlinx.coroutines.launch
 
 @Composable
@@ -79,16 +78,22 @@ fun EventsScreen(
 
             } else {
 
-                LazyColumn(modifier = Modifier.border(2.dp, color = Color.Black)) {
-                    items(state.events) { event ->
-
+                PullToRefreshLazyColumn(
+                    modifier = Modifier.border(2.dp, color = Color.Black),
+                    items = state.events,
+                    content = { event ->
                         EventCard(
                             event = event,
                             onEvent = onEvent,
                         )
+                    },
+                    isRefreshing = state.isRefreshing,
+                    onRefresh = {
+                        onEvent(EventsScreenEvent.ReloadEvents)
                     }
-                }
+                )
             }
         }
     }
 }
+
