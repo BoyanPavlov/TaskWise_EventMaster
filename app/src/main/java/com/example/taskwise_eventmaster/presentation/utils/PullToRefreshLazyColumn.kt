@@ -6,17 +6,16 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
-import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
+import androidx.compose.material3.pulltorefresh.PullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T> PullToRefreshLazyColumn(
+    state: PullToRefreshState,
     items: List<T>,
     content: @Composable (T) -> Unit,
     isRefreshing: Boolean,
@@ -24,11 +23,9 @@ fun <T> PullToRefreshLazyColumn(
     modifier: Modifier = Modifier,
     lazyListState: LazyListState = rememberLazyListState()
 ) {
-    val pullToRefreshState = rememberPullToRefreshState()
-
     Box(
         modifier = modifier
-            .nestedScroll(pullToRefreshState.nestedScrollConnection)
+            .nestedScroll(state.nestedScrollConnection)
     ) {
         LazyColumn(
             state = lazyListState,
@@ -40,7 +37,7 @@ fun <T> PullToRefreshLazyColumn(
             }
         }
 
-        if (pullToRefreshState.isRefreshing) {
+        if (state.isRefreshing) {
             LaunchedEffect(true) {
                 onRefresh()
             }
@@ -48,16 +45,10 @@ fun <T> PullToRefreshLazyColumn(
 
         LaunchedEffect(isRefreshing) {
             if (isRefreshing) {
-                pullToRefreshState.startRefresh()
+                state.startRefresh()
             } else {
-                pullToRefreshState.endRefresh()
+                state.endRefresh()
             }
         }
-
-        PullToRefreshContainer(
-            state = pullToRefreshState,
-            modifier = Modifier
-                .align(Alignment.TopCenter),
-        )
     }
 }
