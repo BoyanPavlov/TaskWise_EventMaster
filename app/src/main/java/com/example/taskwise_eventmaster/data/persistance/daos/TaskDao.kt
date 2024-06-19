@@ -17,6 +17,9 @@ interface TaskDao {
     @Query("SELECT * FROM Task WHERE id=:taskId")
     fun getTaskById(taskId: UUID): Task?
 
+    @Query("SELECT * FROM Task WHERE eventId=:eventId")
+    fun getTaskByEventId(eventId: Int): Task?
+
     @Query("SELECT * FROM Task")
     fun getAllTask(): List<Task>
 }

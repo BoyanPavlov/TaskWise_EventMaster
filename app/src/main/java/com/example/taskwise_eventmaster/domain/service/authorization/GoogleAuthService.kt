@@ -24,16 +24,17 @@ class GoogleAuthService @Inject constructor(
 
     private val oneTapClient = Identity.getSignInClient(context)
     private val auth = Firebase.auth
-    override suspend fun signOut() = withContext(Dispatchers.IO) {
-        try {
-            oneTapClient.signOut().await()
-            auth.signOut()
-        } catch (e: Exception) {
-            if (e is CancellationException) throw e
+    override suspend fun signOut() =
+        withContext(Dispatchers.IO) {
+            try {
+                oneTapClient.signOut().await()
+                auth.signOut()
+            } catch (e: Exception) {
+                if (e is CancellationException) throw e
 
-            e.printStackTrace()
+                e.printStackTrace()
+            }
         }
-    }
 
     override fun getSignedInUser(): UserData? = auth.currentUser?.run {
         UserData(
@@ -43,19 +44,20 @@ class GoogleAuthService @Inject constructor(
         )
     }
 
-    override suspend fun createSignInIntent(): PendingIntent? = withContext(Dispatchers.IO) {
-        val result = try {
-            oneTapClient.beginSignIn(buildSignInRequest()).await()
+    override suspend fun createSignInIntent(): PendingIntent? =
+        withContext(Dispatchers.IO) {
+            val result = try {
+                oneTapClient.beginSignIn(buildSignInRequest()).await()
 
-        } catch (e: Exception) {
-            if (e is CancellationException) throw e
+            } catch (e: Exception) {
+                if (e is CancellationException) throw e
 
-            e.printStackTrace()
+                e.printStackTrace()
 
-            null
+                null
+            }
+            return@withContext result?.pendingIntent
         }
-        return@withContext result?.pendingIntent
-    }
 
     private fun buildSignInRequest(): BeginSignInRequest =
         BeginSignInRequest.Builder()

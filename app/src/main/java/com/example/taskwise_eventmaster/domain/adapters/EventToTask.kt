@@ -9,5 +9,6 @@ fun eventToTask(event: Event) =
         eventId = event.id,
         title = event.name,
         estimationTime = event.dateTimeUtc,
+        levelOfDifficulty = 1,
         description = "${event.address}, ${event.city}, ${event.country}",
     )

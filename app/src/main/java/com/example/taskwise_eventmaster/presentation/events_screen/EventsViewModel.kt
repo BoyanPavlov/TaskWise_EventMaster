@@ -35,8 +35,6 @@ class EventsViewModel @Inject constructor(
     private fun saveEventInCalendar(event: Event) {
         viewModelScope.launch(Dispatchers.IO) {
 
-            //TODO insert logic to update event
-
             repositoryEvent.saveEventLocal(event)
             repositoryTask.saveTask(eventToTask(event))
         }
@@ -45,11 +43,35 @@ class EventsViewModel @Inject constructor(
     private fun fetchEventInfo() {
         viewModelScope.launch {
 
-            val extractedEvents = repositoryEvent.getAllEventsRemote()
+            loadEventsFromDb()
+
+            updateEventsDb().invokeOnCompletion {
+                loadEventsFromDb()
+            }
+        }
+    }
+
+    private fun loadEventsFromDb() =
+        viewModelScope.launch {
+
+            val extractedEvents = repositoryEvent.getAllEventsLocal()
 
             state = state.copy(
                 events = extractedEvents
             )
         }
-    }
+
+    private fun updateEventsDb() =
+        viewModelScope.launch {
+            val extractedEvents = repositoryEvent.getAllEventsRemote()
+
+            for (event in extractedEvents) {
+                repositoryEvent.saveEventLocal(event)
+            }
+
+            state = state.copy(
+                isLoading = false
+            )
+        }
+
 }
