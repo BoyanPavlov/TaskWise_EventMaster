@@ -11,13 +11,14 @@ import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class TaskEventApplication() : Application(), ImageLoaderFactory {
+
     override fun newImageLoader(): ImageLoader {
         return ImageLoader(this).newBuilder()
             .memoryCachePolicy(CachePolicy.ENABLED)
             .memoryCache {
                 MemoryCache.Builder(this)
-                    .maxSizePercent(0.1)
-                    .strongReferencesEnabled(true)
+                    .maxSizePercent(0.1)//Sets the maximum size of the memory cache to 10% of the available memory.
+                    .strongReferencesEnabled(true)// preventing cache images from being garbage collected.
                     .build()
             }
             .diskCachePolicy(CachePolicy.ENABLED)
