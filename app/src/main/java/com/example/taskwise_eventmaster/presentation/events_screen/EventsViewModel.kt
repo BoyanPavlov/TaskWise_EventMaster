@@ -29,6 +29,7 @@ class EventsViewModel @Inject constructor(
     fun onEvent(screenEvent: EventsScreenEvent) {
         when (screenEvent) {
             is EventsScreenEvent.SaveEventInCalendar -> saveEventInCalendar(screenEvent.concert)
+            EventsScreenEvent.ReloadEvents -> reloadEvents()
         }
     }
 
@@ -45,33 +46,47 @@ class EventsViewModel @Inject constructor(
 
             loadEventsFromDb()
 
-            updateEventsDb().invokeOnCompletion {
-                loadEventsFromDb()
-            }
+            syncEvents()
         }
     }
 
-    private fun loadEventsFromDb() =
-        viewModelScope.launch {
+    private suspend fun loadEventsFromDb() {
 
-            val extractedEvents = repositoryEvent.getAllEventsLocal()
+        val extractedEvents = repositoryEvent.getAllEventsLocal()
+
+        state = state.copy(
+            events = extractedEvents
+        )
+    }
+
+    private suspend fun updateEventsDb() {
+        val extractedEvents = repositoryEvent.getAllEventsRemote()
+
+        for (event in extractedEvents) {
+            repositoryEvent.saveEventLocal(event)
+        }
+
+        state = state.copy(
+            isLoading = false
+        )
+    }
+
+    private fun reloadEvents() =
+        viewModelScope.launch {
+            state = state.copy(
+                isRefreshing = true
+            )
+
+            syncEvents()
 
             state = state.copy(
-                events = extractedEvents
+                isRefreshing = false
             )
         }
 
-    private fun updateEventsDb() =
-        viewModelScope.launch {
-            val extractedEvents = repositoryEvent.getAllEventsRemote()
-
-            for (event in extractedEvents) {
-                repositoryEvent.saveEventLocal(event)
-            }
-
-            state = state.copy(
-                isLoading = false
-            )
-        }
+    private suspend fun syncEvents() {
+        updateEventsDb()
+        loadEventsFromDb()
+    }
 
 }
