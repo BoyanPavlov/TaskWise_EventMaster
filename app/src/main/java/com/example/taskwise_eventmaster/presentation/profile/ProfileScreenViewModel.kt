@@ -26,6 +26,7 @@ class ProfileScreenViewModel @Inject constructor(
     private val imageLoader: ImageLoader
 
     init {
+
         imageLoader = context.imageLoader
 
         state = state.copy(
@@ -51,7 +52,6 @@ class ProfileScreenViewModel @Inject constructor(
 
     private fun clearCacheEventThumbnails() =
         viewModelScope.launch {
-
             clearingDiskCache().invokeOnCompletion {
                 clearingMemoryCache()
             }

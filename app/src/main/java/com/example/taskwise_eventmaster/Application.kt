@@ -18,7 +18,7 @@ class TaskEventApplication() : Application(), ImageLoaderFactory {
             .memoryCache {
                 MemoryCache.Builder(this)
                     .maxSizePercent(0.1)//Sets the maximum size of the memory cache to 10% of the available memory.
-                    .strongReferencesEnabled(true)// preventing cache images from being garbage collected.
+                    .strongReferencesEnabled(true)//preventing cache images from being garbage collected.
                     .build()
             }
             .diskCachePolicy(CachePolicy.ENABLED)
